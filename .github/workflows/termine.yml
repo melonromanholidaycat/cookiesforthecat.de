@@ -1,15 +1,14 @@
-name: Termine aus dem Kalender
+name: Sync gig dates from the calendar
 
-# Holt die Auftritte aus dem geteilten Google-Kalender und schreibt sie in die
-# Seiten. Läuft stündlich; über "Run workflow" lässt sich der Lauf jederzeit
-# von Hand auslösen, etwa wenn ein Auftritt kurzfristig ausfällt.
+# Pulls the gigs from the shared Google calendar into the pages. Runs hourly;
+# "Run workflow" triggers it by hand at any time, for instance when a gig is
+# cancelled at short notice.
 on:
   schedule:
     - cron: "7 * * * *"
   workflow_dispatch:
 
-# Nur ein Lauf gleichzeitig — zwei parallele Läufe würden sich gegenseitig
-# überschreiben.
+# One run at a time — two in parallel would overwrite each other.
 concurrency:
   group: termine
   cancel-in-progress: false
@@ -30,41 +29,41 @@ jobs:
 
       - run: pip install --quiet icalendar
 
-      - name: Termine übernehmen
+      - name: Sync the gig dates
         env:
           CALENDAR_ICS_URL: ${{ secrets.CALENDAR_ICS_URL }}
         run: python3 skripte/termine.py
 
-      - name: Änderungen committen
+      - name: Commit any changes
         id: commit
         run: |
           if [ -z "$(git status --porcelain)" ]; then
-            echo "Nichts geändert."
-            echo "geaendert=nein" >> "$GITHUB_OUTPUT"
+            echo "Nothing changed."
+            echo "changed=no" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # Die Commit-Nachricht nennt, was sich geändert hat — die
-          # GitHub-Benachrichtigung ist damit die ganze Kontrolle, die es gibt.
-          anzahl=$(python3 -c "import json;print(len(json.load(open('daten/termine.json'))))")
-          git config user.name "Terminkalender"
+          # The commit message names what changed — the GitHub notification
+          # is the whole review mechanism here, by choice.
+          count=$(python3 -c "import json;print(len(json.load(open('daten/termine.json'))))")
+          git config user.name "Calendar sync"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Termine aktualisiert: $anzahl kommende Auftritte" \
+          git commit -m "Gig dates updated: $count upcoming" \
                      -m "$(git diff --cached --stat)"
           git push
-          echo "geaendert=ja" >> "$GITHUB_OUTPUT"
+          echo "changed=yes" >> "$GITHUB_OUTPUT"
 
-      # GitHub Pages baut bei "deploy from branch" normalerweise selbst nach
-      # einem Push. Ob das auch für Commits des Workflow-Tokens gilt, ist beim
-      # ersten echten Lauf zu prüfen; dieser Schritt stößt den Bau zur
-      # Sicherheit ausdrücklich an und schadet nicht, wenn er ohnehin läuft.
-      - name: Seitenbau anstoßen
-        if: steps.commit.outputs.geaendert == 'ja'
+      # With "deploy from branch", Pages normally rebuilds itself after a
+      # push. Whether that also holds for commits made by the workflow token is
+      # worth checking on the first real run; this step asks for a build
+      # explicitly and does no harm if one is already happening.
+      - name: Ask Pages to rebuild
+        if: steps.commit.outputs.changed == 'yes'
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -sS -X POST -w "  Pages-Build angefordert: %{http_code}\n" -o /dev/null \
+          curl -sS -X POST -w "  Pages build requested: %{http_code}\n" -o /dev/null \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/${{ github.repository }}/pages/builds"

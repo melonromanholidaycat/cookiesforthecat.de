@@ -1,14 +1,14 @@
 /* Cookies For The Cat — cookiesforthecat.de
  *
- * Werte übernommen aus dem bisherigen WordPress-Theme (Twenty Twenty-Two),
- * damit die statische Seite genauso aussieht wie die alte.
+ * Class names are German because they describe German content and appear in
+ * the markup; comments are English. See AGENTS.md.
  */
 
-/* ---------------------------------------------------------------- Schriften */
+/* -------------------------------------------------------------------- Fonts */
 
-/* Auf Latin reduzierte Variable-Font-Datei; nur die Überschriften nutzen sie.
- * Einen Kursivschnitt gibt es bewusst nicht — nichts auf der Seite setzt
- * Source Serif kursiv. */
+/* Variable font subset to Latin; only the headings use it. There is
+ * deliberately no italic cut — nothing on the site sets Source Serif in
+ * italics, so shipping one would be 347 KB of dead weight. */
 @font-face {
   font-family: "Source Serif Pro";
   font-style: normal;
@@ -20,9 +20,9 @@
 /* ------------------------------------------------------------------- Tokens */
 
 :root {
-  /* Warmes Papier statt des blassen Gelbs, dazu ein warmes Schwarz und
-   * Terrakotta als Akzent. Alle Kombinationen halten WCAG AA:
-   * Text 13,79:1 · Links 5,48:1 · gedämpft 5,33:1. */
+  /* Warm paper instead of the pale yellow, with a warm black and terracotta
+   * as the accent. Every pair clears WCAG AA:
+   * text 13.79:1 · links 5.48:1 · muted 5.33:1. */
   --farbe-hintergrund: #f8f2e4;
   --farbe-text: #2b2320;
   --farbe-text-rgb: 43, 35, 32;
@@ -54,7 +54,7 @@
   --zeile-normal: 1.6;
 }
 
-/* ---------------------------------------------------------------- Grundlagen */
+/* ---------------------------------------------------------------------- Base */
 
 *,
 *::before,
@@ -110,7 +110,7 @@ a:hover {
   text-decoration: none;
 }
 
-/* Tastaturfokus muss deutlicher sein als der Ruhezustand, nicht schwächer. */
+/* Keyboard focus must be more visible than the resting state, not less. */
 :focus-visible {
   outline: 2px solid var(--farbe-primaer);
   outline-offset: 3px;
@@ -130,13 +130,12 @@ hr {
   margin: var(--abstand-mittel) 0;
 }
 
-/* Im Zugänglichkeitsbaum vorhanden, auf dem Bildschirm nicht. Der Sprunglink
- * nutzt dieselbe Technik und wird bei Tastaturfokus wieder sichtbar. */
+/* Present in the accessibility tree, absent from the screen. The skip link
+ * uses the same technique and reappears on keyboard focus. */
 .nur-vorlesen,
 .sprunglink {
-  /* Unsichtbarer Text darf keinen Webfont nachladen — sonst holt die
-   * Startseite, die sonst gar keine Überschrift zeigt, 98 KB Schrift für
-   * nichts. */
+  /* Invisible text must not pull in a webfont — otherwise the home page,
+   * which shows no heading at all, fetches 98 KB for nothing. */
   font: inherit;
   position: absolute;
   width: 1px;
@@ -164,9 +163,9 @@ hr {
 
 /* ------------------------------------------------------------------- Layout */
 
-/* Der Innenraum ist 1000px breit, der Außenabstand kommt oben drauf — genau
- * wie im alten Theme, wo der Abstand am Wurzelelement saß und die 1000px erst
- * darin galten. */
+/* The inner area is 1000px wide and the outer padding is added on top of it,
+ * matching the old theme, where the padding sat on the root element and the
+ * 1000px applied inside it. Subtracting instead narrows every page by 128px. */
 .rahmen {
   width: 100%;
   max-width: calc(var(--breite-weit) + 2 * var(--abstand-klein));
@@ -187,7 +186,7 @@ hr {
   margin-right: auto;
 }
 
-/* --------------------------------------------------------------- Kopfzeile */
+/* ------------------------------------------------------------------ Header */
 
 .kopf {
   padding-top: var(--abstand-klein);
@@ -202,8 +201,8 @@ hr {
   gap: var(--abstand-block);
 }
 
-/* Der Titel ist die nachgezeichnete Wortmarke, keine gesetzte Schrift. Die
- * Breite wächst mit dem Viewport, das Seitenverhältnis steckt im SVG. */
+/* The title is the traced wordmark, not type. The width scales with the
+ * viewport; the aspect ratio lives in the SVG. */
 .seitentitel {
   margin: 0;
   line-height: 0;
@@ -218,8 +217,8 @@ hr {
   height: auto;
 }
 
-/* Bis 700px steht die Wortmarke mittig über der Navigation statt gedrängt
- * links neben ihr — nebeneinander wird beides zu klein. */
+/* Below 700px the wordmark sits centred above the navigation rather than
+ * squeezed beside it — side by side leaves both too small. */
 @media (max-width: 700px) {
   .kopf-innen {
     flex-direction: column;
@@ -245,10 +244,9 @@ hr {
   text-decoration: underline;
 }
 
-/* Ohne JavaScript kein Hamburger-Menü: die Navigation bleibt immer sichtbar
- * und bricht auf schmalen Bildschirmen einfach um. Die Schriftgröße wächst
- * mit der Breite mit, damit fünf Punkte auch auf dem Handy nebeneinander
- * passen. */
+/* No JavaScript means no hamburger menu: the navigation stays visible and
+ * simply wraps on narrow screens. The size scales with the viewport so the
+ * items still fit side by side on a phone. */
 .navigation ul {
   display: flex;
   flex-wrap: wrap;
@@ -274,7 +272,7 @@ hr {
   text-underline-offset: 0.2em;
 }
 
-/* ------------------------------------------------------------------ Inhalt */
+/* ----------------------------------------------------------------- Content */
 
 main {
   display: block;
@@ -284,8 +282,8 @@ main > * + * {
   margin-top: var(--abstand-block);
 }
 
-/* Eine nur vorgelesene Überschrift steht außerhalb des Textflusses und darf
- * dem nächsten Element keinen Abstand aufdrücken. */
+/* A screen-reader-only heading is out of flow and must not push a margin
+ * onto the element after it. */
 main > .nur-vorlesen + * {
   margin-top: 0;
 }
@@ -294,7 +292,7 @@ main > .nur-vorlesen + * {
   margin-bottom: var(--abstand-mittel);
 }
 
-/* ------------------------------------------------------------------ Termine */
+/* ----------------------------------------------------------------- Gig list */
 
 .termine {
   margin: 0;
@@ -306,8 +304,8 @@ main > .nur-vorlesen + * {
   margin: 0 0 var(--abstand-mittel);
 }
 
-/* Das Datum steht als kleine Zeile über dem Ort; der Ortsname trägt den
- * Eintrag. Vorher waren alle drei gleich groß und nichts war überfliegbar. */
+/* The date is a small line above the venue; the venue name carries the entry.
+ * All three used to be the same size, which left nothing to scan. */
 .termin-datum {
   font-size: var(--groesse-klein);
   line-height: var(--zeile-mittel);
@@ -339,20 +337,20 @@ main > .nur-vorlesen + * {
   padding-top: var(--abstand-mittel);
 }
 
-/* Archiv: eine Zeile pro Auftritt. */
+/* Archive: one line per gig. */
 .archiv {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Einzeilige Einträge brauchen keinen Absatzabstand. */
+/* Single-line entries need no paragraph spacing. */
 .archiv li {
   margin-bottom: 0.5rem;
 }
 
-/* Jahreszahl als ruhige Zwischenüberschrift — sie soll die Liste gliedern,
- * nicht mit ihr konkurrieren. */
+/* The year as a quiet subheading — it should divide the list, not compete
+ * with it. */
 .archiv-jahr {
   font-size: var(--groesse-gross);
   line-height: var(--zeile-klein);
@@ -365,10 +363,10 @@ main > .nur-vorlesen + * {
   font-variant-numeric: tabular-nums;
 }
 
-/* ------------------------------------------------------------- Veranstalter */
+/* ---------------------------------------------------------------- Press kit */
 
-/* Wie im alten Theme: Bild links, Beschriftung rechts (40/60), auf schmalen
- * Bildschirmen untereinander. */
+/* As in the old theme: image left, caption right (40/60), stacked on narrow
+ * screens. */
 .material {
   margin: 0;
   padding: 0;
@@ -387,15 +385,15 @@ main > .nur-vorlesen + * {
   margin: 0;
 }
 
-/* Das Vorschaubild ist ein Link auf die volle Auflösung. Die große Datei wird
- * erst beim Klick geholt und kostet den Seitenaufbau nichts. */
+/* The thumbnail links to the full-resolution file, which is only fetched on
+ * click and so costs the page load nothing. */
 .material figure a {
   display: block;
   line-height: 0;
 }
 
-/* Ein weicher Schatten statt der Haarlinie — die Plakate sind weiße Blätter
- * und brauchen auf dem cremefarbenen Grund trotzdem eine Kante. */
+/* A soft shadow instead of a hairline — the posters are white sheets and
+ * still need an edge against the cream page. */
 .material img {
   width: 100%;
   box-shadow: 0 1px 2px rgba(var(--farbe-text-rgb), 0.08),
@@ -414,7 +412,7 @@ main > .nur-vorlesen + * {
   font-size: var(--groesse-klein);
 }
 
-/* Zweitdownload, etwa das Plakat als Bild statt als ausfüllbares PDF. */
+/* Secondary download, e.g. the poster as an image rather than a fillable PDF. */
 .material .zweit {
   display: inline-block;
   margin-top: 0.4rem;
@@ -428,10 +426,10 @@ main > .nur-vorlesen + * {
   }
 }
 
-/* --------------------------------------------------------------- Fußzeile */
+/* ----------------------------------------------------------------- Footer */
 
-/* Abstände wie im alten Theme: 4rem Innenabstand, darüber ein 50px-Zwischenraum
- * vor der kurzen Trennlinie. */
+/* Spacing as in the old theme: 4rem padding, with a 50px gap above the short
+ * rule. */
 .fuss {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -476,11 +474,11 @@ main > .nur-vorlesen + * {
   flex: none;
 }
 
-/* Dieselbe Reihe auf der Kontaktseite: dort steht sie linksbündig im
- * Textblock und nimmt die Größe des umgebenden Fließtexts an. */
-/* Unter rund 345px passen drei beschriftete Links nicht nebeneinander. Statt
- * sie ungleich umbrechen zu lassen (zwei oben, einer darunter), zeigen wir
- * dort nur die Symbole — der Name bleibt für Screenreader erhalten. */
+/* The same row on the contact page, where it sits left-aligned in the text
+ * block and takes the size of the surrounding body copy. */
+/* Below roughly 345px three labelled links do not fit on one line. Rather
+ * than let them wrap unevenly (two above, one below), only the icons show;
+ * the names stay in the accessibility tree. */
 @media (max-width: 345px) {
   .fuss .sozial span {
     position: absolute;
@@ -524,10 +522,10 @@ main > .nur-vorlesen + * {
   color: inherit;
 }
 
-/* ------------------------------------------------------------- Startseite */
+/* -------------------------------------------------------------- Home page */
 
-/* Zentriert Bilder auf Start- und Über-uns-Seite. Die Anzeigebreite steht als
- * width-Attribut am Bild selbst, damit sie auch ohne Stylesheet stimmt. */
+/* Centres the images on the home and about pages. The display width sits in
+ * the img width attribute so it is right without the stylesheet too. */
 .mitte {
   text-align: center;
 }

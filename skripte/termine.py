@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
-"""Holt die Auftrittstermine aus dem geteilten Google-Kalender und schreibt sie
-in die Seiten.
+"""Pull the gig dates from the shared Google calendar into the pages.
 
-Der Kalender ist die Quelle für kommende Termine. Wer einen Auftritt anlegt,
-ändert oder löscht, ändert damit die Website — mehr ist nicht nötig.
+The calendar is the source of truth for upcoming gigs. Whoever adds, edits or
+deletes an event changes the website; nothing else is required of them.
 
-Was dieses Skript anfasst:
+What this touches:
 
-    termine/index.html              der Block zwischen den GIGS-Markern
-    vergangene-termine/index.html   der Block zwischen den ARCHIV-Markern
-    index.html                      der nächste Termin auf der Startseite
-    daten/termine.json              Stand der kommenden Termine
-    daten/archiv.json               Archiv, wird nur ergänzt, nie gekürzt
+    termine/index.html              the block between the GIGS markers
+    vergangene-termine/index.html   the block between the ARCHIVE markers
+    index.html                      the next gig on the home page
+    daten/termine.json              upcoming gigs as of the last sync
+    daten/archiv.json               history, only ever appended to
 
-Alles außerhalb der Marker bleibt unberührt. Die HTML-Dateien im Repository
-sind weiterhin das, was ausgeliefert wird; es gibt keinen Build-Schritt.
+Everything outside the markers is left alone. The committed HTML stays exactly
+what gets served; there is no build step.
 
-Aufruf:
+Note on language: comments and identifiers here are English, but the data keys
+(datum, ort, adresse, ...) stay German because they mirror the CSS class names
+in the HTML, which describe German content. See AGENTS.md.
+
+Usage:
     CALENDAR_ICS_URL=... python3 skripte/termine.py
-    CALENDAR_ICS_FILE=fixture.ics python3 skripte/termine.py --probelauf
+    CALENDAR_ICS_FILE=fixture.ics python3 skripte/termine.py --dry-run
 """
 
 from __future__ import annotations
@@ -36,273 +39,274 @@ from zoneinfo import ZoneInfo
 
 from icalendar import Calendar
 
-WURZEL = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 ZONE = ZoneInfo("Europe/Berlin")
 
-# Namen fest verdrahtet — die Sprachumgebung eines CI-Containers ist nichts,
-# worauf man sich verlassen sollte.
-WOCHENTAGE = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
-              "Freitag", "Samstag", "Sonntag"]
+# Hardcoded rather than taken from the locale: a CI container's language
+# settings are not something to rely on.
+WEEKDAYS = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
+            "Freitag", "Samstag", "Sonntag"]
 
-# Eine Zeile, die nur aus einer Adresse besteht, wird zum Link auf die
-# Spielstätte. Eine Zeile "privat" macht den Eintrag anonym.
-NUR_URL = re.compile(r"^https?://\S+$")
-PRIVAT = re.compile(r"^privat\.?$", re.IGNORECASE)
-
-
-class Abbruch(Exception):
-    """Etwas stimmt nicht — lieber nichts schreiben als etwas Falsches."""
+# A description line holding nothing but a URL becomes the link on the venue
+# name. A line reading "privat" makes the entry anonymous.
+URL_ONLY = re.compile(r"^https?://\S+$")
+PRIVATE = re.compile(r"^privat\.?$", re.IGNORECASE)
 
 
-# --------------------------------------------------------------- Kalender
+class Abort(Exception):
+    """Something is wrong — better to write nothing than something wrong."""
 
-def feed_lesen(quelle: str | None, datei: str | None) -> bytes:
-    if datei:
-        return Path(datei).read_bytes()
-    if not quelle:
-        raise Abbruch("Weder CALENDAR_ICS_URL noch CALENDAR_ICS_FILE gesetzt.")
+
+# --------------------------------------------------------------- Calendar
+
+def read_feed(url: str | None, file: str | None) -> bytes:
+    if file:
+        return Path(file).read_bytes()
+    if not url:
+        raise Abort("Neither CALENDAR_ICS_URL nor CALENDAR_ICS_FILE is set.")
     try:
-        with urllib.request.urlopen(quelle, timeout=60) as antwort:
-            return antwort.read()
-    except Exception as fehler:                      # noqa: BLE001
-        raise Abbruch(f"Kalender nicht erreichbar: {fehler}") from fehler
+        with urllib.request.urlopen(url, timeout=60) as response:
+            return response.read()
+    except Exception as error:                       # noqa: BLE001
+        raise Abort(f"Calendar unreachable: {error}") from error
 
 
-def beschreibung_zerlegen(text: str) -> tuple[list[str], str | None, bool]:
-    """Absätze, Link auf die Spielstätte, Privat-Kennzeichen."""
-    absaetze, link, privat = [], None, False
-    for zeile in (text or "").replace("\r\n", "\n").split("\n"):
-        zeile = zeile.strip()
-        if not zeile:
+def split_description(text: str) -> tuple[list[str], str | None, bool]:
+    """Paragraphs, venue link, private flag."""
+    paragraphs, link, private = [], None, False
+    for line in (text or "").replace("\r\n", "\n").split("\n"):
+        line = line.strip()
+        if not line:
             continue
-        if PRIVAT.match(zeile):
-            privat = True
-        elif NUR_URL.match(zeile) and link is None:
-            link = zeile
+        if PRIVATE.match(line):
+            private = True
+        elif URL_ONLY.match(line) and link is None:
+            link = line
         else:
-            absaetze.append(zeile)
-    return absaetze, link, privat
+            paragraphs.append(line)
+    return paragraphs, link, private
 
 
-def termine_lesen(rohdaten: bytes) -> list[dict]:
+def read_events(raw: bytes) -> list[dict]:
     try:
-        kalender = Calendar.from_ical(rohdaten)
-    except Exception as fehler:                      # noqa: BLE001
-        raise Abbruch(f"Kalender ist nicht lesbar: {fehler}") from fehler
-    termine, uebersprungen = [], []
+        calendar = Calendar.from_ical(raw)
+    except Exception as error:                       # noqa: BLE001
+        raise Abort(f"Calendar is not readable: {error}") from error
 
-    for eintrag in kalender.walk("VEVENT"):
-        if str(eintrag.get("STATUS", "")).upper() == "CANCELLED":
+    gigs, recurring = [], []
+
+    for event in calendar.walk("VEVENT"):
+        if str(event.get("STATUS", "")).upper() == "CANCELLED":
             continue
-        if eintrag.get("RRULE"):
-            uebersprungen.append(str(eintrag.get("SUMMARY", "?")))
+        if event.get("RRULE"):
+            recurring.append(str(event.get("SUMMARY", "?")))
             continue
 
-        beginn = eintrag.get("DTSTART")
-        if beginn is None:
+        start = event.get("DTSTART")
+        if start is None:
             continue
-        wert = beginn.dt
+        value = start.dt
 
-        if isinstance(wert, datetime):
-            # Google liefert mit Zeitzone; ohne Angabe als Ortszeit deuten.
-            wert = wert.astimezone(ZONE) if wert.tzinfo else wert.replace(tzinfo=ZONE)
-            tag, zeit = wert.date(), f"{wert.hour}.{wert.minute:02d} Uhr"
+        if isinstance(value, datetime):
+            # Google sends a timezone; without one, read it as local time.
+            value = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
+            day, time_of_day = value.date(), f"{value.hour}.{value.minute:02d} Uhr"
         else:
-            # Ganztägig: keine Uhrzeit anzeigen. Steht die Zeit noch nicht
-            # fest, gehört das in die Beschreibung — dann stimmt es immer.
-            tag, zeit = wert, None
+            # All-day: show no time. If the time simply isn't settled yet that
+            # belongs in the description, where it can say so in words.
+            day, time_of_day = value, None
 
-        absaetze, link, privat = beschreibung_zerlegen(
-            str(eintrag.get("DESCRIPTION", "")))
-        ort = str(eintrag.get("SUMMARY", "")).strip()
-        adresse = str(eintrag.get("LOCATION", "")).strip()
+        paragraphs, link, private = split_description(
+            str(event.get("DESCRIPTION", "")))
+        venue = str(event.get("SUMMARY", "")).strip()
+        address = str(event.get("LOCATION", "")).strip()
 
-        termine.append({
-            "datum": tag.isoformat(),
-            "zeit": None if privat else zeit,
-            "ort": "private Veranstaltung" if privat else (ort or None),
-            "ort_link": None if privat else link,
-            "adresse": None if privat else (adresse or None),
-            "text": [] if privat else absaetze,
-            "privat": privat,
+        gigs.append({
+            "datum": day.isoformat(),
+            "zeit": None if private else time_of_day,
+            "ort": "private Veranstaltung" if private else (venue or None),
+            "ort_link": None if private else link,
+            "adresse": None if private else (address or None),
+            "text": [] if private else paragraphs,
+            "privat": private,
         })
 
-    if uebersprungen:
-        print(f"  Hinweis: {len(uebersprungen)} Serientermin(e) übersprungen: "
-              + ", ".join(uebersprungen), file=sys.stderr)
+    if recurring:
+        print(f"  Note: skipped {len(recurring)} recurring event(s): "
+              + ", ".join(recurring), file=sys.stderr)
 
-    termine.sort(key=lambda t: (t["datum"], t["zeit"] or ""))
-    return termine
+    gigs.sort(key=lambda g: (g["datum"], g["zeit"] or ""))
+    return gigs
 
 
-# ------------------------------------------------------------ Darstellung
+# ------------------------------------------------------------- Rendering
 
 def esc(text: str) -> str:
     return html.escape(text, quote=False)
 
 
-def datum_lang(iso: str, zeit: str | None) -> str:
-    tag = date.fromisoformat(iso)
-    lang = f"{WOCHENTAGE[tag.weekday()]}, {tag:%d.%m.%Y}"
-    return f"{lang} · {zeit}" if zeit else lang
+def long_date(iso: str, time_of_day: str | None) -> str:
+    day = date.fromisoformat(iso)
+    text = f"{WEEKDAYS[day.weekday()]}, {day:%d.%m.%Y}"
+    return f"{text} · {time_of_day}" if time_of_day else text
 
 
-def termin_zeilen(t: dict) -> str:
-    ort = esc(t["ort"]) if t["ort"] else ""
-    if t.get("ort_link"):
-        ort = (f'<a href="{t["ort_link"]}" rel="noopener" target="_blank">'
-               f"{ort}</a>")
-    zeilen = [
+def gig_lines(gig: dict) -> str:
+    venue = esc(gig["ort"]) if gig["ort"] else ""
+    if gig.get("ort_link"):
+        venue = (f'<a href="{gig["ort_link"]}" rel="noopener" target="_blank">'
+                 f"{venue}</a>")
+    lines = [
         '  <li class="termin">',
-        f'    <p class="termin-datum"><time datetime="{t["datum"]}">'
-        f'{esc(datum_lang(t["datum"], t["zeit"]))}</time></p>',
+        f'    <p class="termin-datum"><time datetime="{gig["datum"]}">'
+        f'{esc(long_date(gig["datum"], gig["zeit"]))}</time></p>',
     ]
-    if t["ort"]:
-        zeilen.append(f'    <p class="termin-ort">{ort}</p>')
-    if t.get("adresse"):
-        zeilen.append(f'    <p class="termin-adresse">{esc(t["adresse"])}</p>')
-    for absatz in t.get("text", []):
-        zeilen.append(f'    <p class="termin-text">{esc(absatz)}</p>')
-    zeilen.append("  </li>")
-    return "\n".join(zeilen)
+    if gig["ort"]:
+        lines.append(f'    <p class="termin-ort">{venue}</p>')
+    if gig.get("adresse"):
+        lines.append(f'    <p class="termin-adresse">{esc(gig["adresse"])}</p>')
+    for paragraph in gig.get("text", []):
+        lines.append(f'    <p class="termin-text">{esc(paragraph)}</p>')
+    lines.append("  </li>")
+    return "\n".join(lines)
 
 
-def termine_rendern(termine: list[dict]) -> str:
-    if not termine:
+def render_gigs(gigs: list[dict]) -> str:
+    if not gigs:
         return ('  <p class="inhalt">Zurzeit stehen keine Termine fest. '
                 "Schau bald wieder vorbei.</p>")
     return ('  <ul class="termine inhalt">\n'
-            + "\n".join(termin_zeilen(t) for t in termine)
+            + "\n".join(gig_lines(g) for g in gigs)
             + "\n  </ul>")
 
 
-def archiv_rendern(eintraege: list[dict]) -> str:
-    """Neueste zuerst, pro Jahr eine Überschrift."""
-    sortiert = sorted(eintraege, key=lambda e: e["datum"], reverse=True)
-    bloecke, jahr, offen = [], None, []
-    for e in sortiert:
-        j = e["datum"][:4]
-        if j != jahr:
-            if offen:
-                bloecke.append((jahr, offen))
-            jahr, offen = j, []
-        tag = date.fromisoformat(e["datum"])
-        offen.append(f'      <li><time datetime="{e["datum"]}">{tag:%d.%m.%Y}'
-                     f"</time> {esc(e['text'])}</li>")
-    if offen:
-        bloecke.append((jahr, offen))
+def render_archive(entries: list[dict]) -> str:
+    """Newest first, one heading per year."""
+    ordered = sorted(entries, key=lambda e: e["datum"], reverse=True)
+    blocks, year, open_year = [], None, []
+    for entry in ordered:
+        y = entry["datum"][:4]
+        if y != year:
+            if open_year:
+                blocks.append((year, open_year))
+            year, open_year = y, []
+        day = date.fromisoformat(entry["datum"])
+        open_year.append(f'      <li><time datetime="{entry["datum"]}">'
+                         f'{day:%d.%m.%Y}</time> {esc(entry["text"])}</li>')
+    if open_year:
+        blocks.append((year, open_year))
     return "\n\n".join(
-        f'  <section class="inhalt">\n    <h2 class="archiv-jahr">{j}</h2>\n'
-        f'    <ul class="archiv">\n' + "\n".join(zeilen) + "\n    </ul>\n  </section>"
-        for j, zeilen in bloecke
+        f'  <section class="inhalt">\n    <h2 class="archiv-jahr">{y}</h2>\n'
+        f'    <ul class="archiv">\n' + "\n".join(lines) + "\n    </ul>\n  </section>"
+        for y, lines in blocks
     )
 
 
-def startseite_rendern(termine: list[dict]) -> str:
-    if not termine:
+def render_next(gigs: list[dict]) -> str:
+    if not gigs:
         return ('  <p class="mitte weiter"><a href="termine/">Alle Termine '
                 "ansehen &rarr;</a></p>")
-    n = termine[0]
-    wo = "" if n["privat"] else f' &middot; {esc(n["ort"])}' if n["ort"] else ""
+    nxt = gigs[0]
+    where = "" if nxt["privat"] else f' &middot; {esc(nxt["ort"])}' if nxt["ort"] else ""
     return ('  <p class="mitte weiter"><a href="termine/">Nächster Auftritt: '
-            f'{esc(datum_lang(n["datum"], n["zeit"]))}{wo} &rarr;</a></p>')
+            f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
 
 
-# ------------------------------------------------------------------ Dateien
+# ----------------------------------------------------------------- Files
 
-def einsetzen(pfad: Path, marke: str, inhalt: str) -> bool:
-    text = pfad.read_text(encoding="utf-8")
-    muster = re.compile(rf"(<!-- {marke}:START.*?-->\n)(.*?)(\n  <!-- {marke}:END -->)",
-                        re.S)
-    if not muster.search(text):
-        raise Abbruch(f"Marker {marke} fehlt in {pfad}")
-    neu = muster.sub(lambda m: m.group(1) + inhalt + m.group(3), text)
-    if neu == text:
+def splice(path: Path, marker: str, content: str) -> bool:
+    text = path.read_text(encoding="utf-8")
+    pattern = re.compile(
+        rf"(<!-- {marker}:START.*?-->\n)(.*?)(\n  <!-- {marker}:END -->)", re.S)
+    if not pattern.search(text):
+        raise Abort(f"Marker {marker} missing in {path}")
+    updated = pattern.sub(lambda m: m.group(1) + content + m.group(3), text)
+    if updated == text:
         return False
-    pfad.write_text(neu, encoding="utf-8")
+    path.write_text(updated, encoding="utf-8")
     return True
 
 
-def json_schreiben(pfad: Path, daten) -> None:
-    with pfad.open("w", encoding="utf-8") as fh:
-        json.dump(daten, fh, ensure_ascii=False, indent=2)
+def write_json(path: Path, data) -> None:
+    with path.open("w", encoding="utf-8") as fh:
+        json.dump(data, fh, ensure_ascii=False, indent=2)
         fh.write("\n")
 
 
-# --------------------------------------------------------------------- Lauf
+# ------------------------------------------------------------------- Run
 
-def archiv_text(t: dict) -> str:
-    """Eine Zeile fürs Archiv: 'Ort, Stadt' bzw. 'private Veranstaltung'."""
-    if t["privat"]:
+def archive_text(gig: dict) -> str:
+    """One archive line: 'Venue, Town' or 'private Veranstaltung'."""
+    if gig["privat"]:
         return "private Veranstaltung"
-    stadt = ""
-    if t.get("adresse"):
-        letztes = t["adresse"].split("·")[-1].strip()
-        stadt = re.sub(r"^\d{5}\s*", "", letztes)
-    return f"{t['ort']}, {stadt}" if t["ort"] and stadt else (t["ort"] or "Auftritt")
+    town = ""
+    if gig.get("adresse"):
+        last = gig["adresse"].split("·")[-1].strip()
+        town = re.sub(r"^\d{5}\s*", "", last)
+    return f"{gig['ort']}, {town}" if gig["ort"] and town else (gig["ort"] or "Auftritt")
 
 
 def main() -> int:
-    argumente = argparse.ArgumentParser(description=__doc__)
-    argumente.add_argument("--probelauf", action="store_true",
-                           help="nur anzeigen, nichts schreiben")
-    optionen = argumente.parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dry-run", action="store_true",
+                        help="show the result, write nothing")
+    options = parser.parse_args()
 
-    heute = datetime.now(ZONE).date()
-    termine_datei = WURZEL / "daten/termine.json"
-    archiv_datei = WURZEL / "daten/archiv.json"
+    today = datetime.now(ZONE).date()
+    gigs_file = ROOT / "daten/termine.json"
+    archive_file = ROOT / "daten/archiv.json"
 
-    bisher = json.loads(termine_datei.read_text(encoding="utf-8"))
-    archiv = json.loads(archiv_datei.read_text(encoding="utf-8"))
+    previous = json.loads(gigs_file.read_text(encoding="utf-8"))
+    archive = json.loads(archive_file.read_text(encoding="utf-8"))
 
-    rohdaten = feed_lesen(os.environ.get("CALENDAR_ICS_URL"),
-                          os.environ.get("CALENDAR_ICS_FILE"))
-    aus_kalender = termine_lesen(rohdaten)
+    raw = read_feed(os.environ.get("CALENDAR_ICS_URL"),
+                    os.environ.get("CALENDAR_ICS_FILE"))
+    from_calendar = read_events(raw)
 
-    # Ein leerer Kalender bei vorhandenem Bestand ist fast immer ein Fehler
-    # auf der anderen Seite — dann lieber gar nichts tun.
-    if not aus_kalender and bisher:
-        raise Abbruch(f"Kalender liefert 0 Termine, zuletzt waren es "
-                      f"{len(bisher)}. Es wird nichts geschrieben.")
+    # An empty calendar when we already hold gigs is almost always a fault at
+    # the other end, so do nothing rather than wipe the list.
+    if not from_calendar and previous:
+        raise Abort(f"Calendar returned 0 events, previously there were "
+                    f"{len(previous)}. Nothing written.")
 
-    kommend = [t for t in aus_kalender if t["datum"] >= heute.isoformat()]
+    upcoming = [g for g in from_calendar if g["datum"] >= today.isoformat()]
 
-    # Vergangenes aus Kalender und letztem Stand — so geht ein Termin auch
-    # dann ins Archiv, wenn der Kalendereintrag inzwischen gelöscht wurde.
-    bekannt = {(e["datum"], e["text"]) for e in archiv}
-    ergaenzt = 0
-    for t in aus_kalender + bisher:
-        if t["datum"] >= heute.isoformat():
+    # Archive from calendar and last snapshot together, so a gig still lands in
+    # the archive even if its event was deleted after the date passed.
+    known = {(e["datum"], e["text"]) for e in archive}
+    added = 0
+    for gig in from_calendar + previous:
+        if gig["datum"] >= today.isoformat():
             continue
-        eintrag = {"datum": t["datum"], "text": archiv_text(t)}
-        if (eintrag["datum"], eintrag["text"]) not in bekannt:
-            archiv.append(eintrag)
-            bekannt.add((eintrag["datum"], eintrag["text"]))
-            ergaenzt += 1
+        entry = {"datum": gig["datum"], "text": archive_text(gig)}
+        if (entry["datum"], entry["text"]) not in known:
+            archive.append(entry)
+            known.add((entry["datum"], entry["text"]))
+            added += 1
 
-    print(f"  {len(kommend)} kommende Termine, {ergaenzt} neu im Archiv "
-          f"({len(archiv)} gesamt)")
+    print(f"  {len(upcoming)} upcoming gigs, {added} newly archived "
+          f"({len(archive)} total)")
 
-    if optionen.probelauf:
-        print(termine_rendern(kommend))
+    if options.dry_run:
+        print(render_gigs(upcoming))
         return 0
 
-    geaendert = [
-        einsetzen(WURZEL / "termine/index.html", "GIGS", termine_rendern(kommend)),
-        einsetzen(WURZEL / "vergangene-termine/index.html", "ARCHIV",
-                  archiv_rendern(archiv)),
-        einsetzen(WURZEL / "index.html", "NAECHSTER", startseite_rendern(kommend)),
+    changed = [
+        splice(ROOT / "termine/index.html", "GIGS", render_gigs(upcoming)),
+        splice(ROOT / "vergangene-termine/index.html", "ARCHIVE",
+               render_archive(archive)),
+        splice(ROOT / "index.html", "NEXT", render_next(upcoming)),
     ]
-    json_schreiben(termine_datei, kommend)
-    json_schreiben(archiv_datei, sorted(archiv, key=lambda e: e["datum"], reverse=True))
+    write_json(gigs_file, upcoming)
+    write_json(archive_file, sorted(archive, key=lambda e: e["datum"], reverse=True))
 
-    print("  Seiten geändert" if any(geaendert) else "  Seiten unverändert")
+    print("  pages changed" if any(changed) else "  pages unchanged")
     return 0
 
 
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except Abbruch as fehler:
-        print(f"Abbruch: {fehler}", file=sys.stderr)
+    except Abort as error:
+        print(f"Abort: {error}", file=sys.stderr)
         sys.exit(1)
