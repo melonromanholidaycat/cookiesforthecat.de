@@ -7,14 +7,15 @@ because breaking them is easy and the damage is not obvious from the diff.
 
 **Code is English. Content is German.**
 
-- Comments, docstrings, commit messages, workflow step names, variable and
-  function names: English.
+- Comments, docstrings, commit messages, workflow step names, CSS class names,
+  variable and function names: English.
 - Page text, the note in `daten/README.md`, and anything a visitor or a band
   member reads: German.
-- **CSS class names and JSON data keys stay German** (`termin-ort`, `datum`,
-  `adresse`). They describe German content and appear in the markup, so they
-  match the pages they style. Renaming them would churn every HTML file for no
-  gain. This is deliberate, not drift.
+- **The JSON keys in `daten/` stay German** (`datum`, `ort`, `adresse`,
+  `privat`). Those files are the documented fallback: if the calendar route
+  ever falls away, a German-speaking maintainer edits them by hand. The field
+  names are for that reader, so they are in that reader's language. This is
+  deliberate, not drift.
 
 ## The site is static, and stays that way
 

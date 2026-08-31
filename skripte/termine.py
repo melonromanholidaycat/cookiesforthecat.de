@@ -15,9 +15,10 @@ What this touches:
 Everything outside the markers is left alone. The committed HTML stays exactly
 what gets served; there is no build step.
 
-Note on language: comments and identifiers here are English, but the data keys
-(datum, ort, adresse, ...) stay German because they mirror the CSS class names
-in the HTML, which describe German content. See AGENTS.md.
+Note on language: everything here is English except the data keys (datum, ort,
+adresse, ...). The files in daten/ are the fallback a German-speaking
+maintainer edits by hand if the calendar ever goes away, so the field names are
+in their language. See AGENTS.md.
 
 Usage:
     CALENDAR_ICS_URL=... python3 skripte/termine.py
@@ -157,25 +158,25 @@ def gig_lines(gig: dict) -> str:
         venue = (f'<a href="{gig["ort_link"]}" rel="noopener" target="_blank">'
                  f"{venue}</a>")
     lines = [
-        '  <li class="termin">',
-        f'    <p class="termin-datum"><time datetime="{gig["datum"]}">'
+        '  <li class="gig">',
+        f'    <p class="gig-date"><time datetime="{gig["datum"]}">'
         f'{esc(long_date(gig["datum"], gig["zeit"]))}</time></p>',
     ]
     if gig["ort"]:
-        lines.append(f'    <p class="termin-ort">{venue}</p>')
+        lines.append(f'    <p class="gig-venue">{venue}</p>')
     if gig.get("adresse"):
-        lines.append(f'    <p class="termin-adresse">{esc(gig["adresse"])}</p>')
+        lines.append(f'    <p class="gig-address">{esc(gig["adresse"])}</p>')
     for paragraph in gig.get("text", []):
-        lines.append(f'    <p class="termin-text">{esc(paragraph)}</p>')
+        lines.append(f'    <p class="gig-note">{esc(paragraph)}</p>')
     lines.append("  </li>")
     return "\n".join(lines)
 
 
 def render_gigs(gigs: list[dict]) -> str:
     if not gigs:
-        return ('  <p class="inhalt">Zurzeit stehen keine Termine fest. '
+        return ('  <p class="content">Zurzeit stehen keine Termine fest. '
                 "Schau bald wieder vorbei.</p>")
-    return ('  <ul class="termine inhalt">\n'
+    return ('  <ul class="gigs content">\n'
             + "\n".join(gig_lines(g) for g in gigs)
             + "\n  </ul>")
 
@@ -196,19 +197,19 @@ def render_archive(entries: list[dict]) -> str:
     if open_year:
         blocks.append((year, open_year))
     return "\n\n".join(
-        f'  <section class="inhalt">\n    <h2 class="archiv-jahr">{y}</h2>\n'
-        f'    <ul class="archiv">\n' + "\n".join(lines) + "\n    </ul>\n  </section>"
+        f'  <section class="content">\n    <h2 class="archive-year">{y}</h2>\n'
+        f'    <ul class="archive">\n' + "\n".join(lines) + "\n    </ul>\n  </section>"
         for y, lines in blocks
     )
 
 
 def render_next(gigs: list[dict]) -> str:
     if not gigs:
-        return ('  <p class="mitte weiter"><a href="termine/">Alle Termine '
+        return ('  <p class="centred next-gig"><a href="termine/">Alle Termine '
                 "ansehen &rarr;</a></p>")
     nxt = gigs[0]
     where = "" if nxt["privat"] else f' &middot; {esc(nxt["ort"])}' if nxt["ort"] else ""
-    return ('  <p class="mitte weiter"><a href="termine/">Nächster Auftritt: '
+    return ('  <p class="centred next-gig"><a href="termine/">Nächster Auftritt: '
             f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
 
 
