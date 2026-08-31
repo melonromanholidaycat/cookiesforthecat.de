@@ -64,6 +64,19 @@ Die Schnelleingabe zeigt Ort und Beschreibung nicht an. Dafür beim Anlegen auf
 **„Weitere Optionen“** tippen — sonst entsteht ein Termin, bei dem auf der
 Website nur der Name steht, ohne Adresse und Text.
 
+## Kalender-Abo
+
+Auf der Website kann jeder alle Termine abonnieren oder einen einzelnen Termin
+in den eigenen Kalender laden. Beides entsteht automatisch aus diesem Kalender,
+ihr müsst dafür nichts tun.
+
+Veröffentlicht wird dabei genau das, was auch auf der Website steht — bei einer
+privaten Veranstaltung also nur das Datum und die Worte „private
+Veranstaltung“.
+
+Jeder Auftritt bekommt im Abo zwei Stunden. Die Endzeit aus dem Kalender wird
+also weiterhin nirgends veröffentlicht.
+
 ---
 
 ## Für die technische Seite
@@ -73,4 +86,10 @@ Website nur der Name steht, ohne Adresse und Text.
 nie gekürzt.
 
 Sollte der Kalender einmal wegfallen, sind beide Dateien weiterhin da und von
-Hand zu pflegen; `skripte/termine.py` erzeugt die Seiten daraus.
+Hand zu pflegen; `skripte/termine.py` erzeugt die Seiten daraus. Die Uhrzeit
+steht dort als `"zeit": "19:00"`; die Schreibweise `19.00 Uhr` entsteht erst
+beim Erzeugen der Seite.
+
+`termine/auftritte.ics` und die Dateien in `termine/kalender/` entstehen im
+selben Lauf und gehören dem Skript — von Hand geändert werden sie beim nächsten
+Lauf überschrieben oder gelöscht.

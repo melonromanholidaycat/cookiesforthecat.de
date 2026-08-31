@@ -1,0 +1,148 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Cookies For The Cat
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+SUMMARY:Aventura Bremen
+DTSTART:20260908T170000Z
+DTEND:20260908T190000Z
+DTSTAMP:20260908T000000Z
+UID:2026-09-08-aventura-bremen@cookiesforthecat.de
+DESCRIPTION:Ein wunderbares Hausboot\, in dem sich jeder wohlfühlt. Viele
+  Unplugged-Konzerte\, von denen wir eines bestreiten dürfen.\n\nhttps://w
+ ww.facebook.com/AventuraUnplugged/
+LOCATION:Schlachte Anleger 5\, 28195 Bremen
+URL:https://www.facebook.com/AventuraUnplugged/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Edeka Maaß
+DTSTART;VALUE=DATE:20260909
+DTEND;VALUE=DATE:20260910
+DTSTAMP:20260909T000000Z
+UID:2026-09-09-edeka-maass@cookiesforthecat.de
+DESCRIPTION:Die Uhrzeit steht noch nicht fest.\n\nEiner der nobelsten EDEK
+ A-Märkte\, die wir je gesehen haben. Großer Platz\, um unter Sonnenschir
+ men unserer Musik zu lauschen.\n\nhttps://www.facebook.com/edekamaassobern
+ euland/events?locale=de_DE
+LOCATION:Rockwinkeler Heerstraße 32\, 28355 Bremen
+URL:https://www.facebook.com/edekamaassoberneuland/events?locale=de_DE
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Opener der privaten Jam-Session bei Nikisch Eppendorf
+DTSTART;VALUE=DATE:20260911
+DTEND;VALUE=DATE:20260912
+DTSTAMP:20260911T000000Z
+UID:2026-09-11-opener-der-privaten-jam-session-bei-nikisch-eppendorf@cooki
+ esforthecat.de
+DESCRIPTION:Wir freuen uns sehr\, von Freunden eingeladen der Opener für 
+ die Jam-Session bei Nikisch Eppendorf zu sein. Eine eindrucksvolle Umgebun
+ g.\n\nhttps://www.fotostudio-nikisch-hamburg.de/
+LOCATION:Nikisch Eppendorf\, Tarpenbekstraße 65\, 20251 Hamburg
+URL:https://www.fotostudio-nikisch-hamburg.de/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:BaDaBoom Straßenmusikfestival
+DTSTART:20260912T110000Z
+DTEND:20260912T130000Z
+DTSTAMP:20260912T000000Z
+UID:2026-09-12-badaboom-strassenmusikfestival@cookiesforthecat.de
+DESCRIPTION:Jedes Jahr versuchen wir\, hier mitzumachen. Dieses Jahr an un
+ gewohnter Stelle.\n\nhttps://www.ba-da-boom.de/
+LOCATION:Lütjenstraße 1 Nähe Tchibo\, 24534 Neumünster
+URL:https://www.ba-da-boom.de/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Kulturkneipe Bornholdt
+DTSTART:20260925T180000Z
+DTEND:20260925T200000Z
+DTSTAMP:20260925T000000Z
+UID:2026-09-25-kulturkneipe-bornholdt@cookiesforthecat.de
+DESCRIPTION:Gemütliche Kneipe in Dithmarschen.\n\nhttps://bornholdt-meldo
+ rf.de/events-2/
+LOCATION:Zingelstraße 14\, 25704 Meldorf
+URL:https://bornholdt-meldorf.de/events-2/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Stadtfest Marne
+DTSTART:20260926T090000Z
+DTEND:20260926T110000Z
+DTSTAMP:20260926T000000Z
+UID:2026-09-26-stadtfest-marne@cookiesforthecat.de
+DESCRIPTION:Dithmarschen ist ohnehin schön\, das Stadtfest in Marne ist e
+ twas Besonderes.\n\nhttps://www.echt-dithmarschen.de/typisch/event/marner-
+ stadtfest-im-rahmen-der-dithmarscher-kohltage
+LOCATION:25709 Marne
+URL:https://www.echt-dithmarschen.de/typisch/event/marner-stadtfest-im-rah
+ men-der-dithmarscher-kohltage
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:private Veranstaltung
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+DTSTAMP:20261010T000000Z
+UID:2026-10-10-private-veranstaltung@cookiesforthecat.de
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:private Veranstaltung
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+DTSTAMP:20261030T000000Z
+UID:2026-10-30-private-veranstaltung@cookiesforthecat.de
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Oma seine Kneipe
+DTSTART:20261031T180000Z
+DTEND:20261031T200000Z
+DTSTAMP:20261031T000000Z
+UID:2026-10-31-oma-seine-kneipe@cookiesforthecat.de
+DESCRIPTION:DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends 
+ Musik hören – besser wird’s nicht!\n\nhttps://www.omaseinekneipe.de/v
+ eranstaltungsplan/
+LOCATION:Westerstraße 22\, 25761 Büsum
+URL:https://www.omaseinekneipe.de/veranstaltungsplan/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Pusta Stube
+DTSTART:20261108T130000Z
+DTEND:20261108T150000Z
+DTSTAMP:20261108T000000Z
+UID:2026-11-08-pusta-stube@cookiesforthecat.de
+DESCRIPTION:Direkt am Wasser\, wir spielen in der Stube. Es ist gemütlich
+  und klein.\n\nBitte bei Interesse unbedingt anmelden!\n\nhttps://www.pust
+ a-stube.de/veranstaltungen/november-2026/
+LOCATION:Oberblockland 5\, 28357 Bremen
+URL:https://www.pusta-stube.de/veranstaltungen/november-2026/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Finnegan Irish Pub
+DTSTART:20261121T200000Z
+DTEND:20261121T220000Z
+DTSTAMP:20261121T000000Z
+UID:2026-11-21-finnegan-irish-pub@cookiesforthecat.de
+DESCRIPTION:Unser jährliches Konzert im Finnegan. Die Musik spielt im Kel
+ ler\, der so überzeugend als irisch-deutscher Pub gestaltet ist\, wie man
+  sich’s nur wünschen kann.\n\nhttps://www.instagram.com/irish_pub_finne
+ gan_hl/?hl=de
+LOCATION:Mengstraße 42\, 23552 Lübeck
+URL:https://www.instagram.com/irish_pub_finnegan_hl/?hl=de
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Windmühle Siebenbäumen
+DTSTART:20261218T183000Z
+DTEND:20261218T203000Z
+DTSTAMP:20261218T000000Z
+UID:2026-12-18-windmuehle-siebenbaeumen@cookiesforthecat.de
+DESCRIPTION:Das Weihnachtskonzert. Zuerst spielen wir unser Programm\, in 
+ dem sich auch bekannte und unbekannte Weihnachtslieder finden. Danach sind
+  die Zuschauer dran\, mit uns zusammen in Weihnachtsstimmung zu kommen\, w
+ ährend wir gemeinsam Lieder singen\, die in einer Liedermappe verteilt we
+ rden. Wer kennt schon alle Texte?\n\nhttps://windmuehle-siebenbaeumen.de/
+LOCATION:Mühlenstraße 18A\, 23847 Siebenbäumen
+URL:https://windmuehle-siebenbaeumen.de/
+END:VEVENT
+END:VCALENDAR

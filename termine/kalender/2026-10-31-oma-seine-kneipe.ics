@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Oma seine Kneipe
+DTSTART:20261031T180000Z
+DTEND:20261031T200000Z
+DTSTAMP:20261031T000000Z
+UID:2026-10-31-oma-seine-kneipe@cookiesforthecat.de
+DESCRIPTION:DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends 
+ Musik hören – besser wird’s nicht!\n\nhttps://www.omaseinekneipe.de/v
+ eranstaltungsplan/
+LOCATION:Westerstraße 22\, 25761 Büsum
+URL:https://www.omaseinekneipe.de/veranstaltungsplan/
+END:VEVENT
+END:VCALENDAR

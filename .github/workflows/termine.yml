@@ -27,7 +27,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install --quiet icalendar
+      # Pinned deliberately. The script writes .ics files now, and a
+      # formatting change in a new release would land as a commit that rewrites
+      # every one of them and redeploys the site for nothing.
+      - run: pip install --quiet icalendar==7.3.0
 
       - name: Sync the gig dates
         env:

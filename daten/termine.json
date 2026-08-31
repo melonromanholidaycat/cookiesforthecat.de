@@ -1,7 +1,7 @@
 [
   {
     "datum": "2026-09-08",
-    "zeit": "19.00 Uhr",
+    "zeit": "19:00",
     "ort": "Aventura Bremen",
     "ort_link": "https://www.facebook.com/AventuraUnplugged/",
     "adresse": "Schlachte Anleger 5 · 28195 Bremen",
@@ -35,7 +35,7 @@
   },
   {
     "datum": "2026-09-12",
-    "zeit": "13.00 Uhr",
+    "zeit": "13:00",
     "ort": "BaDaBoom Straßenmusikfestival",
     "ort_link": "https://www.ba-da-boom.de/",
     "adresse": "Lütjenstraße 1 Nähe Tchibo · 24534 Neumünster",
@@ -46,7 +46,7 @@
   },
   {
     "datum": "2026-09-25",
-    "zeit": "20.00 Uhr",
+    "zeit": "20:00",
     "ort": "Kulturkneipe Bornholdt",
     "ort_link": "https://bornholdt-meldorf.de/events-2/",
     "adresse": "Zingelstraße 14 · 25704 Meldorf",
@@ -57,7 +57,7 @@
   },
   {
     "datum": "2026-09-26",
-    "zeit": "11.00 Uhr",
+    "zeit": "11:00",
     "ort": "Stadtfest Marne",
     "ort_link": "https://www.echt-dithmarschen.de/typisch/event/marner-stadtfest-im-rahmen-der-dithmarscher-kohltage",
     "adresse": "25709 Marne",
@@ -86,7 +86,7 @@
   },
   {
     "datum": "2026-10-31",
-    "zeit": "19.00 Uhr",
+    "zeit": "19:00",
     "ort": "Oma seine Kneipe",
     "ort_link": "https://www.omaseinekneipe.de/veranstaltungsplan/",
     "adresse": "Westerstraße 22 · 25761 Büsum",
@@ -97,7 +97,7 @@
   },
   {
     "datum": "2026-11-08",
-    "zeit": "14.00 Uhr",
+    "zeit": "14:00",
     "ort": "Pusta Stube",
     "ort_link": "https://www.pusta-stube.de/veranstaltungen/november-2026/",
     "adresse": "Oberblockland 5 · 28357 Bremen",
@@ -109,7 +109,7 @@
   },
   {
     "datum": "2026-11-21",
-    "zeit": "21.00 Uhr",
+    "zeit": "21:00",
     "ort": "Finnegan Irish Pub",
     "ort_link": "https://www.instagram.com/irish_pub_finnegan_hl/?hl=de",
     "adresse": "Mengstraße 42 · 23552 Lübeck",
@@ -120,7 +120,7 @@
   },
   {
     "datum": "2026-12-18",
-    "zeit": "19.30 Uhr",
+    "zeit": "19:30",
     "ort": "Windmühle Siebenbäumen",
     "ort_link": "https://windmuehle-siebenbaeumen.de/",
     "adresse": "Mühlenstraße 18A · 23847 Siebenbäumen",

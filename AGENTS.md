@@ -34,8 +34,14 @@ because breaking them is easy and the damage is not obvious from the diff.
 
 Until the custom domain is connected the site lives under
 `melonromanholidaycat.github.io/cookiesforthecat.de/`, where root-relative
-paths 404. Use `../termine/`, never `/termine/`. The 404 page is the one
+paths 404. Use `../termine/`, never `/termine/`. The 404 page is one
 exception, since it is served from every depth.
+
+The subscribe link on the Termine page is the other: a `webcal://` URL cannot
+be relative, so it names `www.cookiesforthecat.de` and starts working when DNS
+moves off the VPS. Every page's `canonical` and `og:url` already assume that
+domain, so this adds no new assumption — but it is the only link on the site
+that does not work today.
 
 ## Generated regions
 
@@ -49,6 +55,22 @@ index.html                      <!-- NEXT:START -->    … <!-- NEXT:END -->
 
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
+
+The same script owns two paths outright:
+
+```
+termine/auftritte.ics    the feed people subscribe to
+termine/kalender/*.ics   one file per gig, for a single download
+```
+
+Anything in `termine/kalender/` that does not belong to a current gig is
+deleted on the next run — that is the point, so a cancelled gig cannot leave a
+downloadable file behind. Nothing hand-written survives there.
+
+Those files are generated from `daten/termine.json`, never from the calendar
+feed directly. The feed carries the real titles of private bookings, which the
+band was told they may use; the sanitising happens on the way into the JSON, so
+everything downstream of it is safe to publish and nothing upstream is.
 
 `daten/archiv.json` is **append-only**. The gig history is meant to be
 permanent, and nothing should ever remove from it.

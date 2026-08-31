@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Pusta Stube
+DTSTART:20261108T130000Z
+DTEND:20261108T150000Z
+DTSTAMP:20261108T000000Z
+UID:2026-11-08-pusta-stube@cookiesforthecat.de
+DESCRIPTION:Direkt am Wasser\, wir spielen in der Stube. Es ist gemütlich
+  und klein.\n\nBitte bei Interesse unbedingt anmelden!\n\nhttps://www.pust
+ a-stube.de/veranstaltungen/november-2026/
+LOCATION:Oberblockland 5\, 28357 Bremen
+URL:https://www.pusta-stube.de/veranstaltungen/november-2026/
+END:VEVENT
+END:VCALENDAR

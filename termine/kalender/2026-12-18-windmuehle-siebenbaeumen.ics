@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Windmühle Siebenbäumen
+DTSTART:20261218T183000Z
+DTEND:20261218T203000Z
+DTSTAMP:20261218T000000Z
+UID:2026-12-18-windmuehle-siebenbaeumen@cookiesforthecat.de
+DESCRIPTION:Das Weihnachtskonzert. Zuerst spielen wir unser Programm\, in 
+ dem sich auch bekannte und unbekannte Weihnachtslieder finden. Danach sind
+  die Zuschauer dran\, mit uns zusammen in Weihnachtsstimmung zu kommen\, w
+ ährend wir gemeinsam Lieder singen\, die in einer Liedermappe verteilt we
+ rden. Wer kennt schon alle Texte?\n\nhttps://windmuehle-siebenbaeumen.de/
+LOCATION:Mühlenstraße 18A\, 23847 Siebenbäumen
+URL:https://windmuehle-siebenbaeumen.de/
+END:VEVENT
+END:VCALENDAR
