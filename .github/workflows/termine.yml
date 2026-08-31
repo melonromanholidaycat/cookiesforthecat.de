@@ -53,10 +53,11 @@ jobs:
           git push
           echo "changed=yes" >> "$GITHUB_OUTPUT"
 
-      # With "deploy from branch", Pages normally rebuilds itself after a
-      # push. Whether that also holds for commits made by the workflow token is
-      # worth checking on the first real run; this step asks for a build
-      # explicitly and does no harm if one is already happening.
+      # A commit made by this workflow's own token does not reliably trigger
+      # the Pages build the way a human push does, so the build is requested
+      # explicitly. Confirmed working on the first real run: the API answers
+      # 201 and the site updates within a minute. Do not remove this step
+      # assuming the push alone is enough.
       - name: Ask Pages to rebuild
         if: steps.commit.outputs.changed == 'yes'
         continue-on-error: true
