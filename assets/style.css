@@ -214,8 +214,26 @@ hr {
 }
 
 .seitentitel img {
-  width: clamp(150px, 34vw, 260px);
+  width: clamp(180px, 26vw, 260px);
   height: auto;
+}
+
+/* Bis 700px steht die Wortmarke mittig über der Navigation statt gedrängt
+ * links neben ihr — nebeneinander wird beides zu klein. */
+@media (max-width: 700px) {
+  .kopf-innen {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--abstand-block);
+  }
+
+  .seitentitel img {
+    width: min(68vw, 300px);
+  }
+
+  .navigation ul {
+    justify-content: center;
+  }
 }
 
 .seitentitel a {
@@ -239,7 +257,7 @@ hr {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: clamp(1.05rem, 3.2vw, var(--groesse-gross));
+  font-size: clamp(var(--groesse-mittel), 3.2vw, var(--groesse-gross));
 }
 
 .navigation a {
@@ -432,11 +450,11 @@ main > .nur-vorlesen + * {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.6rem, 3vw, 1.5rem);
+  gap: clamp(0.9rem, 3vw, 1.75rem);
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: clamp(0.9rem, 3.1vw, 2rem);
+  font-size: var(--groesse-klein);
 }
 
 .sozial a {
@@ -452,10 +470,43 @@ main > .nur-vorlesen + * {
 }
 
 .sozial svg {
-  width: 1em;
-  height: 1em;
+  width: 1.25em;
+  height: 1.25em;
   fill: currentColor;
   flex: none;
+}
+
+/* Dieselbe Reihe auf der Kontaktseite: dort steht sie linksbündig im
+ * Textblock und nimmt die Größe des umgebenden Fließtexts an. */
+/* Unter rund 345px passen drei beschriftete Links nicht nebeneinander. Statt
+ * sie ungleich umbrechen zu lassen (zwei oben, einer darunter), zeigen wir
+ * dort nur die Symbole — der Name bleibt für Screenreader erhalten. */
+@media (max-width: 345px) {
+  .fuss .sozial span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .fuss .sozial svg {
+    width: 1.75em;
+    height: 1.75em;
+  }
+
+  .fuss .sozial {
+    gap: 1.75rem;
+  }
+}
+
+.sozial-inhalt {
+  justify-content: flex-start;
+  margin-top: var(--abstand-block);
+  font-size: var(--groesse-mittel);
 }
 
 .rechtliches {
