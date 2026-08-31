@@ -1,0 +1,425 @@
+/* Cookies For The Cat — cookiesforthecat.de
+ *
+ * Werte übernommen aus dem bisherigen WordPress-Theme (Twenty Twenty-Two),
+ * damit die statische Seite genauso aussieht wie die alte.
+ */
+
+/* ---------------------------------------------------------------- Schriften */
+
+@font-face {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("fonts/SourceSerif4Variable-Roman.ttf.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Serif Pro";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("fonts/SourceSerif4Variable-Italic.ttf.woff2") format("woff2");
+}
+
+/* ------------------------------------------------------------------- Tokens */
+
+:root {
+  --farbe-hintergrund: #fffbdb;
+  --farbe-text: #051014;
+  --farbe-primaer: #157a6e;
+  --farbe-sekundaer: #b9929f;
+  --farbe-tertiaer: #828489;
+
+  --breite-inhalt: 650px;
+  --breite-weit: 1000px;
+
+  --schrift-serif: "Source Serif Pro", Georgia, serif;
+  --schrift-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+  --groesse-klein: 1rem;
+  --groesse-mittel: 1.125rem;
+  --groesse-gross: 1.75rem;
+  --groesse-xl: clamp(1.75rem, 3vw, 2.25rem);
+  --groesse-riesig: clamp(2.25rem, 4vw, 2.75rem);
+  --groesse-gigantisch: clamp(2.75rem, 6vw, 3.25rem);
+  --groesse-kolossal: clamp(3.25rem, 8vw, 6.25rem);
+
+  --abstand-block: 1.5rem;
+  --abstand-klein: max(1.25rem, 5vw);
+  --abstand-mittel: clamp(2rem, 8vw, 6rem);
+  --abstand-gross: clamp(4rem, 10vw, 8rem);
+
+  --zeile-winzig: 1.15;
+  --zeile-klein: 1.2;
+  --zeile-mittel: 1.4;
+  --zeile-normal: 1.6;
+}
+
+/* ---------------------------------------------------------------- Grundlagen */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--farbe-hintergrund);
+  color: var(--farbe-text);
+  font-family: var(--schrift-system);
+  font-size: var(--groesse-mittel);
+  line-height: var(--zeile-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--schrift-serif);
+  font-weight: 300;
+  margin: 0 0 var(--abstand-block);
+}
+
+h1 {
+  font-size: var(--groesse-kolossal);
+  line-height: var(--zeile-winzig);
+}
+
+h2 {
+  font-size: var(--groesse-gigantisch);
+  line-height: var(--zeile-klein);
+}
+
+h3 {
+  font-size: var(--groesse-riesig);
+  line-height: var(--zeile-winzig);
+}
+
+p {
+  margin: 0 0 var(--abstand-block);
+}
+
+a {
+  color: var(--farbe-primaer);
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid currentColor;
+  opacity: 0.4;
+  margin: var(--abstand-mittel) 0;
+}
+
+/* Sichtbar nur für Screenreader, bis er den Fokus bekommt. */
+.sprunglink {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--farbe-hintergrund);
+  color: var(--farbe-text);
+  padding: 0.75rem 1rem;
+  z-index: 10;
+}
+
+.sprunglink:focus {
+  left: 0;
+}
+
+/* ------------------------------------------------------------------- Layout */
+
+/* Der Innenraum ist 1000px breit, der Außenabstand kommt oben drauf — genau
+ * wie im alten Theme, wo der Abstand am Wurzelelement saß und die 1000px erst
+ * darin galten. */
+.rahmen {
+  width: 100%;
+  max-width: calc(var(--breite-weit) + 2 * var(--abstand-klein));
+  margin: 0 auto;
+  padding-left: var(--abstand-klein);
+  padding-right: var(--abstand-klein);
+}
+
+.inhalt {
+  max-width: var(--breite-inhalt);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.weit {
+  max-width: var(--breite-weit);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------------------- Kopfzeile */
+
+.kopf {
+  padding-top: var(--abstand-klein);
+  padding-bottom: var(--abstand-gross);
+}
+
+.kopf-innen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--abstand-block);
+}
+
+.seitentitel {
+  font-family: var(--schrift-system);
+  font-size: var(--groesse-gross);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.seitentitel a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.seitentitel a:hover,
+.seitentitel a:focus {
+  text-decoration: underline;
+}
+
+/* Ohne JavaScript kein Hamburger-Menü: die Navigation bleibt immer sichtbar
+ * und bricht auf schmalen Bildschirmen einfach um. Die Schriftgröße wächst
+ * mit der Breite mit, damit fünf Punkte auch auf dem Handy nebeneinander
+ * passen. */
+.navigation ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem clamp(0.75rem, 2.5vw, 1.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: clamp(1.05rem, 3.2vw, var(--groesse-gross));
+}
+
+.navigation a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navigation a:hover,
+.navigation a:focus {
+  text-decoration: underline;
+}
+
+.navigation a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* ------------------------------------------------------------------ Inhalt */
+
+main {
+  display: block;
+}
+
+main > * + * {
+  margin-top: var(--abstand-block);
+}
+
+.seitenkopf {
+  margin-bottom: var(--abstand-mittel);
+}
+
+/* ------------------------------------------------------------------ Termine */
+
+.termine {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.termin {
+  margin: 0 0 var(--abstand-mittel);
+}
+
+.termin-datum {
+  font-size: var(--groesse-gross);
+  line-height: var(--zeile-mittel);
+  margin-bottom: 0.25rem;
+}
+
+.termin-ort {
+  font-size: var(--groesse-gross);
+  line-height: var(--zeile-mittel);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.termin-adresse {
+  font-size: var(--groesse-gross);
+  line-height: var(--zeile-mittel);
+  margin-bottom: var(--abstand-block);
+}
+
+.termin-text {
+  margin-bottom: 0;
+}
+
+.termin + .termin {
+  border-top: 1px solid currentColor;
+  padding-top: var(--abstand-mittel);
+}
+
+/* Archiv: eine Zeile pro Auftritt. */
+.archiv {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Zeilenabstand wie in der alten Liste, damit sich beim Umzug nichts
+ * verschiebt. */
+.archiv li {
+  margin-bottom: var(--abstand-block);
+}
+
+.archiv time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------- Veranstalter */
+
+/* Wie im alten Theme: Bild links, Beschriftung rechts (40/60), auf schmalen
+ * Bildschirmen untereinander. */
+.material {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.material li {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+  gap: 0 var(--abstand-block);
+  margin-bottom: var(--abstand-block);
+}
+
+.material figure {
+  margin: 0;
+}
+
+.material img {
+  width: 100%;
+  border: 1px solid rgba(5, 16, 20, 0.15);
+}
+
+.material .titel {
+  display: block;
+  font-size: var(--groesse-mittel);
+  line-height: var(--zeile-mittel);
+}
+
+.material .hinweis {
+  display: block;
+  color: var(--farbe-tertiaer);
+  font-size: var(--groesse-klein);
+}
+
+@media (max-width: 700px) {
+  .material li {
+    grid-template-columns: 1fr;
+    gap: var(--abstand-block);
+  }
+}
+
+/* --------------------------------------------------------------- Fußzeile */
+
+/* Abstände wie im alten Theme: 4rem Innenabstand, darüber ein 50px-Zwischenraum
+ * vor der kurzen Trennlinie. */
+.fuss {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.fuss-linie {
+  width: 100px;
+  margin: 50px auto var(--abstand-block);
+  opacity: 1;
+}
+
+.sozial {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: clamp(1.25rem, 4vw, 2.25rem);
+}
+
+.sozial a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sozial a:hover,
+.sozial a:focus {
+  text-decoration: underline;
+}
+
+.sozial svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  flex: none;
+}
+
+.rechtliches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  margin: var(--abstand-block) 0 0;
+  padding: 0;
+  font-size: var(--groesse-klein);
+}
+
+.rechtliches a {
+  color: inherit;
+}
+
+/* ------------------------------------------------------------- Startseite */
+
+/* Das Pressebild steht mittig, so wie bisher. */
+.mitte {
+  text-align: center;
+}
+
+/* Auf "Über uns" wird das Bild klein und mittig gezeigt — die Breite steht als
+ * width-Attribut am Bild selbst, damit sie ohne Stylesheet ebenfalls stimmt. */
+.mitte img {
+  display: inline-block;
+}
