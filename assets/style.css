@@ -6,20 +6,15 @@
 
 /* ---------------------------------------------------------------- Schriften */
 
+/* Auf Latin reduzierte Variable-Font-Datei; nur die Überschriften nutzen sie.
+ * Einen Kursivschnitt gibt es bewusst nicht — nichts auf der Seite setzt
+ * Source Serif kursiv. */
 @font-face {
   font-family: "Source Serif Pro";
   font-style: normal;
   font-weight: 200 900;
   font-display: swap;
-  src: url("fonts/SourceSerif4Variable-Roman.ttf.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Source Serif Pro";
-  font-style: italic;
-  font-weight: 200 900;
-  font-display: swap;
-  src: url("fonts/SourceSerif4Variable-Italic.ttf.woff2") format("woff2");
+  src: url("fonts/source-serif-latin.woff2") format("woff2");
 }
 
 /* ------------------------------------------------------------------- Tokens */
@@ -27,9 +22,12 @@
 :root {
   --farbe-hintergrund: #fffbdb;
   --farbe-text: #051014;
+  --farbe-text-rgb: 5, 16, 20;
   --farbe-primaer: #157a6e;
-  --farbe-sekundaer: #b9929f;
-  --farbe-tertiaer: #828489;
+  /* Abgedunkelt gegenüber dem alten Theme (#828489): auf dem cremefarbenen
+   * Hintergrund kam das nur auf 3,58:1 und war damit für Kleintext zu blass.
+   * Dieser Ton hält 4,54:1 und damit WCAG AA. */
+  --farbe-gedaempft: #717377;
 
   --breite-inhalt: 650px;
   --breite-weit: 1000px;
@@ -41,7 +39,6 @@
   --groesse-klein: 1rem;
   --groesse-mittel: 1.125rem;
   --groesse-gross: 1.75rem;
-  --groesse-xl: clamp(1.75rem, 3vw, 2.25rem);
   --groesse-riesig: clamp(2.25rem, 4vw, 2.75rem);
   --groesse-gigantisch: clamp(2.75rem, 6vw, 3.25rem);
   --groesse-kolossal: clamp(3.25rem, 8vw, 6.25rem);
@@ -109,9 +106,15 @@ a {
   text-decoration: underline;
 }
 
-a:hover,
-a:focus {
+a:hover {
   text-decoration: none;
+}
+
+/* Tastaturfokus muss deutlicher sein als der Ruhezustand, nicht schwächer. */
+:focus-visible {
+  outline: 2px solid var(--farbe-primaer);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 img {
@@ -127,19 +130,36 @@ hr {
   margin: var(--abstand-mittel) 0;
 }
 
-/* Sichtbar nur für Screenreader, bis er den Fokus bekommt. */
+/* Im Zugänglichkeitsbaum vorhanden, auf dem Bildschirm nicht. Der Sprunglink
+ * nutzt dieselbe Technik und wird bei Tastaturfokus wieder sichtbar. */
+.nur-vorlesen,
 .sprunglink {
+  /* Unsichtbarer Text darf keinen Webfont nachladen — sonst holt die
+   * Startseite, die sonst gar keine Überschrift zeigt, 98 KB Schrift für
+   * nichts. */
+  font: inherit;
   position: absolute;
-  left: -9999px;
-  top: 0;
-  background: var(--farbe-hintergrund);
-  color: var(--farbe-text);
-  padding: 0.75rem 1rem;
-  z-index: 10;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .sprunglink:focus {
+  top: 0;
   left: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  overflow: visible;
+  clip-path: none;
+  background: var(--farbe-hintergrund);
+  color: var(--farbe-text);
+  z-index: 10;
 }
 
 /* ------------------------------------------------------------------- Layout */
@@ -196,8 +216,7 @@ hr {
   text-decoration: none;
 }
 
-.seitentitel a:hover,
-.seitentitel a:focus {
+.seitentitel a:hover {
   text-decoration: underline;
 }
 
@@ -221,8 +240,7 @@ hr {
   text-decoration: none;
 }
 
-.navigation a:hover,
-.navigation a:focus {
+.navigation a:hover {
   text-decoration: underline;
 }
 
@@ -241,6 +259,12 @@ main > * + * {
   margin-top: var(--abstand-block);
 }
 
+/* Eine nur vorgelesene Überschrift steht außerhalb des Textflusses und darf
+ * dem nächsten Element keinen Abstand aufdrücken. */
+main > .nur-vorlesen + * {
+  margin-top: 0;
+}
+
 .seitenkopf {
   margin-bottom: var(--abstand-mittel);
 }
@@ -257,22 +281,21 @@ main > * + * {
   margin: 0 0 var(--abstand-mittel);
 }
 
-.termin-datum {
+/* Datum, Ort und Adresse teilen sich eine Schriftgröße; unterschiedlich ist
+ * nur die Auszeichnung des Ortes und der Abstand nach der Adresse. */
+.termin-datum,
+.termin-ort,
+.termin-adresse {
   font-size: var(--groesse-gross);
   line-height: var(--zeile-mittel);
   margin-bottom: 0.25rem;
 }
 
 .termin-ort {
-  font-size: var(--groesse-gross);
-  line-height: var(--zeile-mittel);
   font-weight: 700;
-  margin-bottom: 0.25rem;
 }
 
 .termin-adresse {
-  font-size: var(--groesse-gross);
-  line-height: var(--zeile-mittel);
   margin-bottom: var(--abstand-block);
 }
 
@@ -292,10 +315,9 @@ main > * + * {
   list-style: none;
 }
 
-/* Zeilenabstand wie in der alten Liste, damit sich beim Umzug nichts
- * verschiebt. */
+/* Einzeilige Einträge brauchen keinen Absatzabstand. */
 .archiv li {
-  margin-bottom: var(--abstand-block);
+  margin-bottom: 0.5rem;
 }
 
 .archiv time {
@@ -324,9 +346,16 @@ main > * + * {
   margin: 0;
 }
 
+/* Das Vorschaubild ist ein Link auf die volle Auflösung. Die große Datei wird
+ * erst beim Klick geholt und kostet den Seitenaufbau nichts. */
+.material figure a {
+  display: block;
+  line-height: 0;
+}
+
 .material img {
   width: 100%;
-  border: 1px solid rgba(5, 16, 20, 0.15);
+  border: 1px solid rgba(var(--farbe-text-rgb), 0.15);
 }
 
 .material .titel {
@@ -337,7 +366,14 @@ main > * + * {
 
 .material .hinweis {
   display: block;
-  color: var(--farbe-tertiaer);
+  color: var(--farbe-gedaempft);
+  font-size: var(--groesse-klein);
+}
+
+/* Zweitdownload, etwa das Plakat als Bild statt als ausfüllbares PDF. */
+.material .zweit {
+  display: inline-block;
+  margin-top: 0.4rem;
   font-size: var(--groesse-klein);
 }
 
@@ -361,7 +397,8 @@ main > * + * {
 .fuss-linie {
   width: 100px;
   margin: 50px auto var(--abstand-block);
-  opacity: 1;
+  border: 0;
+  border-top: 1px solid currentColor;
 }
 
 .sozial {
@@ -384,8 +421,7 @@ main > * + * {
   text-decoration: none;
 }
 
-.sozial a:hover,
-.sozial a:focus {
+.sozial a:hover {
   text-decoration: underline;
 }
 
@@ -413,13 +449,8 @@ main > * + * {
 
 /* ------------------------------------------------------------- Startseite */
 
-/* Das Pressebild steht mittig, so wie bisher. */
+/* Zentriert Bilder auf Start- und Über-uns-Seite. Die Anzeigebreite steht als
+ * width-Attribut am Bild selbst, damit sie auch ohne Stylesheet stimmt. */
 .mitte {
   text-align: center;
-}
-
-/* Auf "Über uns" wird das Bild klein und mittig gezeigt — die Breite steht als
- * width-Attribut am Bild selbst, damit sie ohne Stylesheet ebenfalls stimmt. */
-.mitte img {
-  display: inline-block;
 }
