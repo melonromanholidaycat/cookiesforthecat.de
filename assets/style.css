@@ -345,20 +345,6 @@ main > .visually-hidden + * {
   font-size: var(--groesse-klein);
 }
 
-/* Subscribing to the whole list, under it. A full-size h2 here would shout
- * louder than the gigs themselves. */
-.subscribe {
-  margin-top: var(--abstand-mittel);
-}
-
-.subscribe h2 {
-  font-size: var(--groesse-riesig);
-}
-
-.subscribe p:last-child {
-  margin-bottom: 0;
-}
-
 .gig + .gig {
   border-top: 1px solid currentColor;
   padding-top: var(--abstand-mittel);
