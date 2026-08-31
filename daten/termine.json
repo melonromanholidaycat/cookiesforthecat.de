@@ -1,0 +1,132 @@
+[
+  {
+    "datum": "2026-09-08",
+    "zeit": "19.00 Uhr",
+    "ort": "Aventura Bremen",
+    "ort_link": "https://www.facebook.com/AventuraUnplugged/",
+    "adresse": "Schlachte Anleger 5 · 28195 Bremen",
+    "text": [
+      "Ein wunderbares Hausboot, in dem sich jeder wohlfühlt. Viele Unplugged-Konzerte, von denen wir eines bestreiten dürfen."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-09-09",
+    "zeit": null,
+    "ort": "Edeka Maaß",
+    "ort_link": "https://www.facebook.com/edekamaassoberneuland/events?locale=de_DE",
+    "adresse": "Rockwinkeler Heerstraße 32 · 28355 Bremen",
+    "text": [
+      "Die Uhrzeit steht noch nicht fest.",
+      "Einer der nobelsten EDEKA-Märkte, die wir je gesehen haben. Großer Platz, um unter Sonnenschirmen unserer Musik zu lauschen."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-09-11",
+    "zeit": null,
+    "ort": "Opener der privaten Jam-Session bei Nikisch Eppendorf",
+    "ort_link": "https://www.fotostudio-nikisch-hamburg.de/",
+    "adresse": "Nikisch Eppendorf · Tarpenbekstraße 65 · 20251 Hamburg",
+    "text": [
+      "Wir freuen uns sehr, von Freunden eingeladen der Opener für die Jam-Session bei Nikisch Eppendorf zu sein. Eine eindrucksvolle Umgebung."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-09-12",
+    "zeit": "13.00 Uhr",
+    "ort": "BaDaBoom Straßenmusikfestival",
+    "ort_link": "https://www.ba-da-boom.de/",
+    "adresse": "Lütjenstraße 1 Nähe Tchibo · 24534 Neumünster",
+    "text": [
+      "Jedes Jahr versuchen wir, hier mitzumachen. Dieses Jahr an ungewohnter Stelle."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-09-25",
+    "zeit": "20.00 Uhr",
+    "ort": "Kulturkneipe Bornholdt",
+    "ort_link": "https://bornholdt-meldorf.de/events-2/",
+    "adresse": "Zingelstraße 14 · 25704 Meldorf",
+    "text": [
+      "Gemütliche Kneipe in Dithmarschen."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-09-26",
+    "zeit": "11.00 Uhr",
+    "ort": "Stadtfest Marne",
+    "ort_link": "https://www.echt-dithmarschen.de/typisch/event/marner-stadtfest-im-rahmen-der-dithmarscher-kohltage",
+    "adresse": "25709 Marne",
+    "text": [
+      "Dithmarschen ist ohnehin schön, das Stadtfest in Marne ist etwas Besonderes."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-10-10",
+    "zeit": null,
+    "ort": "private Veranstaltung",
+    "ort_link": null,
+    "adresse": null,
+    "text": [],
+    "privat": true
+  },
+  {
+    "datum": "2026-10-30",
+    "zeit": null,
+    "ort": "private Veranstaltung",
+    "ort_link": null,
+    "adresse": null,
+    "text": [],
+    "privat": true
+  },
+  {
+    "datum": "2026-10-31",
+    "zeit": "19.00 Uhr",
+    "ort": "Oma seine Kneipe",
+    "ort_link": "https://www.omaseinekneipe.de/veranstaltungsplan/",
+    "adresse": "Westerstraße 22 · 25761 Büsum",
+    "text": [
+      "DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends Musik hören – besser wird’s nicht!"
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-11-08",
+    "zeit": "14.00 Uhr",
+    "ort": "Pusta Stube",
+    "ort_link": "https://www.pusta-stube.de/veranstaltungen/november-2026/",
+    "adresse": "Oberblockland 5 · 28357 Bremen",
+    "text": [
+      "Direkt am Wasser, wir spielen in der Stube. Es ist gemütlich und klein.",
+      "Bitte bei Interesse unbedingt anmelden!"
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-11-21",
+    "zeit": "21.00 Uhr",
+    "ort": "Finnegan Irish Pub",
+    "ort_link": "https://www.instagram.com/irish_pub_finnegan_hl/?hl=de",
+    "adresse": "Mengstraße 42 · 23552 Lübeck",
+    "text": [
+      "Unser jährliches Konzert im Finnegan. Die Musik spielt im Keller, der so überzeugend als irisch-deutscher Pub gestaltet ist, wie man sich’s nur wünschen kann."
+    ],
+    "privat": false
+  },
+  {
+    "datum": "2026-12-18",
+    "zeit": "19.30 Uhr",
+    "ort": "Windmühle Siebenbäumen",
+    "ort_link": "https://windmuehle-siebenbaeumen.de/",
+    "adresse": "Mühlenstraße 18A · 23847 Siebenbäumen",
+    "text": [
+      "Das Weihnachtskonzert. Zuerst spielen wir unser Programm, in dem sich auch bekannte und unbekannte Weihnachtslieder finden. Danach sind die Zuschauer dran, mit uns zusammen in Weihnachtsstimmung zu kommen, während wir gemeinsam Lieder singen, die in einer Liedermappe verteilt werden. Wer kennt schon alle Texte?"
+    ],
+    "privat": false
+  }
+]
