@@ -128,5 +128,18 @@
       "Das Weihnachtskonzert. Zuerst spielen wir unser Programm, in dem sich auch bekannte und unbekannte Weihnachtslieder finden. Danach sind die Zuschauer dran, mit uns zusammen in Weihnachtsstimmung zu kommen, während wir gemeinsam Lieder singen, die in einer Liedermappe verteilt werden. Wer kennt schon alle Texte?"
     ],
     "privat": false
+  },
+  {
+    "datum": "2027-04-21",
+    "zeit": "0.00 Uhr",
+    "ort": "Testevent",
+    "ort_link": null,
+    "adresse": "Hasselbrookstr. 132 22089 Hamburg",
+    "text": [
+      "Testbeschreibung",
+      "123",
+      "45"
+    ],
+    "privat": false
   }
 ]
