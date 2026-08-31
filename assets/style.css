@@ -346,6 +346,13 @@ main > .nur-vorlesen + * {
   margin: 0;
 }
 
+/* Das Vorschaubild ist ein Link auf die volle Auflösung. Die große Datei wird
+ * erst beim Klick geholt und kostet den Seitenaufbau nichts. */
+.material figure a {
+  display: block;
+  line-height: 0;
+}
+
 .material img {
   width: 100%;
   border: 1px solid rgba(var(--farbe-text-rgb), 0.15);
@@ -360,6 +367,13 @@ main > .nur-vorlesen + * {
 .material .hinweis {
   display: block;
   color: var(--farbe-gedaempft);
+  font-size: var(--groesse-klein);
+}
+
+/* Zweitdownload, etwa das Plakat als Bild statt als ausfüllbares PDF. */
+.material .zweit {
+  display: inline-block;
+  margin-top: 0.4rem;
   font-size: var(--groesse-klein);
 }
 
