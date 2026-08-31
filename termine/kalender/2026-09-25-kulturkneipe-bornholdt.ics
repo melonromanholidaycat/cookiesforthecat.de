@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Kulturkneipe Bornholdt
+DTSTART:20260925T180000Z
+DTEND:20260925T200000Z
+DTSTAMP:20260925T000000Z
+UID:2026-09-25-kulturkneipe-bornholdt@cookiesforthecat.de
+DESCRIPTION:Gemütliche Kneipe in Dithmarschen.\n\nhttps://bornholdt-meldo
+ rf.de/events-2/
+LOCATION:Zingelstraße 14\, 25704 Meldorf
+URL:https://bornholdt-meldorf.de/events-2/
+END:VEVENT
+END:VCALENDAR

@@ -332,6 +332,33 @@ main > .visually-hidden + * {
   margin-bottom: 0;
 }
 
+/* Two notes on one gig — "the time is not fixed yet" followed by the blurb —
+ * used to run together with nothing between them. */
+.gig-note + .gig-note {
+  margin-top: 0.6rem;
+}
+
+/* The single-gig calendar file. Quiet: it is an afterthought next to the
+ * venue, not a second call to action. */
+.gig-add {
+  margin: 0.6rem 0 0;
+  font-size: var(--groesse-klein);
+}
+
+/* Subscribing to the whole list, under it. A full-size h2 here would shout
+ * louder than the gigs themselves. */
+.subscribe {
+  margin-top: var(--abstand-mittel);
+}
+
+.subscribe h2 {
+  font-size: var(--groesse-riesig);
+}
+
+.subscribe p:last-child {
+  margin-bottom: 0;
+}
+
 .gig + .gig {
   border-top: 1px solid currentColor;
   padding-top: var(--abstand-mittel);

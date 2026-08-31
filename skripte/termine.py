@@ -9,6 +9,8 @@ What this touches:
     termine/index.html              the block between the GIGS markers
     vergangene-termine/index.html   the block between the ARCHIVE markers
     index.html                      the next gig on the home page
+    termine/auftritte.ics           the feed people subscribe to
+    termine/kalender/*.ics          one file per gig, for a single download
     daten/termine.json              upcoming gigs as of the last sync
     daten/archiv.json               history, only ever appended to
 
@@ -33,15 +35,25 @@ import html
 import os
 import re
 import sys
+import unicodedata
 import urllib.request
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from icalendar import Calendar
+from icalendar import Calendar, Event
 
 ROOT = Path(__file__).resolve().parent.parent
 ZONE = ZoneInfo("Europe/Berlin")
+DOMAIN = "cookiesforthecat.de"
+
+FEED = ROOT / "termine/auftritte.ics"
+SINGLES = ROOT / "termine/kalender"
+
+# Every gig is published as a two-hour block rather than with its real end
+# time. daten/README.md promises the band that the end time is never shown, so
+# it may be as rough as they like; publishing it here would break that.
+LENGTH = timedelta(hours=2)
 
 # Hardcoded rather than taken from the locale: a CI container's language
 # settings are not something to rely on.
@@ -111,7 +123,10 @@ def read_events(raw: bytes) -> list[dict]:
         if isinstance(value, datetime):
             # Google sends a timezone; without one, read it as local time.
             value = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
-            day, time_of_day = value.date(), f"{value.hour}.{value.minute:02d} Uhr"
+            # Stored as 19:00 rather than "19.00 Uhr": the calendar files need
+            # a real time, and parsing a display string back is the kind of
+            # thing that breaks quietly. The page formats it when rendering.
+            day, time_of_day = value.date(), f"{value.hour:02d}:{value.minute:02d}"
         else:
             # All-day: show no time. If the time simply isn't settled yet that
             # belongs in the description, where it can say so in words.
@@ -146,13 +161,19 @@ def esc(text: str) -> str:
     return html.escape(text, quote=False)
 
 
+def clock(time_of_day: str) -> str:
+    """19:00 becomes 19.00 Uhr, the form the site has always used."""
+    hour, minute = time_of_day.split(":")
+    return f"{int(hour)}.{minute} Uhr"
+
+
 def long_date(iso: str, time_of_day: str | None) -> str:
     day = date.fromisoformat(iso)
     text = f"{WEEKDAYS[day.weekday()]}, {day:%d.%m.%Y}"
-    return f"{text} · {time_of_day}" if time_of_day else text
+    return f"{text} · {clock(time_of_day)}" if time_of_day else text
 
 
-def gig_lines(gig: dict) -> str:
+def gig_lines(gig: dict, name: str) -> str:
     venue = esc(gig["ort"]) if gig["ort"] else ""
     if gig.get("ort_link"):
         venue = (f'<a href="{gig["ort_link"]}" rel="noopener" target="_blank">'
@@ -168,16 +189,20 @@ def gig_lines(gig: dict) -> str:
         lines.append(f'    <p class="gig-address">{esc(gig["adresse"])}</p>')
     for paragraph in gig.get("text", []):
         lines.append(f'    <p class="gig-note">{esc(paragraph)}</p>')
+    # A private entry is a date and nothing else, so there is nothing to add.
+    if not gig["privat"]:
+        lines.append(f'    <p class="gig-add"><a href="kalender/{name}.ics">'
+                     "Zum Kalender hinzufügen</a></p>")
     lines.append("  </li>")
     return "\n".join(lines)
 
 
-def render_gigs(gigs: list[dict]) -> str:
+def render_gigs(gigs: list[dict], names: list[str]) -> str:
     if not gigs:
         return ('  <p class="content">Zurzeit stehen keine Termine fest. '
                 "Schau bald wieder vorbei.</p>")
     return ('  <ul class="gigs content">\n'
-            + "\n".join(gig_lines(g) for g in gigs)
+            + "\n".join(gig_lines(g, n) for g, n in zip(gigs, names))
             + "\n  </ul>")
 
 
@@ -211,6 +236,134 @@ def render_next(gigs: list[dict]) -> str:
     where = "" if nxt["privat"] else f' &middot; {esc(nxt["ort"])}' if nxt["ort"] else ""
     return ('  <p class="centred next-gig"><a href="termine/">Nächster Auftritt: '
             f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
+
+
+# -------------------------------------------------------- Calendar files
+
+TRANSLITERATE = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss",
+                               "Ä": "ae", "Ö": "oe", "Ü": "ue"})
+
+
+def slug(text: str) -> str:
+    """Aventura Bremen -> aventura-bremen. File names and UIDs stay readable."""
+    folded = unicodedata.normalize("NFKD", text.translate(TRANSLITERATE))
+    ascii_only = folded.encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")[:60].strip("-")
+
+
+def file_names(gigs: list[dict]) -> list[str]:
+    """One name per gig, used for both its file and its UID.
+
+    Derived from the gig rather than from the calendar's own event id, so the
+    files stay meaningful and the whole thing still works if someone ever has
+    to maintain daten/termine.json by hand.
+    """
+    used, names = set(), []
+    for gig in gigs:
+        stem = f"{gig['datum']}-{slug(gig['ort'] or '') or 'auftritt'}"
+        name, count = stem, 1
+        while name in used:            # two gigs, one day, same venue name
+            count += 1
+            name = f"{stem}-{count}"
+        used.add(name)
+        names.append(name)
+    return names
+
+
+def moment(gig: dict) -> date | datetime:
+    """All-day gigs stay dates. Timed ones become UTC, so the file carries no
+    VTIMEZONE block and every app still shows the right local time."""
+    day = date.fromisoformat(gig["datum"])
+    if not gig["zeit"]:
+        return day
+    hour, minute = (int(part) for part in gig["zeit"].split(":"))
+    return datetime(day.year, day.month, day.day, hour, minute,
+                    tzinfo=ZONE).astimezone(timezone.utc)
+
+
+def vevent(gig: dict, name: str, standalone: bool) -> Event:
+    """One VEVENT.
+
+    `standalone` marks the single downloads: those land in a calendar full of
+    other things and have to say whose gig this is. In the feed the calendar
+    itself carries the name, so the entry is just the venue.
+    """
+    entry = Event()
+    venue = gig["ort"] or "Auftritt"
+    entry.add("SUMMARY", f"Cookies For The Cat · {venue}" if standalone else venue)
+
+    start = moment(gig)
+    entry.add("DTSTART", start)
+    entry.add("DTEND", start + (LENGTH if isinstance(start, datetime)
+                                else timedelta(days=1)))
+    # Deliberately the date of the gig and not the time of the run: a real
+    # timestamp would rewrite every file every hour, and each rewrite is a
+    # commit and a deploy.
+    entry.add("DTSTAMP", datetime.fromisoformat(gig["datum"]).replace(
+        tzinfo=timezone.utc))
+    entry.add("UID", f"{name}@{DOMAIN}")
+
+    if gig.get("adresse"):
+        # The site separates street from town with a middle dot; a comma is
+        # what a calendar app needs to find the place on a map.
+        entry.add("LOCATION", gig["adresse"].replace(" · ", ", "))
+    body = list(gig.get("text", []))
+    if gig.get("ort_link"):
+        entry.add("URL", gig["ort_link"])
+        body.append(gig["ort_link"])
+    if body:
+        entry.add("DESCRIPTION", "\n\n".join(body))
+    return entry
+
+
+def calendar_file(events: list[Event], subscribable: bool = False) -> bytes:
+    cal = Calendar()
+    cal.add("PRODID", f"-//Cookies For The Cat//{DOMAIN}//DE")
+    cal.add("VERSION", "2.0")
+    cal.add("CALSCALE", "GREGORIAN")
+    cal.add("METHOD", "PUBLISH")
+    if subscribable:
+        cal.add("X-WR-CALNAME", "Cookies For The Cat")
+        cal.add("X-WR-TIMEZONE", "Europe/Berlin")
+        # How often a subscriber should look again. Twice a day is plenty for
+        # dates that are known weeks ahead, and the two spellings between them
+        # cover Apple, Google and Outlook.
+        cal.add("REFRESH-INTERVAL", timedelta(hours=12),
+                parameters={"VALUE": "DURATION"})
+        cal.add("X-PUBLISHED-TTL", "PT12H")
+    for entry in events:
+        cal.add_component(entry)
+    return cal.to_ical()
+
+
+def write_bytes(path: Path, data: bytes) -> bool:
+    if path.exists() and path.read_bytes() == data:
+        return False
+    path.write_bytes(data)
+    return True
+
+
+def write_calendars(gigs: list[dict], names: list[str]) -> bool:
+    """The feed, and one file per public gig.
+
+    termine/kalender/ belongs to this script: anything not in the current run
+    is deleted, so a cancelled gig cannot leave a file behind for someone to
+    download.
+    """
+    SINGLES.mkdir(parents=True, exist_ok=True)
+
+    feed = [vevent(g, n, standalone=False) for g, n in zip(gigs, names)]
+    changed = write_bytes(FEED, calendar_file(feed, subscribable=True))
+
+    singles = {f"{n}.ics": calendar_file([vevent(g, n, standalone=True)])
+               for g, n in zip(gigs, names) if not g["privat"]}
+    for path in sorted(SINGLES.glob("*.ics")):
+        if path.name not in singles:
+            path.unlink()
+            changed = True
+    for filename, data in singles.items():
+        changed |= write_bytes(SINGLES / filename, data)
+    return changed
 
 
 # ----------------------------------------------------------------- Files
@@ -285,18 +438,21 @@ def main() -> int:
             known.add((entry["datum"], entry["text"]))
             added += 1
 
+    names = file_names(upcoming)
+
     print(f"  {len(upcoming)} upcoming gigs, {added} newly archived "
           f"({len(archive)} total)")
 
     if options.dry_run:
-        print(render_gigs(upcoming))
+        print(render_gigs(upcoming, names))
         return 0
 
     changed = [
-        splice(ROOT / "termine/index.html", "GIGS", render_gigs(upcoming)),
+        splice(ROOT / "termine/index.html", "GIGS", render_gigs(upcoming, names)),
         splice(ROOT / "vergangene-termine/index.html", "ARCHIVE",
                render_archive(archive)),
         splice(ROOT / "index.html", "NEXT", render_next(upcoming)),
+        write_calendars(upcoming, names),
     ]
     write_json(gigs_file, upcoming)
     write_json(archive_file, sorted(archive, key=lambda e: e["datum"], reverse=True))

@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Edeka Maaß
+DTSTART;VALUE=DATE:20260909
+DTEND;VALUE=DATE:20260910
+DTSTAMP:20260909T000000Z
+UID:2026-09-09-edeka-maass@cookiesforthecat.de
+DESCRIPTION:Die Uhrzeit steht noch nicht fest.\n\nEiner der nobelsten EDEK
+ A-Märkte\, die wir je gesehen haben. Großer Platz\, um unter Sonnenschir
+ men unserer Musik zu lauschen.\n\nhttps://www.facebook.com/edekamaassobern
+ euland/events?locale=de_DE
+LOCATION:Rockwinkeler Heerstraße 32\, 28355 Bremen
+URL:https://www.facebook.com/edekamaassoberneuland/events?locale=de_DE
+END:VEVENT
+END:VCALENDAR

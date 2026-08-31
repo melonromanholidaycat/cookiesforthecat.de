@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Finnegan Irish Pub
+DTSTART:20261121T200000Z
+DTEND:20261121T220000Z
+DTSTAMP:20261121T000000Z
+UID:2026-11-21-finnegan-irish-pub@cookiesforthecat.de
+DESCRIPTION:Unser jährliches Konzert im Finnegan. Die Musik spielt im Kel
+ ler\, der so überzeugend als irisch-deutscher Pub gestaltet ist\, wie man
+  sich’s nur wünschen kann.\n\nhttps://www.instagram.com/irish_pub_finne
+ gan_hl/?hl=de
+LOCATION:Mengstraße 42\, 23552 Lübeck
+URL:https://www.instagram.com/irish_pub_finnegan_hl/?hl=de
+END:VEVENT
+END:VCALENDAR

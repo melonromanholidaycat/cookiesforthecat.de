@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Aventura Bremen
+DTSTART:20260908T170000Z
+DTEND:20260908T190000Z
+DTSTAMP:20260908T000000Z
+UID:2026-09-08-aventura-bremen@cookiesforthecat.de
+DESCRIPTION:Ein wunderbares Hausboot\, in dem sich jeder wohlfühlt. Viele
+  Unplugged-Konzerte\, von denen wir eines bestreiten dürfen.\n\nhttps://w
+ ww.facebook.com/AventuraUnplugged/
+LOCATION:Schlachte Anleger 5\, 28195 Bremen
+URL:https://www.facebook.com/AventuraUnplugged/
+END:VEVENT
+END:VCALENDAR
