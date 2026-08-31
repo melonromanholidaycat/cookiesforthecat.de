@@ -365,8 +365,8 @@ main > .visually-hidden + * {
 
 /* ---------------------------------------------------------------- Press kit */
 
-/* As in the old theme: image left, caption right (40/60), stacked on narrow
- * screens. */
+/* Image left, caption right (40/60) as in the old theme; two of these side by
+ * side on a wide screen, stacked on a narrow one. */
 .kit {
   margin: 0;
   padding: 0;
@@ -423,6 +423,24 @@ main > .visually-hidden + * {
   .kit li {
     grid-template-columns: 1fr;
     gap: var(--abstand-block);
+  }
+}
+
+/* Nine full-width rows meant scrolling past most of the kit to see what is in
+ * it. Paired up, the same nine fit in a little under half the height. Rows are
+ * as tall as their tallest item, so a landscape photo beside a portrait poster
+ * leaves a gap below it — top-aligned, not stretched to match. */
+@media (min-width: 900px) {
+  .kit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: calc(var(--abstand-block) * 2) var(--abstand-block);
+  }
+
+  .kit li {
+    grid-template-columns: 48% 52%;
+    margin-bottom: 0;
   }
 }
 
