@@ -20,14 +20,14 @@
 /* ------------------------------------------------------------------- Tokens */
 
 :root {
-  --farbe-hintergrund: #fffbdb;
-  --farbe-text: #051014;
-  --farbe-text-rgb: 5, 16, 20;
-  --farbe-primaer: #157a6e;
-  /* Abgedunkelt gegenüber dem alten Theme (#828489): auf dem cremefarbenen
-   * Hintergrund kam das nur auf 3,58:1 und war damit für Kleintext zu blass.
-   * Dieser Ton hält 4,54:1 und damit WCAG AA. */
-  --farbe-gedaempft: #717377;
+  /* Warmes Papier statt des blassen Gelbs, dazu ein warmes Schwarz und
+   * Terrakotta als Akzent. Alle Kombinationen halten WCAG AA:
+   * Text 13,79:1 · Links 5,48:1 · gedämpft 5,33:1. */
+  --farbe-hintergrund: #f8f2e4;
+  --farbe-text: #2b2320;
+  --farbe-text-rgb: 43, 35, 32;
+  --farbe-primaer: #9c4a2f;
+  --farbe-gedaempft: #6b625d;
 
   --breite-inhalt: 650px;
   --breite-weit: 1000px;
@@ -38,10 +38,10 @@
 
   --groesse-klein: 1rem;
   --groesse-mittel: 1.125rem;
-  --groesse-gross: 1.75rem;
-  --groesse-riesig: clamp(2.25rem, 4vw, 2.75rem);
-  --groesse-gigantisch: clamp(2.75rem, 6vw, 3.25rem);
-  --groesse-kolossal: clamp(3.25rem, 8vw, 6.25rem);
+  --groesse-gross: 1.5rem;
+  --groesse-riesig: clamp(1.5rem, 3vw, 1.75rem);
+  --groesse-gigantisch: clamp(1.75rem, 4vw, 2.25rem);
+  --groesse-kolossal: clamp(2.25rem, 5vw, 3.5rem);
 
   --abstand-block: 1.5rem;
   --abstand-klein: max(1.25rem, 5vw);
@@ -202,13 +202,20 @@ hr {
   gap: var(--abstand-block);
 }
 
+/* Der Titel ist die nachgezeichnete Wortmarke, keine gesetzte Schrift. Die
+ * Breite wächst mit dem Viewport, das Seitenverhältnis steckt im SVG. */
 .seitentitel {
-  font-family: var(--schrift-system);
-  font-size: var(--groesse-gross);
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5;
   margin: 0;
+  line-height: 0;
+}
+
+.seitentitel a {
+  display: inline-block;
+}
+
+.seitentitel img {
+  width: clamp(150px, 34vw, 260px);
+  height: auto;
 }
 
 .seitentitel a {
@@ -281,22 +288,28 @@ main > .nur-vorlesen + * {
   margin: 0 0 var(--abstand-mittel);
 }
 
-/* Datum, Ort und Adresse teilen sich eine Schriftgröße; unterschiedlich ist
- * nur die Auszeichnung des Ortes und der Abstand nach der Adresse. */
-.termin-datum,
-.termin-ort,
-.termin-adresse {
-  font-size: var(--groesse-gross);
+/* Das Datum steht als kleine Zeile über dem Ort; der Ortsname trägt den
+ * Eintrag. Vorher waren alle drei gleich groß und nichts war überfliegbar. */
+.termin-datum {
+  font-size: var(--groesse-klein);
   line-height: var(--zeile-mittel);
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.04em;
+  color: var(--farbe-gedaempft);
+  margin-bottom: 0.15rem;
 }
 
 .termin-ort {
-  font-weight: 700;
+  font-family: var(--schrift-serif);
+  font-size: var(--groesse-gross);
+  line-height: var(--zeile-klein);
+  font-weight: 600;
+  margin-bottom: 0.15rem;
 }
 
 .termin-adresse {
-  margin-bottom: var(--abstand-block);
+  font-size: var(--groesse-mittel);
+  line-height: var(--zeile-mittel);
+  margin-bottom: 0.6rem;
 }
 
 .termin-text {
@@ -318,6 +331,16 @@ main > .nur-vorlesen + * {
 /* Einzeilige Einträge brauchen keinen Absatzabstand. */
 .archiv li {
   margin-bottom: 0.5rem;
+}
+
+/* Jahreszahl als ruhige Zwischenüberschrift — sie soll die Liste gliedern,
+ * nicht mit ihr konkurrieren. */
+.archiv-jahr {
+  font-size: var(--groesse-gross);
+  line-height: var(--zeile-klein);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(var(--farbe-text-rgb), 0.15);
 }
 
 .archiv time {
@@ -353,9 +376,12 @@ main > .nur-vorlesen + * {
   line-height: 0;
 }
 
+/* Ein weicher Schatten statt der Haarlinie — die Plakate sind weiße Blätter
+ * und brauchen auf dem cremefarbenen Grund trotzdem eine Kante. */
 .material img {
   width: 100%;
-  border: 1px solid rgba(var(--farbe-text-rgb), 0.15);
+  box-shadow: 0 1px 2px rgba(var(--farbe-text-rgb), 0.08),
+    0 6px 18px rgba(var(--farbe-text-rgb), 0.10);
 }
 
 .material .titel {
@@ -406,11 +432,11 @@ main > .nur-vorlesen + * {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: clamp(0.6rem, 3vw, 1.5rem);
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: clamp(1.25rem, 4vw, 2.25rem);
+  font-size: clamp(0.9rem, 3.1vw, 2rem);
 }
 
 .sozial a {
