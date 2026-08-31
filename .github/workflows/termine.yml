@@ -1,0 +1,70 @@
+name: Termine aus dem Kalender
+
+# Holt die Auftritte aus dem geteilten Google-Kalender und schreibt sie in die
+# Seiten. Läuft stündlich; über "Run workflow" lässt sich der Lauf jederzeit
+# von Hand auslösen, etwa wenn ein Auftritt kurzfristig ausfällt.
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+# Nur ein Lauf gleichzeitig — zwei parallele Läufe würden sich gegenseitig
+# überschreiben.
+concurrency:
+  group: termine
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --quiet icalendar
+
+      - name: Termine übernehmen
+        env:
+          CALENDAR_ICS_URL: ${{ secrets.CALENDAR_ICS_URL }}
+        run: python3 skripte/termine.py
+
+      - name: Änderungen committen
+        id: commit
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Nichts geändert."
+            echo "geaendert=nein" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Die Commit-Nachricht nennt, was sich geändert hat — die
+          # GitHub-Benachrichtigung ist damit die ganze Kontrolle, die es gibt.
+          anzahl=$(python3 -c "import json;print(len(json.load(open('daten/termine.json'))))")
+          git config user.name "Terminkalender"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Termine aktualisiert: $anzahl kommende Auftritte" \
+                     -m "$(git diff --cached --stat)"
+          git push
+          echo "geaendert=ja" >> "$GITHUB_OUTPUT"
+
+      # GitHub Pages baut bei "deploy from branch" normalerweise selbst nach
+      # einem Push. Ob das auch für Commits des Workflow-Tokens gilt, ist beim
+      # ersten echten Lauf zu prüfen; dieser Schritt stößt den Bau zur
+      # Sicherheit ausdrücklich an und schadet nicht, wenn er ohnehin läuft.
+      - name: Seitenbau anstoßen
+        if: steps.commit.outputs.geaendert == 'ja'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sS -X POST -w "  Pages-Build angefordert: %{http_code}\n" -o /dev/null \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
