@@ -29,7 +29,9 @@ jobs:
 
       # Pinned: a formatting change in a new release would rewrite every
       # .ics file and redeploy for nothing.
-      - run: pip install --quiet icalendar==7.3.0
+      # dateutil arrives with icalendar anyway; named here because the script
+      # imports it directly, and a transitive dependency is not a promise.
+      - run: pip install --quiet icalendar==7.3.0 python-dateutil==2.9.0.post0
 
       - name: Sync the gig dates
         env:
@@ -56,13 +58,22 @@ jobs:
 
       # A commit by this workflow's token does not trigger the Pages build.
       # Verified: without this step the site does not update.
+      # Failing here is the one case where the repository is right and the site
+      # is wrong, so the job has to go red rather than swallow it.
       - name: Ask Pages to rebuild
         if: steps.commit.outputs.changed == 'yes'
-        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -sS -X POST -w "  Pages build requested: %{http_code}\n" -o /dev/null \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
+          for attempt in 1 2 3; do
+            code=$(curl -sS -X POST -o /dev/null -w "%{http_code}" \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/pages/builds")
+            echo "  Pages build requested: $code (attempt $attempt)"
+            [ "$code" = "201" ] && exit 0
+            sleep $((attempt * 5))
+          done
+          echo "::error::Pages did not accept the build request, so the commit is"\
+               "live in the repository but not on the site."
+          exit 1

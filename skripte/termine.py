@@ -38,10 +38,11 @@ import re
 import sys
 import unicodedata
 import urllib.request
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from dateutil.rrule import rrulestr
 from icalendar import Calendar, Event
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -55,6 +56,12 @@ SINGLES = ROOT / "termine/kalender"
 # A fixed block: daten/README.md promises the band that their end times are
 # never published.
 LENGTH = timedelta(hours=2)
+
+# How far a repeating gig is written out, and how many dates one series may
+# contribute. Without the second limit a weekly residency would bury every
+# one-off gig on the page. Single events are not affected by either.
+HORIZON = timedelta(days=180)
+MOST = 12
 
 # Hardcoded rather than taken from the locale: a CI container's language
 # settings are not something to rely on.
@@ -126,53 +133,98 @@ def split_description(text: str) -> tuple[list[str], str | None, bool]:
     return paragraphs, link, private
 
 
+def stamp(value: date | datetime) -> str:
+    """One comparable form for a date or a datetime, whatever its timezone."""
+    if isinstance(value, datetime):
+        moment = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
+        return moment.date().isoformat()
+    return value.isoformat()
+
+
+def starts(event, moved: set) -> list:
+    """Every date this event happens on, in the window we publish.
+
+    A single event yields one. A repeating one is written out until the
+    horizon, minus the dates that were deleted or edited out of the series.
+    """
+    value = event["DTSTART"].dt
+    if not event.get("RRULE"):
+        return [value]
+
+    uid = str(event.get("UID", ""))
+    whole_day = not isinstance(value, datetime)
+    first = datetime.combine(value, time.min) if whole_day else value.replace(tzinfo=None)
+
+    rule = rrulestr(event["RRULE"].to_ical().decode(), dtstart=first)
+    skip = {stamp(d.dt if hasattr(d, "dt") else d) for d in exdates(event)}
+    end = datetime.now(ZONE).date() + HORIZON
+
+    out = []
+    for moment in rule:
+        if moment.date() > end or len(out) >= MOST:
+            break
+        if stamp(moment) in skip or (uid, stamp(moment)) in moved:
+            continue
+        out.append(moment.date() if whole_day
+                   else moment.replace(tzinfo=value.tzinfo or ZONE))
+    return out
+
+
+def exdates(event) -> list:
+    """EXDATE arrives as one property or several, each holding one or more."""
+    raw = event.get("EXDATE")
+    if raw is None:
+        return []
+    groups = raw if isinstance(raw, list) else [raw]
+    return [d for group in groups for d in getattr(group, "dts", [])]
+
+
+def one_gig(event, value) -> dict:
+    if isinstance(value, datetime):
+        # Google sends a timezone; without one, read it as local time.
+        value = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
+        # Machine-readable; the page formats it when rendering.
+        day, time_of_day = value.date(), f"{value.hour:02d}:{value.minute:02d}"
+    else:
+        # All-day: no time. An unsettled time belongs in the description.
+        day, time_of_day = value, None
+
+    paragraphs, link, private = split_description(
+        str(event.get("DESCRIPTION", "")))
+    # as_text here too: a venue called "Fisch & Bier" arrives as an entity.
+    venue = as_text(str(event.get("SUMMARY", ""))).strip()
+    address = as_text(str(event.get("LOCATION", ""))).strip()
+
+    return {
+        "datum": day.isoformat(),
+        "zeit": None if private else time_of_day,
+        "ort": "private Veranstaltung" if private else (venue or None),
+        "ort_link": None if private else link,
+        "adresse": None if private else (address or None),
+        "text": [] if private else paragraphs,
+        "privat": private,
+    }
+
+
 def read_events(raw: bytes) -> list[dict]:
     try:
         calendar = Calendar.from_ical(raw)
     except Exception as error:                       # noqa: BLE001
         raise Abort(f"Calendar is not readable: {error}") from error
 
-    gigs, recurring = [], []
+    gigs = []
+    # An edited or deleted single date of a series arrives as its own VEVENT
+    # carrying RECURRENCE-ID. The series must not also produce that date.
+    moved = {(str(e.get("UID", "")), stamp(e["RECURRENCE-ID"].dt))
+             for e in calendar.walk("VEVENT") if e.get("RECURRENCE-ID")}
 
     for event in calendar.walk("VEVENT"):
         if str(event.get("STATUS", "")).upper() == "CANCELLED":
             continue
-        if event.get("RRULE"):
-            recurring.append(str(event.get("SUMMARY", "?")))
+        if event.get("DTSTART") is None:
             continue
-
-        start = event.get("DTSTART")
-        if start is None:
-            continue
-        value = start.dt
-
-        if isinstance(value, datetime):
-            # Google sends a timezone; without one, read it as local time.
-            value = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
-            # Machine-readable; the page formats it when rendering.
-            day, time_of_day = value.date(), f"{value.hour:02d}:{value.minute:02d}"
-        else:
-            # All-day: no time. An unsettled time belongs in the description.
-            day, time_of_day = value, None
-
-        paragraphs, link, private = split_description(
-            str(event.get("DESCRIPTION", "")))
-        venue = str(event.get("SUMMARY", "")).strip()
-        address = str(event.get("LOCATION", "")).strip()
-
-        gigs.append({
-            "datum": day.isoformat(),
-            "zeit": None if private else time_of_day,
-            "ort": "private Veranstaltung" if private else (venue or None),
-            "ort_link": None if private else link,
-            "adresse": None if private else (address or None),
-            "text": [] if private else paragraphs,
-            "privat": private,
-        })
-
-    if recurring:
-        print(f"  Note: skipped {len(recurring)} recurring event(s): "
-              + ", ".join(recurring), file=sys.stderr)
+        for value in starts(event, moved):
+            gigs.append(one_gig(event, value))
 
     gigs.sort(key=lambda g: (g["datum"], g["zeit"] or ""))
     return gigs
