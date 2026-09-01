@@ -4,19 +4,6 @@
  * content they describe is German. See AGENTS.md.
  */
 
-/* -------------------------------------------------------------------- Fonts */
-
-/* Variable font subset to Latin; only the headings use it. There is
- * deliberately no italic cut — nothing on the site sets Source Serif in
- * italics, so shipping one would be 347 KB of dead weight. */
-@font-face {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 200 900;
-  font-display: swap;
-  src: url("fonts/source-serif-latin.woff2") format("woff2");
-}
-
 /* ------------------------------------------------------------------- Tokens */
 
 :root {
@@ -32,16 +19,19 @@
   --width-text: 650px;
   --width-wide: 1000px;
 
-  --font-serif: "Source Serif Pro", Georgia, serif;
+  /* No webfont. Source Serif was 99 KB — around three quarters of what a text
+   * page downloaded — for four headings and the venue names. Georgia is on
+   * every Apple and Windows machine; Android substitutes Noto Serif. */
+  --font-serif: Georgia, "Times New Roman", serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
   --size-small: 1rem;
   --size-medium: 1.125rem;
   --size-large: 1.5rem;
-  --size-huge: clamp(1.5rem, 3vw, 1.75rem);
-  --size-giant: clamp(1.75rem, 4vw, 2.25rem);
-  --size-colossal: clamp(2.25rem, 5vw, 3.5rem);
+  --size-huge: clamp(1.4rem, 2.8vw, 1.65rem);
+  --size-giant: clamp(1.65rem, 3.8vw, 2.1rem);
+  --size-colossal: clamp(2.1rem, 4.7vw, 3.25rem);
 
   --space-block: 1.5rem;
   --space-gutter: max(1.25rem, 5vw);
@@ -79,12 +69,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Weight 400, not the 300 this used to be: Georgia has regular and bold and
+ * nothing between, so 300 would silently render as 400 anyway. The sizes below
+ * are about 7% smaller than they were for the same reason in reverse —
+ * Georgia's x-height is much larger, so it reads bigger at the same value. */
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-serif);
-  font-weight: 300;
+  font-weight: 400;
+  letter-spacing: -0.012em;
   margin: 0 0 var(--space-block);
 }
 
@@ -140,8 +135,9 @@ hr {
  * uses the same technique and reappears on keyboard focus. */
 .visually-hidden,
 .skip-link {
-  /* Invisible text must not pull in a webfont — otherwise the home page,
-   * which shows no heading at all, fetches 98 KB for nothing. */
+  /* Text nobody sees should not take a display size or weight from whatever
+   * it happens to sit inside. (It also used to keep a 99 KB webfont off the
+   * home page, back when there was one.) */
   font: inherit;
   position: absolute;
   width: 1px;
