@@ -14,6 +14,12 @@
   --color-accent: #9c4a2f;
   --color-muted: #6b625d;
 
+  /* One strength for every rule on the site. There were three. */
+  --color-rule: rgba(var(--color-text-rgb), 0.25);
+  /* The blue from the painted wall on Plakat 2, so focus is the band's own
+   * colour and not a second terracotta. 6.65:1 on the paper. */
+  --color-focus: #2f5591;
+
   --width-text: 650px;
   --width-wide: 1000px;
 
@@ -103,7 +109,7 @@ a:hover {
 
 /* Keyboard focus must be more visible than the resting state, not less. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -116,8 +122,7 @@ img {
 
 hr {
   border: 0;
-  border-top: 1px solid currentColor;
-  opacity: 0.4;
+  border-top: 1px solid var(--color-rule);
   margin: var(--space-section) 0;
 }
 
@@ -283,8 +288,8 @@ main > .visually-hidden + * {
 .gigs {
   margin: 0 auto;
   padding: var(--space-gig) 0;
-  border-top: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
   list-style: none;
 }
 
@@ -341,7 +346,7 @@ main > .visually-hidden + * {
 }
 
 .gig + .gig {
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--color-rule);
   padding-top: var(--space-gig);
 }
 
@@ -364,7 +369,8 @@ main > .visually-hidden + * {
   line-height: var(--line-snug);
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid rgba(var(--color-text-rgb), 0.15);
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-rule);
 }
 
 .archive time {
@@ -460,7 +466,7 @@ main > .visually-hidden + * {
   width: 100px;
   margin: 50px auto var(--space-block);
   border: 0;
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--color-rule);
 }
 
 /* `0 auto`, not `0`: on the contact page this list also carries .content. */
