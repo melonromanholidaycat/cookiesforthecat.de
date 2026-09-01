@@ -46,7 +46,13 @@
   --abstand-block: 1.5rem;
   --abstand-klein: max(1.25rem, 5vw);
   --abstand-mittel: clamp(2rem, 8vw, 6rem);
-  --abstand-gross: clamp(4rem, 10vw, 8rem);
+  --abstand-gross: clamp(4rem, 10vw, 6rem);
+
+  /* The gig list needs its own rhythm. --abstand-mittel is applied twice
+   * between two entries — once as a margin, once as padding — which is 62px on
+   * a phone and was 192px on a desktop. This one keeps the phone value and
+   * stops climbing. */
+  --abstand-termin: clamp(2rem, 8vw, 2.5rem);
 
   --zeile-winzig: 1.15;
   --zeile-klein: 1.2;
@@ -213,7 +219,7 @@ hr {
 }
 
 .site-title img {
-  width: clamp(180px, 26vw, 260px);
+  width: clamp(180px, 26vw, 340px);
   height: auto;
 }
 
@@ -302,14 +308,14 @@ main > .visually-hidden + * {
  * the left of the intro above it on a wide screen. The rule made it visible. */
 .gigs {
   margin: 0 auto;
-  padding: var(--abstand-mittel) 0;
+  padding: var(--abstand-termin) 0;
   border-top: 1px solid currentColor;
   border-bottom: 1px solid currentColor;
   list-style: none;
 }
 
 .gig {
-  margin: 0 0 var(--abstand-mittel);
+  margin: 0 0 var(--abstand-termin);
 }
 
 /* The list's own padding closes the gap under the last one. */
@@ -360,7 +366,7 @@ main > .visually-hidden + * {
 
 .gig + .gig {
   border-top: 1px solid currentColor;
-  padding-top: var(--abstand-mittel);
+  padding-top: var(--abstand-termin);
 }
 
 /* Archive: one line per gig. */
@@ -487,6 +493,9 @@ main > .visually-hidden + * {
   border-top: 1px solid currentColor;
 }
 
+/* `margin: 0 auto`, not `0`: on the contact page this list also carries
+ * .content, and the shorthand undid its centring — the row sat 175px left of
+ * the text above it. The gig list had the same bug. */
 .social {
   display: flex;
   flex-wrap: wrap;
@@ -494,7 +503,7 @@ main > .visually-hidden + * {
   justify-content: center;
   gap: clamp(0.9rem, 3vw, 1.75rem);
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   font-size: var(--groesse-klein);
 }
@@ -545,10 +554,22 @@ main > .visually-hidden + * {
   }
 }
 
+/* The contact page's own row. Bigger than the footer's, which is visible at
+ * the same time on a desktop and would otherwise read as the same thing
+ * twice. */
 .social-inline {
   justify-content: flex-start;
   margin-top: var(--abstand-block);
   font-size: var(--groesse-mittel);
+}
+
+/* Only where there is room: at 1.5rem the three labelled links wrap onto two
+ * lines on a phone, which looks worse than the duplication it fixes. */
+@media (min-width: 700px) {
+  .social-inline {
+    gap: clamp(1.25rem, 4vw, 2.25rem);
+    font-size: var(--groesse-gross);
+  }
 }
 
 .legal {
@@ -572,4 +593,16 @@ main > .visually-hidden + * {
  * the img width attribute so it is right without the stylesheet too. */
 .centred {
   text-align: center;
+}
+
+/* One photograph, wider than the measure of the text under it. 800px is a
+ * true 2x against the 1600px file. */
+.photo {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.photo img {
+  width: 100%;
 }
