@@ -294,14 +294,27 @@ main > .visually-hidden + * {
 
 /* ----------------------------------------------------------------- Gig list */
 
+/* The list is bracketed by the same hairline that divides the gigs inside it,
+ * so the intro above and the archive link below sit clearly outside it.
+ *
+ * The margin is `0 auto` and not `0`: this list also carries .content, and the
+ * shorthand was quietly undoing its centring — which left every gig 175px to
+ * the left of the intro above it on a wide screen. The rule made it visible. */
 .gigs {
-  margin: 0;
-  padding: 0;
+  margin: 0 auto;
+  padding: var(--abstand-mittel) 0;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
   list-style: none;
 }
 
 .gig {
   margin: 0 0 var(--abstand-mittel);
+}
+
+/* The list's own padding closes the gap under the last one. */
+.gig:last-child {
+  margin-bottom: 0;
 }
 
 /* The date is a small line above the venue; the venue name carries the entry.
