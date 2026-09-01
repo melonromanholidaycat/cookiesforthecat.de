@@ -1,7 +1,7 @@
 /* Cookies For The Cat — cookiesforthecat.de
  *
- * Class names are German because they describe German content and appear in
- * the markup; comments are English. See AGENTS.md.
+ * Everything here is English: class names, custom properties, comments. The
+ * content they describe is German. See AGENTS.md.
  */
 
 /* -------------------------------------------------------------------- Fonts */
@@ -23,41 +23,41 @@
   /* Warm paper instead of the pale yellow, with a warm black and terracotta
    * as the accent. Every pair clears WCAG AA:
    * text 13.79:1 · links 5.48:1 · muted 5.33:1. */
-  --farbe-hintergrund: #f8f2e4;
-  --farbe-text: #2b2320;
-  --farbe-text-rgb: 43, 35, 32;
-  --farbe-primaer: #9c4a2f;
-  --farbe-gedaempft: #6b625d;
+  --color-background: #f8f2e4;
+  --color-text: #2b2320;
+  --color-text-rgb: 43, 35, 32;
+  --color-accent: #9c4a2f;
+  --color-muted: #6b625d;
 
-  --breite-inhalt: 650px;
-  --breite-weit: 1000px;
+  --width-text: 650px;
+  --width-wide: 1000px;
 
-  --schrift-serif: "Source Serif Pro", Georgia, serif;
-  --schrift-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --font-serif: "Source Serif Pro", Georgia, serif;
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
-  --groesse-klein: 1rem;
-  --groesse-mittel: 1.125rem;
-  --groesse-gross: 1.5rem;
-  --groesse-riesig: clamp(1.5rem, 3vw, 1.75rem);
-  --groesse-gigantisch: clamp(1.75rem, 4vw, 2.25rem);
-  --groesse-kolossal: clamp(2.25rem, 5vw, 3.5rem);
+  --size-small: 1rem;
+  --size-medium: 1.125rem;
+  --size-large: 1.5rem;
+  --size-huge: clamp(1.5rem, 3vw, 1.75rem);
+  --size-giant: clamp(1.75rem, 4vw, 2.25rem);
+  --size-colossal: clamp(2.25rem, 5vw, 3.5rem);
 
-  --abstand-block: 1.5rem;
-  --abstand-klein: max(1.25rem, 5vw);
-  --abstand-mittel: clamp(2rem, 8vw, 6rem);
-  --abstand-gross: clamp(4rem, 10vw, 6rem);
+  --space-block: 1.5rem;
+  --space-gutter: max(1.25rem, 5vw);
+  --space-section: clamp(2rem, 8vw, 6rem);
+  --space-large: clamp(4rem, 10vw, 6rem);
 
-  /* The gig list needs its own rhythm. --abstand-mittel is applied twice
+  /* The gig list needs its own rhythm. --space-section is applied twice
    * between two entries — once as a margin, once as padding — which is 62px on
    * a phone and was 192px on a desktop. This one keeps the phone value and
    * stops climbing. */
-  --abstand-termin: clamp(2rem, 8vw, 2.5rem);
+  --space-gig: clamp(2rem, 8vw, 2.5rem);
 
-  --zeile-winzig: 1.15;
-  --zeile-klein: 1.2;
-  --zeile-mittel: 1.4;
-  --zeile-normal: 1.6;
+  --line-tight: 1.15;
+  --line-snug: 1.2;
+  --line-medium: 1.4;
+  --line-normal: 1.6;
 }
 
 /* ---------------------------------------------------------------------- Base */
@@ -70,11 +70,11 @@
 
 body {
   margin: 0;
-  background-color: var(--farbe-hintergrund);
-  color: var(--farbe-text);
-  font-family: var(--schrift-system);
-  font-size: var(--groesse-mittel);
-  line-height: var(--zeile-normal);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-system);
+  font-size: var(--size-medium);
+  line-height: var(--line-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,32 +83,32 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--schrift-serif);
+  font-family: var(--font-serif);
   font-weight: 300;
-  margin: 0 0 var(--abstand-block);
+  margin: 0 0 var(--space-block);
 }
 
 h1 {
-  font-size: var(--groesse-kolossal);
-  line-height: var(--zeile-winzig);
+  font-size: var(--size-colossal);
+  line-height: var(--line-tight);
 }
 
 h2 {
-  font-size: var(--groesse-gigantisch);
-  line-height: var(--zeile-klein);
+  font-size: var(--size-giant);
+  line-height: var(--line-snug);
 }
 
 h3 {
-  font-size: var(--groesse-riesig);
-  line-height: var(--zeile-winzig);
+  font-size: var(--size-huge);
+  line-height: var(--line-tight);
 }
 
 p {
-  margin: 0 0 var(--abstand-block);
+  margin: 0 0 var(--space-block);
 }
 
 a {
-  color: var(--farbe-primaer);
+  color: var(--color-accent);
   text-decoration: underline;
 }
 
@@ -118,7 +118,7 @@ a:hover {
 
 /* Keyboard focus must be more visible than the resting state, not less. */
 :focus-visible {
-  outline: 2px solid var(--farbe-primaer);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -133,7 +133,7 @@ hr {
   border: 0;
   border-top: 1px solid currentColor;
   opacity: 0.4;
-  margin: var(--abstand-mittel) 0;
+  margin: var(--space-section) 0;
 }
 
 /* Present in the accessibility tree, absent from the screen. The skip link
@@ -162,8 +162,8 @@ hr {
   padding: 0.75rem 1rem;
   overflow: visible;
   clip-path: none;
-  background: var(--farbe-hintergrund);
-  color: var(--farbe-text);
+  background: var(--color-background);
+  color: var(--color-text);
   z-index: 10;
 }
 
@@ -174,20 +174,20 @@ hr {
  * 1000px applied inside it. Subtracting instead narrows every page by 128px. */
 .wrap {
   width: 100%;
-  max-width: calc(var(--breite-weit) + 2 * var(--abstand-klein));
+  max-width: calc(var(--width-wide) + 2 * var(--space-gutter));
   margin: 0 auto;
-  padding-left: var(--abstand-klein);
-  padding-right: var(--abstand-klein);
+  padding-left: var(--space-gutter);
+  padding-right: var(--space-gutter);
 }
 
 .content {
-  max-width: var(--breite-inhalt);
+  max-width: var(--width-text);
   margin-left: auto;
   margin-right: auto;
 }
 
 .wide {
-  max-width: var(--breite-weit);
+  max-width: var(--width-wide);
   margin-left: auto;
   margin-right: auto;
 }
@@ -195,8 +195,8 @@ hr {
 /* ------------------------------------------------------------------ Header */
 
 .site-header {
-  padding-top: var(--abstand-klein);
-  padding-bottom: var(--abstand-gross);
+  padding-top: var(--space-gutter);
+  padding-bottom: var(--space-large);
 }
 
 .site-header-inner {
@@ -204,7 +204,7 @@ hr {
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--abstand-block);
+  gap: var(--space-block);
 }
 
 /* The title is the traced wordmark, not type. The width scales with the
@@ -229,7 +229,7 @@ hr {
   .site-header-inner {
     flex-direction: column;
     align-items: center;
-    gap: var(--abstand-block);
+    gap: var(--space-block);
   }
 
   .site-title img {
@@ -261,7 +261,7 @@ hr {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: clamp(var(--groesse-mittel), 3.2vw, var(--groesse-gross));
+  font-size: clamp(var(--size-medium), 3.2vw, var(--size-large));
 }
 
 .site-nav a {
@@ -285,7 +285,7 @@ main {
 }
 
 main > * + * {
-  margin-top: var(--abstand-block);
+  margin-top: var(--space-block);
 }
 
 /* A screen-reader-only heading is out of flow and must not push a margin
@@ -295,7 +295,7 @@ main > .visually-hidden + * {
 }
 
 .page-intro {
-  margin-bottom: var(--abstand-mittel);
+  margin-bottom: var(--space-section);
 }
 
 /* ----------------------------------------------------------------- Gig list */
@@ -308,14 +308,14 @@ main > .visually-hidden + * {
  * the left of the intro above it on a wide screen. The rule made it visible. */
 .gigs {
   margin: 0 auto;
-  padding: var(--abstand-termin) 0;
+  padding: var(--space-gig) 0;
   border-top: 1px solid currentColor;
   border-bottom: 1px solid currentColor;
   list-style: none;
 }
 
 .gig {
-  margin: 0 0 var(--abstand-termin);
+  margin: 0 0 var(--space-gig);
 }
 
 /* The list's own padding closes the gap under the last one. */
@@ -326,24 +326,24 @@ main > .visually-hidden + * {
 /* The date is a small line above the venue; the venue name carries the entry.
  * All three used to be the same size, which left nothing to scan. */
 .gig-date {
-  font-size: var(--groesse-klein);
-  line-height: var(--zeile-mittel);
+  font-size: var(--size-small);
+  line-height: var(--line-medium);
   letter-spacing: 0.04em;
-  color: var(--farbe-gedaempft);
+  color: var(--color-muted);
   margin-bottom: 0.15rem;
 }
 
 .gig-venue {
-  font-family: var(--schrift-serif);
-  font-size: var(--groesse-gross);
-  line-height: var(--zeile-klein);
+  font-family: var(--font-serif);
+  font-size: var(--size-large);
+  line-height: var(--line-snug);
   font-weight: 600;
   margin-bottom: 0.15rem;
 }
 
 .gig-address {
-  font-size: var(--groesse-mittel);
-  line-height: var(--zeile-mittel);
+  font-size: var(--size-medium);
+  line-height: var(--line-medium);
   margin-bottom: 0.6rem;
 }
 
@@ -361,12 +361,12 @@ main > .visually-hidden + * {
  * venue, not a second call to action. */
 .gig-add {
   margin: 0.6rem 0 0;
-  font-size: var(--groesse-klein);
+  font-size: var(--size-small);
 }
 
 .gig + .gig {
   border-top: 1px solid currentColor;
-  padding-top: var(--abstand-termin);
+  padding-top: var(--space-gig);
 }
 
 /* Archive: one line per gig. */
@@ -384,11 +384,11 @@ main > .visually-hidden + * {
 /* The year as a quiet subheading — it should divide the list, not compete
  * with it. */
 .archive-year {
-  font-size: var(--groesse-gross);
-  line-height: var(--zeile-klein);
+  font-size: var(--size-large);
+  line-height: var(--line-snug);
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid rgba(var(--farbe-text-rgb), 0.15);
+  border-bottom: 1px solid rgba(var(--color-text-rgb), 0.15);
 }
 
 .archive time {
@@ -409,8 +409,8 @@ main > .visually-hidden + * {
   display: grid;
   grid-template-columns: 40% 60%;
   align-items: center;
-  gap: 0 var(--abstand-block);
-  margin-bottom: var(--abstand-block);
+  gap: 0 var(--space-block);
+  margin-bottom: var(--space-block);
 }
 
 .kit figure {
@@ -428,33 +428,33 @@ main > .visually-hidden + * {
  * still need an edge against the cream page. */
 .kit img {
   width: 100%;
-  box-shadow: 0 1px 2px rgba(var(--farbe-text-rgb), 0.08),
-    0 6px 18px rgba(var(--farbe-text-rgb), 0.10);
+  box-shadow: 0 1px 2px rgba(var(--color-text-rgb), 0.08),
+    0 6px 18px rgba(var(--color-text-rgb), 0.10);
 }
 
 .kit .kit-title {
   display: block;
-  font-size: var(--groesse-mittel);
-  line-height: var(--zeile-mittel);
+  font-size: var(--size-medium);
+  line-height: var(--line-medium);
 }
 
 .kit .kit-meta {
   display: block;
-  color: var(--farbe-gedaempft);
-  font-size: var(--groesse-klein);
+  color: var(--color-muted);
+  font-size: var(--size-small);
 }
 
 /* Secondary download, e.g. the poster as an image rather than a fillable PDF. */
 .kit .kit-alt {
   display: inline-block;
   margin-top: 0.4rem;
-  font-size: var(--groesse-klein);
+  font-size: var(--size-small);
 }
 
 @media (max-width: 700px) {
   .kit li {
     grid-template-columns: 1fr;
-    gap: var(--abstand-block);
+    gap: var(--space-block);
   }
 }
 
@@ -467,7 +467,7 @@ main > .visually-hidden + * {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: start;
-    gap: calc(var(--abstand-block) * 2) var(--abstand-block);
+    gap: calc(var(--space-block) * 2) var(--space-block);
   }
 
   .kit li {
@@ -488,7 +488,7 @@ main > .visually-hidden + * {
 
 .footer-rule {
   width: 100px;
-  margin: 50px auto var(--abstand-block);
+  margin: 50px auto var(--space-block);
   border: 0;
   border-top: 1px solid currentColor;
 }
@@ -505,7 +505,7 @@ main > .visually-hidden + * {
   list-style: none;
   margin: 0 auto;
   padding: 0;
-  font-size: var(--groesse-klein);
+  font-size: var(--size-small);
 }
 
 .social a {
@@ -559,8 +559,8 @@ main > .visually-hidden + * {
  * twice. */
 .social-inline {
   justify-content: flex-start;
-  margin-top: var(--abstand-block);
-  font-size: var(--groesse-mittel);
+  margin-top: var(--space-block);
+  font-size: var(--size-medium);
 }
 
 /* Only where there is room: at 1.5rem the three labelled links wrap onto two
@@ -568,7 +568,7 @@ main > .visually-hidden + * {
 @media (min-width: 700px) {
   .social-inline {
     gap: clamp(1.25rem, 4vw, 2.25rem);
-    font-size: var(--groesse-gross);
+    font-size: var(--size-large);
   }
 }
 
@@ -578,9 +578,9 @@ main > .visually-hidden + * {
   justify-content: center;
   gap: 1rem;
   list-style: none;
-  margin: var(--abstand-block) 0 0;
+  margin: var(--space-block) 0 0;
   padding: 0;
-  font-size: var(--groesse-klein);
+  font-size: var(--size-small);
 }
 
 .legal a {
