@@ -43,6 +43,17 @@ moves off the VPS. Every page's `canonical` and `og:url` already assume that
 domain, so this adds no new assumption — but it is the only link on the site
 that does not work today.
 
+## The centred column
+
+`.content` (650px) and `.wide` (1000px) centre themselves with automatic left
+and right margins. Any rule that later sets `margin: 0` on the same element
+undoes that, and the block drifts to the left edge of the page while everything
+around it stays centred.
+
+This has now happened twice — the gig list, then the social row on the contact
+page — and in both cases nothing revealed it until something nearby gained an
+edge to be compared against. Write `margin: 0 auto`.
+
 ## Generated regions
 
 Three files contain regions written by `skripte/termine.py`:
