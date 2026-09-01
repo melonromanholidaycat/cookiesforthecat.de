@@ -25,8 +25,9 @@ because breaking them is easy and the damage is not obvious from the diff.
   artefact.
 - **No JavaScript.** The navigation wraps instead of collapsing into a
   hamburger for this reason.
-- **No third-party requests.** Fonts are self-hosted, social links are links
-  rather than embeds, and there is no analytics. The Datenschutzerklärung says
+- **No third-party requests.** There are no webfonts at all — headings use
+  Georgia, which every reader already has — social links are links rather than
+  embeds, and there is no analytics. The Datenschutzerklärung says
   so in as many words, so breaking this makes a legal page untrue. Anything
   that needs an external service belongs in a workflow, not in the page.
 

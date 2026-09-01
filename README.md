@@ -21,7 +21,7 @@ kontakt/                  Contact
 veranstalter/             Press kit for venues
 impressum/                Legally required imprint
 datenschutz/              Privacy policy
-assets/                   style.css, fonts, images, downloads
+assets/                   style.css, images, downloads
 daten/                    gig data + the German note for whoever keeps the calendar
 skripte/                  the calendar sync
 ```
