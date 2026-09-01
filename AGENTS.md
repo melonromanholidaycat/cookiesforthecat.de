@@ -61,9 +61,13 @@ Three files contain regions written by `skripte/termine.py`:
 
 ```
 termine/index.html              <!-- GIGS:START -->    … <!-- GIGS:END -->
+termine/index.html              <!-- EVENTS:START -->  … <!-- EVENTS:END -->
 vergangene-termine/index.html   <!-- ARCHIVE:START --> … <!-- ARCHIVE:END -->
 index.html                      <!-- NEXT:START -->    … <!-- NEXT:END -->
 ```
+
+The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
+`lastmod` on whichever pages a run changes.
 
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
