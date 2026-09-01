@@ -29,7 +29,9 @@ jobs:
 
       # Pinned: a formatting change in a new release would rewrite every
       # .ics file and redeploy for nothing.
-      - run: pip install --quiet icalendar==7.3.0
+      # dateutil arrives with icalendar anyway; named here because the script
+      # imports it directly, and a transitive dependency is not a promise.
+      - run: pip install --quiet icalendar==7.3.0 python-dateutil==2.9.0.post0
 
       - name: Sync the gig dates
         env:
