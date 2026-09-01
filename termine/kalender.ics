@@ -100,10 +100,11 @@ DTSTART:20261031T180000Z
 DTEND:20261031T200000Z
 DTSTAMP:20261031T000000Z
 UID:2026-10-31-oma-seine-kneipe@cookiesforthecat.de
-DESCRIPTION:<a href="https://omaseinekneipe.de/#events">https://omaseinekn
- eipe.de/#events</a><br>DIE Live-Musik-Kneipe in Büsum. Nordsee genießen 
- und abends Musik hören – besser wird’s nicht!
+DESCRIPTION:DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends 
+ Musik hören – besser wird’s nicht!\n\nhttps://omaseinekneipe.de/#even
+ ts
 LOCATION:Westerstraße 22\, 25761 Büsum
+URL:https://omaseinekneipe.de/#events
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Pusta Stube

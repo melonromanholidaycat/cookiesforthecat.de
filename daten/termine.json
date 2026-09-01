@@ -88,10 +88,10 @@
     "datum": "2026-10-31",
     "zeit": "19:00",
     "ort": "Oma seine Kneipe",
-    "ort_link": null,
+    "ort_link": "https://omaseinekneipe.de/#events",
     "adresse": "Westerstraße 22 · 25761 Büsum",
     "text": [
-      "<a href=\"https://omaseinekneipe.de/#events\">https://omaseinekneipe.de/#events</a><br>DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends Musik hören – besser wird’s nicht!"
+      "DIE Live-Musik-Kneipe in Büsum. Nordsee genießen und abends Musik hören – besser wird’s nicht!"
     ],
     "privat": false
   },
