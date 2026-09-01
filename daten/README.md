@@ -49,6 +49,15 @@ der Website erscheint ausschließlich `private Veranstaltung`. Ihr könnt also
 ruhig den Namen des Kunden als Titel nehmen, damit ihr selbst wisst, worum es
 geht.
 
+## Regelmäßige Auftritte
+
+Eine Serie („jeden Montag“) darf im Kalender angelegt werden. Auf der Website
+erscheinen die nächsten Termine daraus, höchstens zwölf und höchstens ein
+halbes Jahr im Voraus. Einzelne Termine einer Serie dürfen verschoben oder
+gelöscht werden — die Website folgt.
+
+Für einen Auftritt über mehrere Tage bitte pro Tag einen Termin anlegen.
+
 ## Ändern und Absagen
 
 Termin im Kalender ändern — die Website zieht nach. Termin löschen oder im

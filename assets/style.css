@@ -320,6 +320,11 @@ main > .visually-hidden + * {
   margin-bottom: 0.6rem;
 }
 
+.gig-note,
+.gig-address {
+  overflow-wrap: anywhere;
+}
+
 .gig-note {
   margin-bottom: 0;
 }
