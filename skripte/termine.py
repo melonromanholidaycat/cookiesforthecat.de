@@ -237,9 +237,8 @@ def esc(text: str) -> str:
 
 
 def clock(time_of_day: str) -> str:
-    """19:00 becomes 19.00 Uhr, the form the site has always used."""
-    hour, minute = time_of_day.split(":")
-    return f"{int(hour)}.{minute} Uhr"
+    """19:00 becomes 19:00 Uhr — colon and padded hour, as DIN 5008 has it."""
+    return f"{time_of_day} Uhr"
 
 
 def long_date(iso: str, time_of_day: str | None) -> str:
