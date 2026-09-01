@@ -6,13 +6,14 @@ deletes an event changes the website; nothing else is required of them.
 
 What this touches:
 
-    termine/index.html              the block between the GIGS markers
+    termine/index.html              the GIGS block and the EVENTS markup
     vergangene-termine/index.html   the block between the ARCHIVE markers
     index.html                      the next gig on the home page
-    termine/kalender.ics           the feed people subscribe to
+    termine/kalender.ics            the feed people subscribe to
     termine/kalender/*.ics          one file per gig, for a single download
     daten/termine.json              upcoming gigs as of the last sync
     daten/archiv.json               history, only ever appended to
+    sitemap.xml                     lastmod on the pages this touches
 
 Everything outside the markers is left alone. The committed HTML stays exactly
 what gets served; there is no build step.
@@ -47,6 +48,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ZONE = ZoneInfo("Europe/Berlin")
 DOMAIN = "cookiesforthecat.de"
 
+SITE = "https://www.cookiesforthecat.de"
 FEED = ROOT / "termine/kalender.ics"
 SINGLES = ROOT / "termine/kalender"
 
@@ -234,6 +236,69 @@ def render_next(gigs: list[dict]) -> str:
             f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
 
 
+def place(gig: dict) -> dict:
+    """Venue and address for schema.org. The address is one string on the page,
+    so split it where it parses and fall back to plain text where it does not."""
+    spot = {"@type": "Place", "name": gig["ort"] or "Auftritt"}
+    if gig.get("ort_link"):
+        spot["url"] = gig["ort_link"]
+    address = gig.get("adresse")
+    if not address:
+        return spot
+    parts = [p.strip() for p in address.split("·") if p.strip()]
+    town = re.match(r"^(\d{5})\s+(.+)$", parts[-1]) if parts else None
+    if town:
+        spot["address"] = {
+            "@type": "PostalAddress",
+            "postalCode": town.group(1),
+            "addressLocality": town.group(2),
+            "addressCountry": "DE",
+        }
+        if parts[:-1]:
+            spot["address"]["streetAddress"] = ", ".join(parts[:-1])
+    else:
+        spot["address"] = address
+    return spot
+
+
+def render_events(gigs: list[dict]) -> str:
+    """schema.org events, so search engines and assistants can read the gigs.
+
+    Private bookings are left out: a date with no venue is nothing to publish.
+    """
+    band = {"@type": "MusicGroup", "name": "Cookies For The Cat", "url": f"{SITE}/"}
+    events = []
+    for gig in gigs:
+        if gig["privat"]:
+            continue
+        day = date.fromisoformat(gig["datum"])
+        start = gig["datum"]
+        if gig["zeit"]:
+            hour, minute = (int(part) for part in gig["zeit"].split(":"))
+            start = datetime(day.year, day.month, day.day, hour, minute,
+                             tzinfo=ZONE).isoformat()
+        events.append({
+            "@context": "https://schema.org",
+            "@type": "MusicEvent",
+            "name": f"Cookies For The Cat – {gig['ort']}",
+            "startDate": start,
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "location": place(gig),
+            "performer": band,
+            "image": f"{SITE}/assets/img/share.jpg",
+            "url": f"{SITE}/termine/",
+            **({"description": " ".join(gig["text"])} if gig.get("text") else {}),
+        })
+    if not events:
+        return ""
+    # Escaped so a description containing </script> cannot end the block early.
+    body = json.dumps(events, ensure_ascii=False, indent=2).replace("<", "\\u003C")
+    return ('  <script type="application/ld+json">\n'
+            + "\n".join("  " + line for line in body.split("\n"))
+            + "\n  </script>")
+
+
 # -------------------------------------------------------- Calendar files
 
 TRANSLITERATE = str.maketrans({"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss",
@@ -368,6 +433,22 @@ def splice(path: Path, marker: str, content: str) -> bool:
     return True
 
 
+def touch_sitemap(paths: list[str], day: date) -> bool:
+    """Record today against the pages this run changed."""
+    file = ROOT / "sitemap.xml"
+    text = file.read_text(encoding="utf-8")
+    updated = text
+    for path in paths:
+        loc = f"{SITE}{path}"
+        updated = re.sub(
+            rf"(<url><loc>{re.escape(loc)}</loc>)(<lastmod>[^<]*</lastmod>)?(</url>)",
+            rf"\g<1><lastmod>{day.isoformat()}</lastmod>\g<3>", updated)
+    if updated == text:
+        return False
+    file.write_text(updated, encoding="utf-8")
+    return True
+
+
 def write_json(path: Path, data) -> None:
     with path.open("w", encoding="utf-8") as fh:
         json.dump(data, fh, ensure_ascii=False, indent=2)
@@ -434,12 +515,22 @@ def main() -> int:
         print(render_gigs(upcoming, names))
         return 0
 
+    gigs_changed = splice(ROOT / "termine/index.html", "GIGS",
+                          render_gigs(upcoming, names))
+    events_changed = splice(ROOT / "termine/index.html", "EVENTS",
+                            render_events(upcoming))
+    archive_changed = splice(ROOT / "vergangene-termine/index.html", "ARCHIVE",
+                             render_archive(archive))
+    next_changed = splice(ROOT / "index.html", "NEXT", render_next(upcoming))
+
+    touched = ([ "/termine/" ] if gigs_changed or events_changed else []) \
+        + ([ "/vergangene-termine/" ] if archive_changed else []) \
+        + ([ "/" ] if next_changed else [])
+
     changed = [
-        splice(ROOT / "termine/index.html", "GIGS", render_gigs(upcoming, names)),
-        splice(ROOT / "vergangene-termine/index.html", "ARCHIVE",
-               render_archive(archive)),
-        splice(ROOT / "index.html", "NEXT", render_next(upcoming)),
+        gigs_changed, events_changed, archive_changed, next_changed,
         write_calendars(upcoming, names),
+        touch_sitemap(touched, today) if touched else False,
     ]
     write_json(gigs_file, upcoming)
     write_json(archive_file, sorted(archive, key=lambda e: e["datum"], reverse=True))
