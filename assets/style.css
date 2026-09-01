@@ -7,9 +7,7 @@
 /* ------------------------------------------------------------------- Tokens */
 
 :root {
-  /* Warm paper instead of the pale yellow, with a warm black and terracotta
-   * as the accent. Every pair clears WCAG AA:
-   * text 13.79:1 · links 5.48:1 · muted 5.33:1. */
+  /* WCAG AA: text 13.79:1, links 5.48:1, muted 5.33:1. */
   --color-background: #f8f2e4;
   --color-text: #2b2320;
   --color-text-rgb: 43, 35, 32;
@@ -19,9 +17,7 @@
   --width-text: 650px;
   --width-wide: 1000px;
 
-  /* No webfont. Source Serif was 99 KB — around three quarters of what a text
-   * page downloaded — for four headings and the venue names. Georgia is on
-   * every Apple and Windows machine; Android substitutes Noto Serif. */
+  /* No webfont: Georgia on Apple and Windows, Noto Serif on Android. */
   --font-serif: Georgia, "Times New Roman", serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -38,10 +34,7 @@
   --space-section: clamp(2rem, 8vw, 6rem);
   --space-large: clamp(4rem, 10vw, 6rem);
 
-  /* The gig list needs its own rhythm. --space-section is applied twice
-   * between two entries — once as a margin, once as padding — which is 62px on
-   * a phone and was 192px on a desktop. This one keeps the phone value and
-   * stops climbing. */
+  /* Applied twice between two gigs: once as margin, once as padding. */
   --space-gig: clamp(2rem, 8vw, 2.5rem);
 
   --line-tight: 1.15;
@@ -69,10 +62,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Weight 400, not the 300 this used to be: Georgia has regular and bold and
- * nothing between, so 300 would silently render as 400 anyway. The sizes below
- * are about 7% smaller than they were for the same reason in reverse —
- * Georgia's x-height is much larger, so it reads bigger at the same value. */
+/* Georgia has nothing between regular and bold, and a large x-height. */
 h1,
 h2,
 h3,
@@ -135,9 +125,7 @@ hr {
  * uses the same technique and reappears on keyboard focus. */
 .visually-hidden,
 .skip-link {
-  /* Text nobody sees should not take a display size or weight from whatever
-   * it happens to sit inside. (It also used to keep a 99 KB webfont off the
-   * home page, back when there was one.) */
+  /* Hidden text should not inherit a display size or weight. */
   font: inherit;
   position: absolute;
   width: 1px;
@@ -165,9 +153,7 @@ hr {
 
 /* ------------------------------------------------------------------- Layout */
 
-/* The inner area is 1000px wide and the outer padding is added on top of it,
- * matching the old theme, where the padding sat on the root element and the
- * 1000px applied inside it. Subtracting instead narrows every page by 128px. */
+/* 1000px inside the padding, not including it. */
 .wrap {
   width: 100%;
   max-width: calc(var(--width-wide) + 2 * var(--space-gutter));
@@ -203,8 +189,7 @@ hr {
   gap: var(--space-block);
 }
 
-/* The title is the traced wordmark, not type. The width scales with the
- * viewport; the aspect ratio lives in the SVG. */
+/* The traced wordmark, not type; the aspect ratio lives in the SVG. */
 .site-title {
   margin: 0;
   line-height: 0;
@@ -219,8 +204,7 @@ hr {
   height: auto;
 }
 
-/* Below 700px the wordmark sits centred above the navigation rather than
- * squeezed beside it — side by side leaves both too small. */
+/* Below 700px the wordmark sits centred above the navigation. */
 @media (max-width: 700px) {
   .site-header-inner {
     flex-direction: column;
@@ -246,9 +230,7 @@ hr {
   text-decoration: underline;
 }
 
-/* No JavaScript means no hamburger menu: the navigation stays visible and
- * simply wraps on narrow screens. The size scales with the viewport so the
- * items still fit side by side on a phone. */
+/* No JavaScript, so no hamburger: the navigation wraps instead. */
 .site-nav ul {
   display: flex;
   flex-wrap: wrap;
@@ -284,8 +266,7 @@ main > * + * {
   margin-top: var(--space-block);
 }
 
-/* A screen-reader-only heading is out of flow and must not push a margin
- * onto the element after it. */
+/* A hidden heading must not push a margin onto what follows. */
 main > .visually-hidden + * {
   margin-top: 0;
 }
@@ -296,12 +277,9 @@ main > .visually-hidden + * {
 
 /* ----------------------------------------------------------------- Gig list */
 
-/* The list is bracketed by the same hairline that divides the gigs inside it,
- * so the intro above and the archive link below sit clearly outside it.
- *
- * The margin is `0 auto` and not `0`: this list also carries .content, and the
- * shorthand was quietly undoing its centring — which left every gig 175px to
- * the left of the intro above it on a wide screen. The rule made it visible. */
+/* Bracketed by the same hairline that divides the gigs inside it.
+ * `0 auto`, not `0`: this list also carries .content, whose centring the
+ * shorthand would undo. */
 .gigs {
   margin: 0 auto;
   padding: var(--space-gig) 0;
@@ -319,8 +297,7 @@ main > .visually-hidden + * {
   margin-bottom: 0;
 }
 
-/* The date is a small line above the venue; the venue name carries the entry.
- * All three used to be the same size, which left nothing to scan. */
+/* A small line above the venue; the venue name carries the entry. */
 .gig-date {
   font-size: var(--size-small);
   line-height: var(--line-medium);
@@ -347,14 +324,12 @@ main > .visually-hidden + * {
   margin-bottom: 0;
 }
 
-/* Two notes on one gig — "the time is not fixed yet" followed by the blurb —
- * used to run together with nothing between them. */
+/* Two notes on one gig need a gap between them. */
 .gig-note + .gig-note {
   margin-top: 0.6rem;
 }
 
-/* The single-gig calendar file. Quiet: it is an afterthought next to the
- * venue, not a second call to action. */
+/* Quiet next to the venue: not a second call to action. */
 .gig-add {
   margin: 0.6rem 0 0;
   font-size: var(--size-small);
@@ -393,8 +368,7 @@ main > .visually-hidden + * {
 
 /* ---------------------------------------------------------------- Press kit */
 
-/* Image left, caption right (40/60) as in the old theme; two of these side by
- * side on a wide screen, stacked on a narrow one. */
+/* Image left, caption right (40/60); stacked on a narrow screen. */
 .kit {
   margin: 0;
   padding: 0;
@@ -413,15 +387,13 @@ main > .visually-hidden + * {
   margin: 0;
 }
 
-/* The thumbnail links to the full-resolution file, which is only fetched on
- * click and so costs the page load nothing. */
+/* The full-resolution file is only fetched on click. */
 .kit figure a {
   display: block;
   line-height: 0;
 }
 
-/* A soft shadow instead of a hairline — the posters are white sheets and
- * still need an edge against the cream page. */
+/* The posters are white sheets and need an edge against the cream. */
 .kit img {
   width: 100%;
   box-shadow: 0 1px 2px rgba(var(--color-text-rgb), 0.08),
@@ -454,10 +426,8 @@ main > .visually-hidden + * {
   }
 }
 
-/* Nine full-width rows meant scrolling past most of the kit to see what is in
- * it. Paired up, the same nine fit in a little under half the height. Rows are
- * as tall as their tallest item, so a landscape photo beside a portrait poster
- * leaves a gap below it — top-aligned, not stretched to match. */
+/* Two per row. Top-aligned, so a landscape photo beside a portrait poster
+ * keeps its own height. */
 @media (min-width: 900px) {
   .kit {
     display: grid;
@@ -474,8 +444,7 @@ main > .visually-hidden + * {
 
 /* ----------------------------------------------------------------- Footer */
 
-/* Spacing as in the old theme: 4rem padding, with a 50px gap above the short
- * rule. */
+/* 4rem padding, 50px above the short rule. */
 .site-footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -489,9 +458,7 @@ main > .visually-hidden + * {
   border-top: 1px solid currentColor;
 }
 
-/* `margin: 0 auto`, not `0`: on the contact page this list also carries
- * .content, and the shorthand undid its centring — the row sat 175px left of
- * the text above it. The gig list had the same bug. */
+/* `0 auto`, not `0`: on the contact page this list also carries .content. */
 .social {
   display: flex;
   flex-wrap: wrap;
@@ -523,11 +490,8 @@ main > .visually-hidden + * {
   flex: none;
 }
 
-/* The same row on the contact page, where it sits left-aligned in the text
- * block and takes the size of the surrounding body copy. */
-/* Below roughly 345px three labelled links do not fit on one line. Rather
- * than let them wrap unevenly (two above, one below), only the icons show;
- * the names stay in the accessibility tree. */
+/* Below 345px three labelled links do not fit on one line, so only the icons
+ * show; the names stay in the accessibility tree. */
 @media (max-width: 345px) {
   .site-footer .social span {
     position: absolute;
@@ -550,17 +514,14 @@ main > .visually-hidden + * {
   }
 }
 
-/* The contact page's own row. Bigger than the footer's, which is visible at
- * the same time on a desktop and would otherwise read as the same thing
- * twice. */
+/* The contact page's own row, larger than the footer's. */
 .social-inline {
   justify-content: flex-start;
   margin-top: var(--space-block);
   font-size: var(--size-medium);
 }
 
-/* Only where there is room: at 1.5rem the three labelled links wrap onto two
- * lines on a phone, which looks worse than the duplication it fixes. */
+/* Only where there is room: at 1.5rem the links wrap on a phone. */
 @media (min-width: 700px) {
   .social-inline {
     gap: clamp(1.25rem, 4vw, 2.25rem);
@@ -585,14 +546,12 @@ main > .visually-hidden + * {
 
 /* -------------------------------------------------------------- Home page */
 
-/* Centres the images on the home and about pages. The display width sits in
- * the img width attribute so it is right without the stylesheet too. */
+/* The display width sits in the img attributes, so it holds without CSS. */
 .centred {
   text-align: center;
 }
 
-/* One photograph, wider than the measure of the text under it. 800px is a
- * true 2x against the 1600px file. */
+/* Wider than the text under it; 800px is 2x the 1600px file. */
 .photo {
   max-width: 800px;
   margin-left: auto;
