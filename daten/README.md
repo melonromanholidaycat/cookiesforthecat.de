@@ -8,8 +8,8 @@ Es dauert höchstens eine Stunde, bis die Änderung online ist. Sonst ist nichts
 
 | Feld im Kalender | Steht später auf der Website |
 | --- | --- |
-| **Titel** | der Name der Location, z. B. `Finnegan Irish Pub` |
-| **Ort** | die Adresse, z. B. `Mengstraße 42 · 23552 Lübeck` |
+| **Titel** | der Name der Location, z. B. `Musikkneipe Beispiel` |
+| **Ort** | die Adresse, z. B. `Beispielweg 1 · 23552 Lübeck` |
 | **Beschreibung** | der Text unter dem Termin |
 | **Uhrzeit** | wird angezeigt, z. B. `21.00 Uhr` |
 
@@ -24,9 +24,9 @@ Soll der Name der Location auf deren Website verlinken: die Adresse in eine
 **eigene Zeile in der Beschreibung** schreiben, sonst nichts in dieser Zeile.
 
 ```
-https://www.finnegan.de/
+https://www.beispiel-kneipe.de/
 
-Unser jährliches Konzert im Finnegan. Die Musik spielt im Keller.
+Unser jährliches Konzert dort. Die Musik spielt im Keller.
 ```
 
 ### Private Veranstaltungen
