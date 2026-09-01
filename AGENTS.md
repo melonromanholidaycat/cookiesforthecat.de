@@ -111,6 +111,14 @@ rather than trusting that you got them all.
 - Do not lazy-load anything above the fold.
 - Check bytes per pixel when adding a photo. Healthy is 0.2–0.3.
 
+## Icons
+
+`assets/img/icon-512.webp` is the master, carried over from the old install; the
+favicon, the touch icon and `icon-192.webp` are all cut from it. Nothing in the
+repository can replace it, so do not delete it in a clean-up. `site.webmanifest`
+points at the two icon files and gives Android a real icon when someone adds the
+site to their home screen.
+
 ## Deliberately left alone
 
 - **The press kit** in `assets/files/` — full-resolution photos and fillable
