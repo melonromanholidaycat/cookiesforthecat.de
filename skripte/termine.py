@@ -66,6 +66,11 @@ WEEKDAYS = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
 URL_ONLY = re.compile(r"^https?://\S+$")
 PRIVATE = re.compile(r"^privat\.?$", re.IGNORECASE)
 
+# Google stores a description as HTML once it has been edited in the web UI.
+ANCHOR = re.compile(r"<a\b[^>]*?href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.I | re.S)
+LINE_BREAK = re.compile(r"<br\s*/?>|</p>|</div>|</li>", re.I)
+TAG = re.compile(r"<[^>]+>")
+
 
 class Abort(Exception):
     """Something is wrong — better to write nothing than something wrong."""
@@ -85,10 +90,30 @@ def read_feed(url: str | None, file: str | None) -> bytes:
         raise Abort(f"Calendar unreachable: {error}") from error
 
 
+def as_text(description: str) -> str:
+    """Google's description is HTML as soon as someone edits it in the web UI.
+
+    An anchor collapses to its address when that is all it says, so the
+    URL-on-its-own-line rule keeps working; otherwise the label keeps the
+    address after it, rather than losing the link.
+    """
+    def anchor(match):
+        url, label = match.group(1), TAG.sub("", match.group(2)).strip()
+        return url if label in ("", url) else f"{label} ({url})"
+
+    text = description
+    if "<" in text:
+        text = ANCHOR.sub(anchor, text)
+        text = LINE_BREAK.sub("\n", text)
+        text = TAG.sub("", text)
+    # Entities turn up without tags too, so this runs either way.
+    return html.unescape(text).replace("\xa0", " ")
+
+
 def split_description(text: str) -> tuple[list[str], str | None, bool]:
     """Paragraphs, venue link, private flag."""
     paragraphs, link, private = [], None, False
-    for line in (text or "").replace("\r\n", "\n").split("\n"):
+    for line in as_text(text or "").replace("\r\n", "\n").split("\n"):
         line = line.strip()
         if not line:
             continue
