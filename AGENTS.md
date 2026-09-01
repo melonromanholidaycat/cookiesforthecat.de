@@ -9,6 +9,9 @@ because breaking them is easy and the damage is not obvious from the diff.
 
 - Comments, docstrings, commit messages, workflow step names, CSS class names,
   variable and function names: English.
+- **Keep comments short.** A line or two saying what a rule is for. Not the
+  history of the change, not what the value used to be. The same goes for
+  commit messages and pull requests.
 - Page text, the note in `daten/README.md`, and anything a visitor or a band
   member reads: German.
 - **The JSON keys in `daten/` stay German** (`datum`, `ort`, `adresse`,
@@ -40,9 +43,7 @@ exception, since it is served from every depth.
 
 The subscribe link on the Termine page is the other: a `webcal://` URL cannot
 be relative, so it names `www.cookiesforthecat.de` and starts working when DNS
-moves off the VPS. Every page's `canonical` and `og:url` already assume that
-domain, so this adds no new assumption — but it is the only link on the site
-that does not work today.
+moves off the VPS. It is the only link on the site that does not work today.
 
 ## The centred column
 
@@ -51,9 +52,8 @@ and right margins. Any rule that later sets `margin: 0` on the same element
 undoes that, and the block drifts to the left edge of the page while everything
 around it stays centred.
 
-This has now happened twice — the gig list, then the social row on the contact
-page — and in both cases nothing revealed it until something nearby gained an
-edge to be compared against. Write `margin: 0 auto`.
+It has happened twice, and neither was visible until something nearby gained
+an edge to compare against. Write `margin: 0 auto`.
 
 ## Generated regions
 
@@ -71,7 +71,7 @@ calendar, or the script.
 The same script owns two paths outright:
 
 ```
-termine/auftritte.ics    the feed people subscribe to
+termine/kalender.ics    the feed people subscribe to
 termine/kalender/*.ics   one file per gig, for a single download
 ```
 
@@ -79,10 +79,9 @@ Anything in `termine/kalender/` that does not belong to a current gig is
 deleted on the next run — that is the point, so a cancelled gig cannot leave a
 downloadable file behind. Nothing hand-written survives there.
 
-Those files are generated from `daten/termine.json`, never from the calendar
-feed directly. The feed carries the real titles of private bookings, which the
-band was told they may use; the sanitising happens on the way into the JSON, so
-everything downstream of it is safe to publish and nothing upstream is.
+Generated from `daten/termine.json`, never from the calendar feed: that feed
+carries the real titles of private bookings. Sanitising happens on the way into
+the JSON, so everything downstream of it is safe to publish.
 
 `daten/archiv.json` is **append-only**. The gig history is meant to be
 permanent, and nothing should ever remove from it.
@@ -96,30 +95,24 @@ rather than trusting that you got them all.
 ## Type and colour
 
 - **Every `font-size` is a token** from the scale in `:root`, or a `clamp()`
-  between two of them. No free-standing values — the last two produced a footer
-  where the social links were smaller than the legal links on a phone and twice
-  their size on a desktop.
+  between two of them. No free-standing values.
 - **Every text/background pair clears WCAG AA (4.5:1).** Current values:
   text 13.79:1, links 5.48:1, muted 5.33:1. Check before changing a colour.
-- **Focus must be more visible than the resting state, not less.** An earlier
-  version removed a link's underline on focus, which is backwards.
+- **Focus must be more visible than the resting state, not less.**
 
 ## Images
 
 - Always set `width` and `height`, so the page does not reflow while loading.
 - Serve at twice the display size, in WebP, for retina screens.
 - Do not lazy-load anything above the fold.
-- Check bytes per pixel when adding a photo. Healthy is 0.2–0.3; the originals
-  inherited from WordPress ran as high as 10.6, and one 436×614 thumbnail
-  weighed 2.3 MB.
+- Check bytes per pixel when adding a photo. Healthy is 0.2–0.3.
 
 ## Deliberately left alone
 
 - **The press kit** in `assets/files/` — full-resolution photos and fillable
-  poster PDFs. They are download targets, not page weight, and full resolution
-  is the point. The three poster JPEGs each carry a 1.83 MB embedded CMYK press
-  profile; stripping it would save 5.5 MB and change no pixels, but it has not
-  been done because the owner decided to leave these files untouched.
+  poster PDFs. Download targets, not page weight. The three poster JPEGs carry
+  a 1.83 MB embedded CMYK profile each; stripping it would save 5.5 MB and
+  change no pixels, but the owner has left these files alone.
 - **The old WordPress install** is still serving the real domain. It is also
   the only remaining source of some original artwork, so do not treat the DNS
   switch as routine.

@@ -90,6 +90,6 @@ Hand zu pflegen; `skripte/termine.py` erzeugt die Seiten daraus. Die Uhrzeit
 steht dort als `"zeit": "19:00"`; die Schreibweise `19.00 Uhr` entsteht erst
 beim Erzeugen der Seite.
 
-`termine/auftritte.ics` und die Dateien in `termine/kalender/` entstehen im
+`termine/kalender.ics` und die Dateien in `termine/kalender/` entstehen im
 selben Lauf und gehören dem Skript — von Hand geändert werden sie beim nächsten
 Lauf überschrieben oder gelöscht.

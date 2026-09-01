@@ -9,7 +9,7 @@ What this touches:
     termine/index.html              the block between the GIGS markers
     vergangene-termine/index.html   the block between the ARCHIVE markers
     index.html                      the next gig on the home page
-    termine/auftritte.ics           the feed people subscribe to
+    termine/kalender.ics           the feed people subscribe to
     termine/kalender/*.ics          one file per gig, for a single download
     daten/termine.json              upcoming gigs as of the last sync
     daten/archiv.json               history, only ever appended to
@@ -47,12 +47,11 @@ ROOT = Path(__file__).resolve().parent.parent
 ZONE = ZoneInfo("Europe/Berlin")
 DOMAIN = "cookiesforthecat.de"
 
-FEED = ROOT / "termine/auftritte.ics"
+FEED = ROOT / "termine/kalender.ics"
 SINGLES = ROOT / "termine/kalender"
 
-# Every gig is published as a two-hour block rather than with its real end
-# time. daten/README.md promises the band that the end time is never shown, so
-# it may be as rough as they like; publishing it here would break that.
+# A fixed block: daten/README.md promises the band that their end times are
+# never published.
 LENGTH = timedelta(hours=2)
 
 # Hardcoded rather than taken from the locale: a CI container's language
@@ -123,13 +122,10 @@ def read_events(raw: bytes) -> list[dict]:
         if isinstance(value, datetime):
             # Google sends a timezone; without one, read it as local time.
             value = value.astimezone(ZONE) if value.tzinfo else value.replace(tzinfo=ZONE)
-            # Stored as 19:00 rather than "19.00 Uhr": the calendar files need
-            # a real time, and parsing a display string back is the kind of
-            # thing that breaks quietly. The page formats it when rendering.
+            # Machine-readable; the page formats it when rendering.
             day, time_of_day = value.date(), f"{value.hour:02d}:{value.minute:02d}"
         else:
-            # All-day: show no time. If the time simply isn't settled yet that
-            # belongs in the description, where it can say so in words.
+            # All-day: no time. An unsettled time belongs in the description.
             day, time_of_day = value, None
 
         paragraphs, link, private = split_description(
@@ -252,11 +248,10 @@ def slug(text: str) -> str:
 
 
 def file_names(gigs: list[dict]) -> list[str]:
-    """One name per gig, used for both its file and its UID.
+    """One name per gig, for both its file and its UID.
 
-    Derived from the gig rather than from the calendar's own event id, so the
-    files stay meaningful and the whole thing still works if someone ever has
-    to maintain daten/termine.json by hand.
+    Derived from the gig, not from the calendar's event id, so the files still
+    work if daten/termine.json is ever maintained by hand.
     """
     used, names = set(), []
     for gig in gigs:
@@ -282,12 +277,8 @@ def moment(gig: dict) -> date | datetime:
 
 
 def vevent(gig: dict, name: str, standalone: bool) -> Event:
-    """One VEVENT.
-
-    `standalone` marks the single downloads: those land in a calendar full of
-    other things and have to say whose gig this is. In the feed the calendar
-    itself carries the name, so the entry is just the venue.
-    """
+    """One VEVENT. `standalone` names the band in the summary, for the
+    single downloads that land in a calendar full of other things."""
     entry = Event()
     venue = gig["ort"] or "Auftritt"
     entry.add("SUMMARY", f"Cookies For The Cat · {venue}" if standalone else venue)
@@ -296,16 +287,14 @@ def vevent(gig: dict, name: str, standalone: bool) -> Event:
     entry.add("DTSTART", start)
     entry.add("DTEND", start + (LENGTH if isinstance(start, datetime)
                                 else timedelta(days=1)))
-    # Deliberately the date of the gig and not the time of the run: a real
-    # timestamp would rewrite every file every hour, and each rewrite is a
-    # commit and a deploy.
+    # The gig's date, not the time of the run: a real timestamp would rewrite
+    # every file every hour.
     entry.add("DTSTAMP", datetime.fromisoformat(gig["datum"]).replace(
         tzinfo=timezone.utc))
     entry.add("UID", f"{name}@{DOMAIN}")
 
     if gig.get("adresse"):
-        # The site separates street from town with a middle dot; a comma is
-        # what a calendar app needs to find the place on a map.
+        # A comma, so a calendar app can find the place on a map.
         entry.add("LOCATION", gig["adresse"].replace(" · ", ", "))
     body = list(gig.get("text", []))
     if gig.get("ort_link"):
@@ -325,9 +314,7 @@ def calendar_file(events: list[Event], subscribable: bool = False) -> bytes:
     if subscribable:
         cal.add("X-WR-CALNAME", "Cookies For The Cat")
         cal.add("X-WR-TIMEZONE", "Europe/Berlin")
-        # How often a subscriber should look again. Twice a day is plenty for
-        # dates that are known weeks ahead, and the two spellings between them
-        # cover Apple, Google and Outlook.
+        # Two spellings of the same thing: Apple, Google and Outlook.
         cal.add("REFRESH-INTERVAL", timedelta(hours=12),
                 parameters={"VALUE": "DURATION"})
         cal.add("X-PUBLISHED-TTL", "PT12H")
