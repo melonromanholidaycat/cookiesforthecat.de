@@ -10,12 +10,11 @@
   /* WCAG AA: text 13.79:1, links 5.48:1, muted 5.33:1. */
   --color-background: #f8f2e4;
   --color-text: #2b2320;
-  --color-text-rgb: 43, 35, 32;
   --color-accent: #9c4a2f;
   --color-muted: #6b625d;
 
   /* One strength for every rule on the site. There were three. */
-  --color-rule: rgba(var(--color-text-rgb), 0.25);
+  --color-rule: color-mix(in srgb, var(--color-text) 25%, transparent);
   /* The blue from the painted wall on Plakat 2, so focus is the band's own
    * colour and not a second terracotta. 6.65:1 on the paper. */
   --color-focus: #2f5591;
@@ -34,6 +33,11 @@
   --size-huge: clamp(1.4rem, 2.8vw, 1.65rem);
   --size-giant: clamp(1.65rem, 3.8vw, 2.1rem);
   --size-colossal: clamp(2.1rem, 4.7vw, 3.25rem);
+
+  /* Everything below --space-block, on the same 4px grid. */
+  --space-hair: 0.25rem;
+  --space-tight: 0.5rem;
+  --space-snug: 0.75rem;
 
   --space-block: 1.5rem;
   --space-gutter: max(1.25rem, 5vw);
@@ -128,12 +132,6 @@ img {
   vertical-align: middle;
 }
 
-hr {
-  border: 0;
-  border-top: 1px solid var(--color-rule);
-  margin: var(--space-section) 0;
-}
-
 /* Present in the accessibility tree, absent from the screen. The skip link
  * uses the same technique and reappears on keyboard focus. */
 .visually-hidden,
@@ -156,7 +154,7 @@ hr {
   width: auto;
   height: auto;
   margin: 0;
-  padding: 0.75rem 1rem;
+  padding: var(--space-snug) 1rem;
   overflow: visible;
   clip-path: none;
   background: var(--color-background);
@@ -210,6 +208,8 @@ hr {
 
 .site-title a {
   display: inline-block;
+  color: inherit;
+  text-decoration: none;
 }
 
 .site-title img {
@@ -234,11 +234,6 @@ hr {
   }
 }
 
-.site-title a {
-  color: inherit;
-  text-decoration: none;
-}
-
 .site-title a:hover {
   text-decoration: underline;
 }
@@ -248,7 +243,7 @@ hr {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 0.5rem clamp(0.75rem, 2.5vw, 1.5rem);
+  gap: var(--space-tight) clamp(var(--space-snug), 2.5vw, 1.5rem);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -271,10 +266,6 @@ hr {
 
 /* ----------------------------------------------------------------- Content */
 
-main {
-  display: block;
-}
-
 main > * + * {
   margin-top: var(--space-block);
 }
@@ -289,6 +280,14 @@ main > .visually-hidden + * {
 }
 
 /* ----------------------------------------------------------------- Gig list */
+
+/* Venue names, notes and archive lines come from the calendar, so any of
+ * them can arrive as one unbreakable word. */
+.gigs,
+.archive,
+.kit-meta {
+  overflow-wrap: anywhere;
+}
 
 /* Bracketed by the same hairline that divides the gigs inside it.
  * `0 auto`, not `0`: this list also carries .content, whose centring the
@@ -316,26 +315,21 @@ main > .visually-hidden + * {
   line-height: var(--line-medium);
   letter-spacing: 0.04em;
   color: var(--color-muted);
-  margin-bottom: 0.15rem;
+  margin-bottom: var(--space-hair);
 }
 
 .gig-venue {
   font-family: var(--font-serif);
   font-size: var(--size-large);
   line-height: var(--line-snug);
-  font-weight: 600;
-  margin-bottom: 0.15rem;
+  font-weight: 700;
+  margin-bottom: var(--space-hair);
 }
 
 .gig-address {
   font-size: var(--size-medium);
   line-height: var(--line-medium);
-  margin-bottom: 0.6rem;
-}
-
-.gig-note,
-.gig-address {
-  overflow-wrap: anywhere;
+  margin-bottom: var(--space-tight);
 }
 
 .gig-note {
@@ -344,12 +338,12 @@ main > .visually-hidden + * {
 
 /* Two notes on one gig need a gap between them. */
 .gig-note + .gig-note {
-  margin-top: 0.6rem;
+  margin-top: var(--space-tight);
 }
 
 /* Quiet next to the venue: not a second call to action. */
 .gig-add {
-  margin: 0.6rem 0 0;
+  margin: var(--space-tight) 0 0;
   font-size: var(--size-small);
 }
 
@@ -367,7 +361,7 @@ main > .visually-hidden + * {
 
 /* Single-line entries need no paragraph spacing. */
 .archive li {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-tight);
 }
 
 /* The year as a quiet subheading — it should divide the list, not compete
@@ -375,8 +369,8 @@ main > .visually-hidden + * {
 .archive-year {
   font-size: var(--size-large);
   line-height: var(--line-snug);
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.4rem;
+  margin-bottom: var(--space-snug);
+  padding-bottom: var(--space-tight);
   color: var(--color-accent);
   border-bottom: 1px solid var(--color-rule);
 }
@@ -411,8 +405,8 @@ main > .visually-hidden + * {
 /* The posters are white sheets and need an edge against the cream. */
 .kit img {
   width: 100%;
-  box-shadow: 0 1px 2px rgba(var(--color-text-rgb), 0.08),
-    0 6px 18px rgba(var(--color-text-rgb), 0.10);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 8%, transparent),
+    0 6px 18px color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
 .kit .kit-title {
@@ -430,7 +424,7 @@ main > .visually-hidden + * {
 /* Secondary download, e.g. the poster as an image rather than a fillable PDF. */
 .kit .kit-alt {
   display: inline-block;
-  margin-top: 0.4rem;
+  margin-top: var(--space-tight);
   font-size: var(--size-small);
 }
 
@@ -459,7 +453,7 @@ main > .visually-hidden + * {
 
 /* ----------------------------------------------------------------- Footer */
 
-/* 4rem padding, 50px above the short rule. */
+/* 4rem of padding, 3rem more above the short rule. */
 .site-footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -468,7 +462,7 @@ main > .visually-hidden + * {
 
 .footer-rule {
   width: 100px;
-  margin: 50px auto var(--space-block);
+  margin: 3rem auto var(--space-block);
   border: 0;
   border-top: 1px solid var(--color-rule);
 }
@@ -479,7 +473,7 @@ main > .visually-hidden + * {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.9rem, 3vw, 1.75rem);
+  gap: clamp(1rem, 3vw, 1.75rem);
   list-style: none;
   margin: 0 auto;
   padding: 0;
@@ -505,9 +499,10 @@ main > .visually-hidden + * {
   flex: none;
 }
 
-/* Below 345px three labelled links do not fit on one line, so only the icons
- * show; the names stay in the accessibility tree. */
-@media (max-width: 345px) {
+/* Three labelled links need 283px plus two gaps plus two gutters, so they
+ * fit from 356px up. Below that only the icons show; the names stay in the
+ * accessibility tree. Re-measure this number if the gap or the labels change. */
+@media (max-width: 355px) {
   .site-footer .social span {
     position: absolute;
     width: 1px;
@@ -529,15 +524,20 @@ main > .visually-hidden + * {
   }
 }
 
-/* The contact page's own row, larger than the footer's. */
+/* The contact page's own row, larger than the footer's. Its own gap floor:
+ * three labelled links at --size-medium need 319px, which leaves 15px for
+ * two gaps on a 390px phone. */
 .social-inline {
   justify-content: flex-start;
   margin-top: var(--space-block);
+  gap: clamp(var(--space-snug), 3vw, 1.75rem);
   font-size: var(--size-medium);
 }
 
-/* Only where there is room: at 1.5rem the links wrap on a phone. */
-@media (min-width: 700px) {
+/* At --size-large the row needs 600px, so it grows from 620. Not 700: that
+ * is the header's breakpoint, and sharing the number made both queries
+ * match at exactly 700px. */
+@media (min-width: 620px) {
   .social-inline {
     gap: clamp(1.25rem, 4vw, 2.25rem);
     font-size: var(--size-large);
@@ -557,9 +557,14 @@ main > .visually-hidden + * {
 
 .legal a {
   color: inherit;
+  text-decoration: none;
 }
 
-/* -------------------------------------------------------------- Home page */
+.legal a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------ Images */
 
 /* The display width sits in the img attributes, so it holds without CSS. */
 .centred {
