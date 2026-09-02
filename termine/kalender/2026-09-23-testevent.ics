@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Testevent
+DTSTART:20260923T170000Z
+DTEND:20260923T190000Z
+DTSTAMP:20260923T000000Z
+UID:2026-09-23-testevent@cookiesforthecat.de
+DESCRIPTION:Test notizen blabla\n\nbla bla\n\nhttps://www.cookiesforthecat
+ .de
+LOCATION:Hasselbrookstr. 132\n22089 Hamburg\nDeutschland
+URL:https://www.cookiesforthecat.de
+END:VEVENT
+END:VCALENDAR
