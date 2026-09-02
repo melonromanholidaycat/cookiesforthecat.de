@@ -253,21 +253,21 @@ def gig_lines(gig: dict, name: str) -> str:
         venue = (f'<a href="{gig["ort_link"]}" rel="noopener" target="_blank">'
                  f"{venue}</a>")
     lines = [
-        '  <li class="gig">',
-        f'    <p class="gig-date"><time datetime="{gig["datum"]}">'
+        '    <li class="gig">',
+        f'      <p class="gig-date"><time datetime="{gig["datum"]}">'
         f'{esc(long_date(gig["datum"], gig["zeit"]))}</time></p>',
     ]
     if gig["ort"]:
-        lines.append(f'    <p class="gig-venue">{venue}</p>')
+        lines.append(f'      <p class="gig-venue">{venue}</p>')
     if gig.get("adresse"):
-        lines.append(f'    <p class="gig-address">{esc(gig["adresse"])}</p>')
+        lines.append(f'      <p class="gig-address">{esc(gig["adresse"])}</p>')
     for paragraph in gig.get("text", []):
-        lines.append(f'    <p class="gig-note">{esc(paragraph)}</p>')
+        lines.append(f'      <p class="gig-note">{esc(paragraph)}</p>')
     # A private entry is a date and nothing else, so there is nothing to add.
     if not gig["privat"]:
-        lines.append(f'    <p class="gig-add"><a href="kalender/{name}.ics">'
+        lines.append(f'      <p class="gig-add"><a href="kalender/{name}.ics">'
                      "Zum Kalender hinzufügen</a></p>")
-    lines.append("  </li>")
+    lines.append("    </li>")
     return "\n".join(lines)
 
 
@@ -304,11 +304,11 @@ def render_archive(entries: list[dict]) -> str:
 
 def render_next(gigs: list[dict]) -> str:
     if not gigs:
-        return ('  <p class="centred next-gig"><a href="termine/">Alle Termine '
+        return ('  <p class="centred"><a href="termine/">Alle Termine '
                 "ansehen &rarr;</a></p>")
     nxt = gigs[0]
     where = "" if nxt["privat"] else f' &middot; {esc(nxt["ort"])}' if nxt["ort"] else ""
-    return ('  <p class="centred next-gig"><a href="termine/">Nächster Auftritt: '
+    return ('  <p class="centred"><a href="termine/">Nächster Auftritt: '
             f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
 
 

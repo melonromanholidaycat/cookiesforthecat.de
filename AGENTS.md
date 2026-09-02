@@ -7,8 +7,9 @@ because breaking them is easy and the damage is not obvious from the diff.
 
 **Code is English. Content is German.**
 
-- Comments, docstrings, commit messages, workflow step names, CSS class names,
-  variable and function names: English.
+- Comments, docstrings, commit messages, pull request titles and
+  descriptions, workflow step names, CSS class names, variable and function
+  names: English. Writing about German page content is not a reason to switch.
 - **Keep comments short.** A line or two saying what a rule is for. Not the
   history of the change, not what the value used to be. The same goes for
   commit messages and pull requests.
