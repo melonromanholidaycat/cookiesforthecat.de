@@ -535,26 +535,6 @@ main > .visually-hidden + * {
   }
 }
 
-/* The contact page's own row, larger than the footer's. Its own gap floor:
- * three labelled links at --size-medium need 319px, which leaves 15px for
- * two gaps on a 390px phone. */
-.social-inline {
-  justify-content: flex-start;
-  margin-top: var(--space-block);
-  gap: clamp(var(--space-snug), 3vw, 1.75rem);
-  font-size: var(--size-medium);
-}
-
-/* At --size-large the row needs 600px, so it grows from 620. Not 700: that
- * is the header's breakpoint, and sharing the number made both queries
- * match at exactly 700px. */
-@media (min-width: 620px) {
-  .social-inline {
-    gap: clamp(1.25rem, 4vw, 2.25rem);
-    font-size: var(--size-large);
-  }
-}
-
 .legal {
   display: flex;
   flex-wrap: wrap;
