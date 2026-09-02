@@ -112,8 +112,9 @@ rather than trusting that you got them all.
 
 - **Every margin, padding and gap is a token**, or a `clamp()` between two of
   them. The scale is `--space-hair` 4px, `--space-tight` 8px, `--space-snug`
-  12px, `--space-block` 24px, then the fluid `--space-gig`, `--space-section`
-  and `--space-large`.
+  12px, `--space-block` 24px, then the fluid `--space-loose`, `--space-section`
+  and `--space-large`. Names describe size, not the thing they happen to be
+  used on.
 - **Everything lands on a 4px grid.** If a value needs to sit between two
   tokens, the answer is usually the nearer token, not a new number. There were
   three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.

@@ -14,8 +14,7 @@
   --color-muted: #6b625d;
 
   /* The wheat field and the embroidery on the dress, both from Plakat 1.
-   * The rules and the selection tint only. It is never text, so it needs no
-   * text contrast. */
+   * The selection tint only. It is never text, so it needs no text contrast. */
   --color-gold: #a8752a;
   /* The blue from the painted wall on Plakat 2, so focus is the band's own
    * colour and not a second terracotta. 6.65:1 on the paper. */
@@ -26,9 +25,8 @@
   --shadow-sheet: 0 1px 2px color-mix(in srgb, var(--color-text) 8%, transparent),
     0 6px 18px color-mix(in srgb, var(--color-text) 10%, transparent);
 
-  /* One strength for every rule on the site. 45% gold sits at 1.68:1 on the
-   * paper, where the ink it replaces sat at 1.65:1, so nothing got fainter. */
-  --color-rule: color-mix(in srgb, var(--color-gold) 45%, transparent);
+  /* One strength for every rule on the site. */
+  --color-rule: color-mix(in srgb, var(--color-text) 25%, transparent);
 
   --width-text: 650px;
   --width-wide: 1000px;
@@ -55,8 +53,8 @@
   --space-section: clamp(2rem, 8vw, 6rem);
   --space-large: clamp(4rem, 10vw, 6rem);
 
-  /* Applied twice between two gigs: once as margin, once as padding. */
-  --space-gig: clamp(2rem, 8vw, 2.5rem);
+  /* Applied twice between two gigs, and under the flyer on the home page. */
+  --space-loose: clamp(2rem, 8vw, 2.5rem);
 
   --line-tight: 1.15;
   --line-snug: 1.2;
@@ -309,14 +307,14 @@ main > .visually-hidden + * {
  * shorthand would undo. */
 .gigs {
   margin: 0 auto;
-  padding: var(--space-gig) 0;
+  padding: var(--space-loose) 0;
   border-top: 1px solid var(--color-rule);
   border-bottom: 1px solid var(--color-rule);
   list-style: none;
 }
 
 .gig {
-  margin: 0 0 var(--space-gig);
+  margin: 0 0 var(--space-loose);
 }
 
 /* The list's own padding closes the gap under the last one. */
@@ -364,7 +362,7 @@ main > .visually-hidden + * {
 
 .gig + .gig {
   border-top: 1px solid var(--color-rule);
-  padding-top: var(--space-gig);
+  padding-top: var(--space-loose);
 }
 
 /* Archive: one line per gig. */
@@ -584,10 +582,12 @@ main > .visually-hidden + * {
   text-align: center;
 }
 
-/* The flyer, at the size it was drawn for. */
+/* The flyer, at the size it was drawn for. A whole poster followed by one
+ * line of text needs more air than the 24px every other block gets. */
 .flyer {
   max-width: 436px;
   margin-inline: auto;
+  margin-bottom: var(--space-loose);
 }
 
 .flyer img {
