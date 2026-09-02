@@ -80,6 +80,7 @@ h4 {
   font-family: var(--font-serif);
   font-weight: 400;
   letter-spacing: -0.012em;
+  overflow-wrap: anywhere;
   margin: 0 0 var(--space-block);
 }
 
@@ -169,20 +170,17 @@ img {
   width: 100%;
   max-width: calc(var(--width-wide) + 2 * var(--space-gutter));
   margin: 0 auto;
-  padding-left: var(--space-gutter);
-  padding-right: var(--space-gutter);
+  padding-inline: var(--space-gutter);
 }
 
 .content {
   max-width: var(--width-text);
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 .wide {
   max-width: var(--width-wide);
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 /* ------------------------------------------------------------------ Header */
@@ -409,20 +407,20 @@ main > .visually-hidden + * {
     0 6px 18px color-mix(in srgb, var(--color-text) 10%, transparent);
 }
 
-.kit .kit-title {
+.kit-title {
   display: block;
   font-size: var(--size-medium);
   line-height: var(--line-medium);
 }
 
-.kit .kit-meta {
+.kit-meta {
   display: block;
   color: var(--color-muted);
   font-size: var(--size-small);
 }
 
 /* Secondary download, e.g. the poster as an image rather than a fillable PDF. */
-.kit .kit-alt {
+.kit-alt {
   display: inline-block;
   margin-top: var(--space-tight);
   font-size: var(--size-small);
@@ -574,8 +572,7 @@ main > .visually-hidden + * {
 /* Wider than the text under it; 800px is 2x the 1600px file. */
 .photo {
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 .photo img {
