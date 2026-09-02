@@ -94,7 +94,8 @@ h3 {
   line-height: var(--line-tight);
 }
 
-p {
+p,
+figure {
   margin: 0 0 var(--space-block);
 }
 
