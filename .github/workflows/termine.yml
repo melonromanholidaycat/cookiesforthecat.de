@@ -56,11 +56,15 @@ jobs:
           git push
           echo "changed=yes" >> "$GITHUB_OUTPUT"
 
-      # A commit by this workflow's token does not trigger the Pages build.
-      # Verified: without this step the site does not update.
-      # Failing here is the one case where the repository is right and the site
-      # is wrong, so the job has to go red rather than swallow it.
-      - name: Ask Pages to rebuild
+      # The push above already starts a Pages build on its own. Measured on
+      # 2026-09-02 with a probe that pushed as this token and called no API:
+      # a build appeared 11 seconds later. An earlier comment here claimed the
+      # opposite, which is why past sync commits show two builds a second
+      # apart, one cancelled.
+      # This request is kept as a fallback for the case where the automatic
+      # build does not arrive, and is deliberately not fatal: the site deploys
+      # without it, so failing the run here would be a false alarm.
+      - name: Ask Pages to rebuild (belt and braces)
         if: steps.commit.outputs.changed == 'yes'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,6 +78,6 @@ jobs:
             [ "$code" = "201" ] && exit 0
             sleep $((attempt * 5))
           done
-          echo "::error::Pages did not accept the build request, so the commit is"\
-               "live in the repository but not on the site."
-          exit 1
+          echo "::warning::Pages did not accept the build request. The push"\
+               "itself normally triggers a build, so the site is probably fine;"\
+               "check that the commit is live before assuming otherwise."
