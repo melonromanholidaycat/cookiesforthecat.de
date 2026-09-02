@@ -8,6 +8,7 @@ What this touches:
 
     termine/index.html              the GIGS block and the EVENTS markup
     vergangene-termine/index.html   the block between the ARCHIVE markers
+    jahresuebersicht/index.html     the printable list of this year's gigs
     index.html                      the next gig on the home page
     termine/kalender.ics            the feed people subscribe to
     termine/kalender/*.ics          one file per gig, for a single download
@@ -67,6 +68,8 @@ MOST = 12
 # settings are not something to rely on.
 WEEKDAYS = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
             "Freitag", "Samstag", "Sonntag"]
+MONTHS = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli",
+          "August", "September", "Oktober", "November", "Dezember"]
 
 # A description line holding nothing but a URL becomes the link on the venue
 # name. A line reading "privat" makes the entry anonymous.
@@ -302,6 +305,68 @@ def render_archive(entries: list[dict]) -> str:
     )
 
 
+def year_place(entry: dict) -> tuple[str, str | None]:
+    """The venue name that goes in bold, and the address line after it.
+
+    A calendar gig carries both. So does an archive entry written from 2026
+    on; older ones hold only "Venue, Town", which splits at the last comma.
+    """
+    if entry.get("ort"):
+        return entry["ort"], entry.get("adresse")
+    text = entry.get("text") or "Auftritt"
+    name, _, town = text.rpartition(", ")
+    return (name, town) if name else (text, None)
+
+
+def year_rows(archive: list[dict], upcoming: list[dict],
+              year: int) -> list[tuple]:
+    """Every gig of one year, oldest first: date, time, venue, address.
+
+    Played ones come from the archive, coming ones from the calendar. The two
+    cannot overlap: a date is in exactly one of them.
+    """
+    prefix = f"{year}-"
+    rows = [(e["datum"], e.get("zeit"), *year_place(e))
+            for e in archive if e["datum"].startswith(prefix)]
+    rows += [(g["datum"], g["zeit"], *year_place(g))
+             for g in upcoming if g["datum"].startswith(prefix)]
+    rows.sort(key=lambda row: (row[0], row[1] or ""))
+    return rows
+
+
+def render_year(archive: list[dict], upcoming: list[dict], year: int) -> str:
+    """The year on one page, laid out like the document the band handed out:
+    a month heading, then two lines per gig — when, then where in bold."""
+    rows = year_rows(archive, upcoming, year)
+    if not rows:
+        return ('  <p class="content">Für dieses Jahr stehen noch keine '
+                "Termine fest.</p>")
+    blocks, month, items = [], None, []
+    for datum, zeit, name, address in rows:
+        day = date.fromisoformat(datum)
+        if day.month != month:
+            if items:
+                blocks.append((month, items))
+            month, items = day.month, []
+        where = f"<strong>{esc(name)}</strong>"
+        if address:
+            where += f" &middot; {esc(address)}"
+        items.append(
+            "      <li>\n"
+            f'        <p class="year-when"><time datetime="{datum}">'
+            f"{esc(long_date(datum, zeit))}</time></p>\n"
+            f'        <p class="year-where">{where}</p>\n'
+            "      </li>")
+    blocks.append((month, items))
+    return "\n\n".join(
+        f'  <section class="content">\n'
+        f'    <h2 class="year-month">{MONTHS[m - 1]} {year}</h2>\n'
+        f'    <ul class="year-list">\n' + "\n".join(its)
+        + "\n    </ul>\n  </section>"
+        for m, its in blocks
+    )
+
+
 def render_next(gigs: list[dict]) -> str:
     if not gigs:
         return ('  <p class="centred"><a href="termine/">Alle Termine '
@@ -499,7 +564,7 @@ def write_calendars(gigs: list[dict], names: list[str]) -> bool:
 def splice(path: Path, marker: str, content: str) -> bool:
     text = path.read_text(encoding="utf-8")
     pattern = re.compile(
-        rf"(<!-- {marker}:START.*?-->\n)(.*?)(\n  <!-- {marker}:END -->)", re.S)
+        rf"(<!-- {marker}:START.*?-->\n)(.*?)(\n *<!-- {marker}:END -->)", re.S)
     if not pattern.search(text):
         raise Abort(f"Marker {marker} missing in {path}")
     updated = pattern.sub(lambda m: m.group(1) + content + m.group(3), text)
@@ -571,12 +636,21 @@ def main() -> int:
 
     # Archive from calendar and last snapshot together, so a gig still lands in
     # the archive even if its event was deleted after the date passed.
+    # Date and place identify an entry; the time is extra, not part of it.
     known = {(e["datum"], e["text"]) for e in archive}
     added = 0
     for gig in from_calendar + previous:
         if gig["datum"] >= today.isoformat():
             continue
         entry = {"datum": gig["datum"], "text": archive_text(gig)}
+        if gig.get("zeit"):
+            entry["zeit"] = gig["zeit"]
+        # Kept for the Jahresübersicht, which prints the full address. Not
+        # for a private booking, where "text" is all there is to say.
+        if not gig["privat"]:
+            for key in ("ort", "adresse"):
+                if gig.get(key):
+                    entry[key] = gig[key]
         if (entry["datum"], entry["text"]) not in known:
             archive.append(entry)
             known.add((entry["datum"], entry["text"]))
@@ -598,13 +672,21 @@ def main() -> int:
     archive_changed = splice(ROOT / "vergangene-termine/index.html", "ARCHIVE",
                              render_archive(archive))
     next_changed = splice(ROOT / "index.html", "NEXT", render_next(upcoming))
+    year_page = ROOT / "jahresuebersicht/index.html"
+    head_changed = splice(
+        year_page, "YEARHEAD",
+        f'    <h1 class="year-title">Unsere Auftritte {today.year}</h1>')
+    year_changed = splice(year_page, "YEAR",
+                          render_year(archive, upcoming, today.year))
 
     touched = ([ "/termine/" ] if gigs_changed or events_changed else []) \
         + ([ "/vergangene-termine/" ] if archive_changed else []) \
+        + ([ "/jahresuebersicht/" ] if head_changed or year_changed else []) \
         + ([ "/" ] if next_changed else [])
 
     changed = [
         gigs_changed, events_changed, archive_changed, next_changed,
+        head_changed, year_changed,
         write_calendars(upcoming, names),
         touch_sitemap(touched, today) if touched else False,
     ]

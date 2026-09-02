@@ -35,6 +35,9 @@
   --font-serif: Georgia, "Times New Roman", serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  /* The old Termine document was set in Verdana. Like Georgia it ships with
+   * the system, so this costs no request; elsewhere the stack falls back. */
+  --font-document: Verdana, Geneva, var(--font-system);
 
   --size-small: 1rem;
   --size-medium: 1.125rem;
@@ -583,4 +586,155 @@ main > .visually-hidden + * {
 
 .photo img {
   width: 100%;
+}
+
+/* -------------------------------------------------------- Jahresübersicht */
+
+/* This page reproduces the document the band used to hand out: Verdana, one
+ * blank line between everything, and two lines per gig — when, then where
+ * with the venue in bold. */
+.year-title,
+.year-month,
+.year-list,
+.year-note {
+  font-family: var(--font-document);
+}
+
+/* Centred and bold under the wordmark, as the document has it. */
+.year-title {
+  font-size: var(--size-large);
+  line-height: var(--line-snug);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: var(--space-loose);
+}
+
+/* Italic and underlined, the document's own way of marking a month. */
+.year-month {
+  font-size: var(--size-small);
+  line-height: var(--line-medium);
+  font-weight: 400;
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  margin-bottom: var(--space-block);
+}
+
+/* `0 auto`, not `0`: this list also carries .content. */
+.year-list {
+  margin: 0 auto var(--space-block);
+  padding: 0;
+  list-style: none;
+  font-size: var(--size-small);
+  line-height: var(--line-medium);
+  overflow-wrap: anywhere;
+}
+
+.year-list li + li {
+  margin-top: var(--space-block);
+}
+
+.year-when,
+.year-where {
+  margin: 0;
+}
+
+.year-note {
+  margin-top: var(--space-section);
+  font-size: var(--size-small);
+  font-style: italic;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+/* ------------------------------------------------------------------- Print */
+
+/* The Jahresübersicht is meant to be printed and handed out, so paper gets
+ * its own rules. They apply to every page: nothing here is specific to one.
+ * Physical units are deliberate — a sheet of paper has no viewport. */
+@media print {
+  :root {
+    --color-background: #fff;
+    --color-text: #000;
+    --color-accent: #000;
+    --color-muted: #333;
+  }
+
+  /* Navigation, the footer and in-page links to other pages are of no use
+   * on paper. */
+  .skip-link,
+  .site-nav,
+  .site-footer,
+  .no-print {
+    display: none;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  .site-header {
+    padding-top: 0;
+    padding-bottom: 10pt;
+  }
+
+  /* The masthead of the sheet, at the width the old document gave it. */
+  .site-header-inner {
+    justify-content: center;
+  }
+
+  .site-title img {
+    width: 190pt;
+  }
+
+  .page-intro {
+    margin-bottom: 18pt;
+  }
+
+  /* The document's own metrics, measured from the PDF this replaces: 10pt
+   * Verdana, and one blank line between everything. */
+  .year-title {
+    font-size: 12pt;
+    margin-bottom: 30pt;
+  }
+
+  .year-month,
+  .year-list {
+    font-size: 10pt;
+    line-height: 1.25;
+    margin-bottom: 12pt;
+  }
+
+  .year-list li + li {
+    margin-top: 12pt;
+  }
+
+  .year-note {
+    margin-top: 24pt;
+  }
+
+  /* A heading must not end a sheet, and an entry must not straddle two. */
+  .archive-year,
+  .year-month {
+    break-after: avoid;
+  }
+
+  .archive li,
+  .year-list li {
+    break-inside: avoid;
+  }
+
+  .archive-year {
+    font-size: 13pt;
+    margin-bottom: 0.5rem;
+  }
+
+  .archive li {
+    margin-bottom: 0.25rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }

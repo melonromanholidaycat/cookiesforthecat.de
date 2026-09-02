@@ -1,11 +1,13 @@
 [
   {
     "datum": "2026-08-28",
-    "text": "Waldcafé zur Nachtigall, Schwabstedt"
+    "text": "Waldcafé zur Nachtigall, Schwabstedt",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-08-27",
-    "text": "BOOT Hamburg, Hamburg"
+    "text": "BOOT Hamburg, Hamburg",
+    "zeit": "17:00"
   },
   {
     "datum": "2026-08-21",
@@ -17,7 +19,8 @@
   },
   {
     "datum": "2026-08-09",
-    "text": "Flohmarkt Fischerstraße, Heiligenhafen"
+    "text": "Flohmarkt Fischerstraße, Heiligenhafen",
+    "zeit": "11:00"
   },
   {
     "datum": "2026-08-08",
@@ -25,19 +28,23 @@
   },
   {
     "datum": "2026-08-03",
-    "text": "Gernots Krach & Klatsch, Lauenburg"
+    "text": "Gernots Krach & Klatsch, Lauenburg",
+    "zeit": "18:30"
   },
   {
     "datum": "2026-07-24",
-    "text": "Künstlerbörse, Brunsbüttel"
+    "text": "Künstlerbörse, Brunsbüttel",
+    "zeit": "17:00"
   },
   {
     "datum": "2026-07-18",
-    "text": "Himmelblau-Festival, Salzhausen"
+    "text": "Himmelblau-Festival, Salzhausen",
+    "zeit": "13:45"
   },
   {
     "datum": "2026-07-11",
-    "text": "Flower-Power-Party, Rendsburg"
+    "text": "Flower-Power-Party, Rendsburg",
+    "zeit": "20:00"
   },
   {
     "datum": "2026-07-04",
@@ -45,15 +52,18 @@
   },
   {
     "datum": "2026-07-03",
-    "text": "Sommermusik, Hamwarde"
+    "text": "Sommermusik, Hamwarde",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-06-27",
-    "text": "Kulturnacht, Reinfeld, Reinfeld"
+    "text": "Kulturnacht, Reinfeld",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-06-23",
-    "text": "Kieler Woche Secret Stage, Kiel"
+    "text": "Kieler Woche Secret Stage, Kiel",
+    "zeit": "14:30"
   },
   {
     "datum": "2026-06-21",
@@ -61,11 +71,13 @@
   },
   {
     "datum": "2026-06-20",
-    "text": "Bienengarten, Meiendorf"
+    "text": "Bienengarten, Meiendorf",
+    "zeit": "16:30"
   },
   {
     "datum": "2026-06-19",
-    "text": "A concert in the park, Hamburg-Bergedorf"
+    "text": "A concert in the park, Hamburg-Bergedorf",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-06-06",
@@ -73,11 +85,13 @@
   },
   {
     "datum": "2026-05-31",
-    "text": "24h Stelle, Stelle"
+    "text": "24h Stelle, Stelle",
+    "zeit": "11:30"
   },
   {
     "datum": "2026-05-24",
-    "text": "Pfingst-Flohmarkt, Landrecht"
+    "text": "Pfingst-Flohmarkt, Landrecht",
+    "zeit": "12:00"
   },
   {
     "datum": "2026-05-16",
@@ -85,7 +99,8 @@
   },
   {
     "datum": "2026-05-15",
-    "text": "BOOT e.V., Hamburg"
+    "text": "BOOT e.V., Hamburg",
+    "zeit": "18:00"
   },
   {
     "datum": "2026-05-14",
@@ -93,31 +108,38 @@
   },
   {
     "datum": "2026-05-13",
-    "text": "Brunottescher Hof, Gronau/Leine"
+    "text": "Brunottescher Hof, Gronau/Leine",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-05-09",
-    "text": "Fair Trade Tag, Neumünster"
+    "text": "Fair Trade Tag, Neumünster",
+    "zeit": "12:00"
   },
   {
     "datum": "2026-05-08",
-    "text": "Oililio, Bremen"
+    "text": "Oililio, Bremen",
+    "zeit": "20:00"
   },
   {
     "datum": "2026-04-10",
-    "text": "Bürgerhaus, Meiendorf"
+    "text": "Bürgerhaus, Meiendorf",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-03-26",
-    "text": "Feierabendmusik, Malente"
+    "text": "Feierabendmusik, Malente",
+    "zeit": "19:30"
   },
   {
     "datum": "2026-03-13",
-    "text": "Goldbek-Haus, Hamburg"
+    "text": "Goldbek-Haus, Hamburg",
+    "zeit": "19:00"
   },
   {
     "datum": "2026-02-25",
-    "text": "Sziggys Bar, Lübeck"
+    "text": "Sziggys Bar, Lübeck",
+    "zeit": "19:30"
   },
   {
     "datum": "2026-02-20",
@@ -129,7 +151,8 @@
   },
   {
     "datum": "2026-01-25",
-    "text": "Schirrmann’s, Bremen"
+    "text": "Schirrmann’s, Bremen",
+    "zeit": "13:00"
   },
   {
     "datum": "2025-12-21",
@@ -377,7 +400,7 @@
   },
   {
     "datum": "2024-06-30",
-    "text": "Robin am See, Hamburg, Eichbaumsee"
+    "text": "Robin am See, Hamburg"
   },
   {
     "datum": "2024-06-25",

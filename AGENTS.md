@@ -61,14 +61,23 @@ an edge to compare against. Write `margin: 0 auto`.
 Three files contain regions written by `skripte/termine.py`:
 
 ```
-termine/index.html              <!-- GIGS:START -->    … <!-- GIGS:END -->
-termine/index.html              <!-- EVENTS:START -->  … <!-- EVENTS:END -->
-vergangene-termine/index.html   <!-- ARCHIVE:START --> … <!-- ARCHIVE:END -->
-index.html                      <!-- NEXT:START -->    … <!-- NEXT:END -->
+termine/index.html              <!-- GIGS:START -->     … <!-- GIGS:END -->
+termine/index.html              <!-- EVENTS:START -->   … <!-- EVENTS:END -->
+vergangene-termine/index.html   <!-- ARCHIVE:START -->  … <!-- ARCHIVE:END -->
+jahresuebersicht/index.html     <!-- YEARHEAD:START --> … <!-- YEARHEAD:END -->
+jahresuebersicht/index.html     <!-- YEAR:START -->     … <!-- YEAR:END -->
+index.html                      <!-- NEXT:START -->     … <!-- NEXT:END -->
 ```
 
-The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
-`lastmod` on whichever pages a run changes.
+The EVENTS region is schema.org markup for the gigs. YEARHEAD is the `h1` of
+the Jahresübersicht and holds nothing but the year, so the page rolls over on
+1 January without anyone editing it. `sitemap.xml` gets a `lastmod` on
+whichever pages a run changes.
+
+The Jahresübersicht reproduces a document the band used to hand out — a
+CorelDRAW PDF, 10pt Verdana, month headings italic and underlined, two lines
+per gig with the venue in bold. The layout is deliberate, not drift; the
+original is worth looking at before changing it.
 
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
@@ -91,6 +100,17 @@ the JSON, so everything downstream of it is safe to publish.
 `daten/archiv.json` is **append-only**. The gig history is meant to be
 permanent, and nothing should ever remove from it.
 
+## Print
+
+`@media print` at the end of the stylesheet applies to every page; the
+Jahresübersicht is the one meant to be printed, and on paper it should come out
+as the old document did. Navigation, the footer and anything carrying
+`.no-print` come off, and the wordmark becomes the masthead. This is the one
+place where a `font-size` is not a token and a length is not `rem`: a sheet of
+paper has no viewport, so the block uses `pt`, and the values there are
+measured from the original PDF. Check the length after changing the list —
+2026 is three A4 pages.
+
 ## Shared header and footer
 
 Identical on every page, byte for byte. There is no templating, so changing
@@ -101,6 +121,9 @@ rather than trusting that you got them all.
 
 - **Every `font-size` is a token** from the scale in `:root`, or a `clamp()`
   between two of them. No free-standing values.
+- **Three font families, none of them downloaded.** Georgia for headings, the
+  system sans for body, and Verdana on the Jahresübersicht, which reproduces a
+  document set in it. All three ship with the system; nothing is fetched.
 - **`--color-gold` is decoration, never text.** It is a rule, a bar, a tint.
   At 3.6:1 on the paper it would fail as body text, and that is fine as long
   as nothing sets it as a `color`.
