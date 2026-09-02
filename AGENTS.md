@@ -129,7 +129,14 @@ rather than trusting that you got them all.
 ## Images
 
 - Always set `width` and `height`, so the page does not reflow while loading.
-- Serve at twice the display size, in WebP, for retina screens.
+- Serve at twice the display size, in WebP, for retina screens — **unless the
+  image decides LCP**. The home page flyer stays at 1x on purpose: 2x costs
+  124 KB and takes LCP from 776ms to 1432ms on slow 4G, on a page that is
+  65 KB in total. Measured 2026-09-02. Re-measure before overturning it.
+- **The alt text describes what is in the picture**, not what you remember
+  putting there. That flyer showed two guitars against a wall while its alt
+  named the two band members. Where the picture is mostly words, the alt
+  carries the words.
 - Do not lazy-load anything above the fold.
 - Check bytes per pixel when adding a photo. Healthy is 0.2–0.3.
 
