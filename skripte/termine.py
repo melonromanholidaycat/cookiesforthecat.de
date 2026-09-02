@@ -308,14 +308,17 @@ def render_archive(entries: list[dict]) -> str:
 def year_place(entry: dict) -> tuple[str, str | None]:
     """The venue name that goes in bold, and the address line after it.
 
-    A calendar gig carries both. So does an archive entry written from 2026
-    on; older ones hold only "Venue, Town", which splits at the last comma.
+    A calendar gig carries both fields, and so does an archive entry — except
+    the oldest ones, which hold only "Venue, Town". That splits at the last
+    comma, and the town stands in for the address.
     """
-    if entry.get("ort"):
-        return entry["ort"], entry.get("adresse")
-    text = entry.get("text") or "Auftritt"
-    name, _, town = text.rpartition(", ")
-    return (name, town) if name else (text, None)
+    name, address = entry.get("ort"), entry.get("adresse")
+    text = entry.get("text")
+    if isinstance(text, str):        # an archive entry, not a calendar gig
+        venue, comma, town = text.rpartition(", ")
+        name = name or (venue if comma else text)
+        address = address or (town if comma else None)
+    return name or "Auftritt", address
 
 
 def year_rows(archive: list[dict], upcoming: list[dict],

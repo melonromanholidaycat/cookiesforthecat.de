@@ -81,6 +81,11 @@ original is worth looking at before changing it. It is the page the band
 prints and hands out, so it is the one place where looking like the old site
 beats looking like the new one.
 
+Its spacing is the document's own baseline rather than the site's scale, so
+those rules are in `em` of the list — the ratios carry between screen and
+paper, and only the base size changes. `.document > * + *` switches off the
+`main > * + *` block spacing that would otherwise break it.
+
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
 
@@ -107,11 +112,18 @@ permanent, and nothing should ever remove from it.
 `@media print` at the end of the stylesheet applies to every page; the
 Jahresübersicht is the one meant to be printed, and on paper it should come out
 as the old document did. Navigation, the footer and anything carrying
-`.no-print` come off, and the wordmark becomes the masthead. This is the one
-place where a `font-size` is not a token and a length is not `rem`: a sheet of
-paper has no viewport, so the block uses `pt`, and the values there are
-measured from the original PDF. Check the length after changing the list —
-2026 is three A4 pages.
+`.no-print` come off, the page box becomes the measure, and the wordmark
+becomes the masthead.
+
+This is the one place where a `font-size` is not a token and a length is not
+`rem`: a sheet of paper has no viewport, so `@page` and the block use `pt` and
+`mm`, and every value there is measured from the original PDF — margins
+17.8mm, 10pt type on a 12.15pt baseline, one blank line between blocks, the
+wordmark 186pt wide. Printed side by side the two sheets line up to within a
+point over the length of a page; the way to check a change is to make that
+comparison again, not to eyeball it. 2026 is three A4 pages.
+
+`@page` sets no `size`, so a Letter sheet still works.
 
 ## Shared header and footer
 

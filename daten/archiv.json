@@ -2,12 +2,16 @@
   {
     "datum": "2026-08-28",
     "text": "Waldcafé zur Nachtigall, Schwabstedt",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Waldcafé zur Nachtigall",
+    "adresse": "Holbek 2 · 25876 Schwabstedt"
   },
   {
     "datum": "2026-08-27",
     "text": "BOOT Hamburg, Hamburg",
-    "zeit": "17:00"
+    "zeit": "17:00",
+    "ort": "BOOT Hamburg",
+    "adresse": "Osterbrookplatz 18 · 20537 Hamburg"
   },
   {
     "datum": "2026-08-21",
@@ -20,7 +24,9 @@
   {
     "datum": "2026-08-09",
     "text": "Flohmarkt Fischerstraße, Heiligenhafen",
-    "zeit": "11:00"
+    "zeit": "11:00",
+    "ort": "Flohmarkt Fischerstraße",
+    "adresse": "Fischerstraße · 23774 Heiligenhafen"
   },
   {
     "datum": "2026-08-08",
@@ -29,22 +35,30 @@
   {
     "datum": "2026-08-03",
     "text": "Gernots Krach & Klatsch, Lauenburg",
-    "zeit": "18:30"
+    "zeit": "18:30",
+    "ort": "Gernots Krach & Klatsch",
+    "adresse": "Glüsinger Weg 29 · 21481 Lauenburg"
   },
   {
     "datum": "2026-07-24",
     "text": "Künstlerbörse, Brunsbüttel",
-    "zeit": "17:00"
+    "zeit": "17:00",
+    "ort": "Künstlerbörse",
+    "adresse": "Deutsche Seemannsmission Westküste e.V. · Kanalstraße 8a-10 · 25541 Brunsbüttel"
   },
   {
     "datum": "2026-07-18",
     "text": "Himmelblau-Festival, Salzhausen",
-    "zeit": "13:45"
+    "zeit": "13:45",
+    "ort": "Himmelblau-Festival",
+    "adresse": "Café & Köstlich · Winsener Straße 8 · 21376 Salzhausen"
   },
   {
     "datum": "2026-07-11",
     "text": "Flower-Power-Party, Rendsburg",
-    "zeit": "20:00"
+    "zeit": "20:00",
+    "ort": "Flower-Power-Party",
+    "adresse": "Eiderland-Musik e.V. · Schleswiger Chaussee 269 · 24768 Rendsburg"
   },
   {
     "datum": "2026-07-04",
@@ -53,45 +67,63 @@
   {
     "datum": "2026-07-03",
     "text": "Sommermusik, Hamwarde",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Sommermusik",
+    "adresse": "St. Jacobi-Kirche · Dorfstraße 2 · 21502 Hamwarde"
   },
   {
     "datum": "2026-06-27",
     "text": "Kulturnacht, Reinfeld",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Kulturnacht",
+    "adresse": "Claudiushof · Paul-von-Schoenaich-Straße 9 · 23858 Reinfeld"
   },
   {
     "datum": "2026-06-23",
     "text": "Kieler Woche Secret Stage, Kiel",
-    "zeit": "14:30"
+    "zeit": "14:30",
+    "ort": "Kieler Woche Secret Stage",
+    "adresse": "Hörnbrücken Stage · 24143 Kiel"
   },
   {
     "datum": "2026-06-21",
-    "text": "Fête de la musique, Tostedt"
+    "text": "Fête de la musique, Tostedt",
+    "ort": "Fête de la musique",
+    "adresse": "21255 Tostedt"
   },
   {
     "datum": "2026-06-20",
     "text": "Bienengarten, Meiendorf",
-    "zeit": "16:30"
+    "zeit": "16:30",
+    "ort": "Bienengarten",
+    "adresse": "Meiendorfer Weg 14 · 22145 Hamburg"
   },
   {
     "datum": "2026-06-19",
     "text": "A concert in the park, Hamburg-Bergedorf",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "A concert in the park",
+    "adresse": "Parkanlage Seniorenzentrum Dr. Carl Kellinghusen · Hamburg-Bergedorf"
   },
   {
     "datum": "2026-06-06",
-    "text": "Gartenkonzert, Kittlitz"
+    "text": "Gartenkonzert, Kittlitz",
+    "ort": "Gartenkonzert",
+    "adresse": "Dorfstr. 22 · 23911 Kittlitz"
   },
   {
     "datum": "2026-05-31",
     "text": "24h Stelle, Stelle",
-    "zeit": "11:30"
+    "zeit": "11:30",
+    "ort": "24h Stelle",
+    "adresse": "DRK · Ashausener Straße 1 · 21435 Stelle"
   },
   {
     "datum": "2026-05-24",
     "text": "Pfingst-Flohmarkt, Landrecht",
-    "zeit": "12:00"
+    "zeit": "12:00",
+    "ort": "Pfingst-Flohmarkt",
+    "adresse": "Bischof 4 · 25554 Landrecht"
   },
   {
     "datum": "2026-05-16",
@@ -100,50 +132,70 @@
   {
     "datum": "2026-05-15",
     "text": "BOOT e.V., Hamburg",
-    "zeit": "18:00"
+    "zeit": "18:00",
+    "ort": "BOOT e.V.",
+    "adresse": "Osterbrookplatz 18 · 20537 Hamburg"
   },
   {
     "datum": "2026-05-14",
-    "text": "Stadtpartie, Einbeck"
+    "text": "Stadtpartie, Einbeck",
+    "ort": "Stadtpartie",
+    "adresse": "Hallenplan · 37574 Einbeck"
   },
   {
     "datum": "2026-05-13",
     "text": "Brunottescher Hof, Gronau/Leine",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Brunottescher Hof",
+    "adresse": "Hohle Grund 2 · 31039 Gronau (Leine)"
   },
   {
     "datum": "2026-05-09",
     "text": "Fair Trade Tag, Neumünster",
-    "zeit": "12:00"
+    "zeit": "12:00",
+    "ort": "Fair Trade Tag",
+    "adresse": "Großflecken Nordseite · 24534 Neumünster"
   },
   {
     "datum": "2026-05-08",
     "text": "Oililio, Bremen",
-    "zeit": "20:00"
+    "zeit": "20:00",
+    "ort": "Oililio",
+    "adresse": "Vorstraße 95 · 28359 Bremen"
   },
   {
     "datum": "2026-04-10",
     "text": "Bürgerhaus, Meiendorf",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Bürgerhaus",
+    "adresse": "Saseler Straße 21 · 22145 Hamburg"
   },
   {
     "datum": "2026-03-26",
     "text": "Feierabendmusik, Malente",
-    "zeit": "19:30"
+    "zeit": "19:30",
+    "ort": "Feierabendmusik",
+    "adresse": "Liegehalle im Kurpark · Bahnhofstr. 4a · 23714 Malente"
   },
   {
     "datum": "2026-03-13",
     "text": "Goldbek-Haus, Hamburg",
-    "zeit": "19:00"
+    "zeit": "19:00",
+    "ort": "Goldbek-Haus",
+    "adresse": "Moorfuhrtweg 9 · 22301 Hamburg"
   },
   {
     "datum": "2026-02-25",
     "text": "Sziggys Bar, Lübeck",
-    "zeit": "19:30"
+    "zeit": "19:30",
+    "ort": "Sziggys Bar",
+    "adresse": "Marlesgrube 58 · 23552 Lübeck"
   },
   {
     "datum": "2026-02-20",
-    "text": "Rhabarberkate, Willinghusen"
+    "text": "Rhabarberkate, Willinghusen",
+    "ort": "Rhabarberkate",
+    "adresse": "Lohe 2 · 22885 Barsbüttel/Willinghusen"
   },
   {
     "datum": "2026-02-06",
@@ -152,7 +204,9 @@
   {
     "datum": "2026-01-25",
     "text": "Schirrmann’s, Bremen",
-    "zeit": "13:00"
+    "zeit": "13:00",
+    "ort": "Schirrmann’s",
+    "adresse": "Kalkstraße 6 · 28195 Bremen"
   },
   {
     "datum": "2025-12-21",

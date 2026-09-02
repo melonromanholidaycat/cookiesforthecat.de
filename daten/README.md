@@ -66,10 +66,9 @@ Termine-Seite öffnet sie in einem neuen Tab, so wie früher das PDF. Sie ist
 zum Ausdrucken gedacht.
 
 Sie entsteht aus denselben Daten wie die Termine-Seite und das Archiv — es ist
-nichts extra einzutragen. Bei kommenden Terminen steht die vollständige Adresse
-darunter, bei älteren nur der Ort: für die Auftritte vor September 2026 wurde
-nie mehr gespeichert. Ab jetzt merkt sich das Archiv Location und Adresse mit,
-die Liste wird also von Jahr zu Jahr vollständiger.
+nichts extra einzutragen. Die Adressen für 2026 stammen aus dem alten PDF, bei
+allem Neuen merkt sich das Archiv Location und Adresse von selbst. Nur bei den
+Jahren davor steht weiterhin bloß der Ort.
 
 ## Kalender-Abo
 
