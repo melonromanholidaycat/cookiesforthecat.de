@@ -13,11 +13,15 @@
   --color-accent: #9c4a2f;
   --color-muted: #6b625d;
 
-  /* One strength for every rule on the site. There were three. */
-  --color-rule: color-mix(in srgb, var(--color-text) 25%, transparent);
-  /* The blue from the painted wall on Plakat 2, so focus is the band's own
-   * colour and not a second terracotta. 6.65:1 on the paper. */
+  /* The wheat field and the embroidery on the dress, both from Plakat 1.
+   * Decoration only. It is never text, so it needs no text contrast. */
+  --color-gold: #a8752a;
+  /* The blue from the painted wall on Plakat 2. Focus, and the next gig. */
   --color-focus: #2f5591;
+
+  /* One strength for every rule on the site. 45% gold sits at 1.68:1 on the
+   * paper, where the ink it replaces sat at 1.65:1, so nothing got fainter. */
+  --color-rule: color-mix(in srgb, var(--color-gold) 45%, transparent);
 
   --width-text: 650px;
   --width-wide: 1000px;
@@ -89,6 +93,17 @@ h1 {
   line-height: var(--line-tight);
 }
 
+/* Hidden on the home page, where the h1 is only for screen readers. */
+h1::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: var(--space-snug);
+  border-radius: 2px;
+  background: var(--color-gold);
+}
+
 h2 {
   font-size: var(--size-giant);
   line-height: var(--line-snug);
@@ -111,6 +126,12 @@ a {
 
 a:hover {
   text-decoration: none;
+}
+
+/* 15% is as strong as the tint can go while every text colour on the site
+ * still clears AA against it; links are the tightest at 4.65:1. */
+::selection {
+  background: color-mix(in srgb, var(--color-gold) 15%, transparent);
 }
 
 /* Keyboard focus must be more visible than the resting state, not less. */
@@ -305,6 +326,23 @@ main > .visually-hidden + * {
 /* The list's own padding closes the gap under the last one. */
 .gig:last-child {
   margin-bottom: 0;
+}
+
+/* The next gig, in the wall blue. The dot carries it; the date follows so
+ * the pair reads as one mark rather than a stray bullet. */
+.gig:first-child .gig-date {
+  color: var(--color-focus);
+}
+
+.gig:first-child .gig-date::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: var(--space-tight);
+  vertical-align: 0.05em;
+  border-radius: 50%;
+  background: var(--color-focus);
 }
 
 /* A small line above the venue; the venue name carries the entry. */
