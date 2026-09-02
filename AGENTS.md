@@ -77,7 +77,9 @@ whichever pages a run changes.
 The Jahresübersicht reproduces a document the band used to hand out — a
 CorelDRAW PDF, 10pt Verdana, month headings italic and underlined, two lines
 per gig with the venue in bold. The layout is deliberate, not drift; the
-original is worth looking at before changing it.
+original is worth looking at before changing it. It is the page the band
+prints and hands out, so it is the one place where looking like the old site
+beats looking like the new one.
 
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
@@ -116,6 +118,12 @@ measured from the original PDF. Check the length after changing the list —
 Identical on every page, byte for byte. There is no templating, so changing
 them means changing all nine files consistently. Check with a diff afterwards
 rather than trusting that you got them all.
+
+`jahresuebersicht/` is the tenth file and the one exception: it is a document,
+not a page of the site, so it has neither the navigation nor the site footer —
+only the wordmark above it and the legal links below. The link on Termine
+opens it in a new tab, the way the PDF link on the old site did. Do not
+"fix" it by giving it the shared chrome.
 
 ## Type and colour
 
