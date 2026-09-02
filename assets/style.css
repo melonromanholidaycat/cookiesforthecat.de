@@ -21,6 +21,11 @@
    * colour and not a second terracotta. 6.65:1 on the paper. */
   --color-focus: #2f5591;
 
+  /* The flyer and the press-kit posters are white sheets, and need an edge
+   * against the cream. */
+  --shadow-sheet: 0 1px 2px color-mix(in srgb, var(--color-text) 8%, transparent),
+    0 6px 18px color-mix(in srgb, var(--color-text) 10%, transparent);
+
   /* One strength for every rule on the site. 45% gold sits at 1.68:1 on the
    * paper, where the ink it replaces sat at 1.65:1, so nothing got fainter. */
   --color-rule: color-mix(in srgb, var(--color-gold) 45%, transparent);
@@ -412,11 +417,9 @@ main > .visually-hidden + * {
   line-height: 0;
 }
 
-/* The posters are white sheets and need an edge against the cream. */
 .kit img {
   width: 100%;
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text) 8%, transparent),
-    0 6px 18px color-mix(in srgb, var(--color-text) 10%, transparent);
+  box-shadow: var(--shadow-sheet);
 }
 
 .kit-title {
@@ -579,6 +582,17 @@ main > .visually-hidden + * {
 /* The display width sits in the img attributes, so it holds without CSS. */
 .centred {
   text-align: center;
+}
+
+/* The flyer, at the size it was drawn for. */
+.flyer {
+  max-width: 436px;
+  margin-inline: auto;
+}
+
+.flyer img {
+  width: 100%;
+  box-shadow: var(--shadow-sheet);
 }
 
 /* Wider than the text under it; 800px is 2x the 1600px file. */
