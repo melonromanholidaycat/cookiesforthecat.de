@@ -154,3 +154,19 @@ site to their home screen.
 
 Changes go through a pull request against `main`. The gig sync is the one thing
 that commits directly, by design: a cancelled gig should not wait for a review.
+
+**A push to `main` deploys the site on its own**, including a push made by a
+workflow's own `GITHUB_TOKEN`. Measured 2026-09-02 with a probe that pushed as
+the token and called no API: the build appeared 11 seconds later. Nothing needs
+to ask Pages for a build, and an earlier version of `termine.yml` that did was
+producing two builds per sync.
+
+**Scheduled workflows stop after 60 days without repository activity.** GitHub
+applies this to public repositories, which this is. Two things follow:
+
+- The hourly sync commits as `github-actions[bot]`. Do not assume that resets
+  the clock — bot activity generally does not count. A human push, merge or
+  issue does.
+- If it happens the site keeps serving; it only stops updating. Re-enable the
+  workflow in the Actions tab, one button. A gig you have played still sitting
+  under Termine instead of the archive is the symptom to watch for.
