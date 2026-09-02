@@ -61,8 +61,9 @@ bleiben dort dauerhaft stehen, auch wenn der Eintrag im Google-Kalender verschwi
 ## Jahresübersicht
 
 Die Seite **Jahresübersicht** listet alle Auftritte des laufenden Jahres
-untereinander, gespielte wie kommende, im Layout des früheren Termine-PDFs. Sie
-ist zum Ausdrucken gedacht: Menü und Fußzeile werden dabei weggelassen.
+untereinander, im Layout des früheren Termine-PDFs. Der Link auf der
+Termine-Seite öffnet sie in einem neuen Tab, so wie früher das PDF. Sie ist
+zum Ausdrucken gedacht.
 
 Sie entsteht aus denselben Daten wie die Termine-Seite und das Archiv — es ist
 nichts extra einzutragen. Bei kommenden Terminen steht die vollständige Adresse

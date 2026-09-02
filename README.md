@@ -17,7 +17,7 @@ index.html                Home
 ueber-uns/                About
 termine/                  Upcoming gigs        — generated, see below
 vergangene-termine/       Archive              — generated, see below
-jahresuebersicht/         The year on one page — generated, see below
+jahresuebersicht/         The year as a printable document — generated, see below
 kontakt/                  Contact
 veranstalter/             Press kit for venues
 impressum/                Legally required imprint

@@ -590,9 +590,25 @@ main > .visually-hidden + * {
 
 /* -------------------------------------------------------- Jahresübersicht */
 
-/* This page reproduces the document the band used to hand out: Verdana, one
- * blank line between everything, and two lines per gig — when, then where
- * with the venue in bold. */
+/* This page is a document rather than a page of the site — the link on
+ * Termine opens it the way the old PDF opened, so it carries no navigation
+ * and no site footer. Only the legal links stay, and they do not print.
+ *
+ * It reproduces the document the band used to hand out: Verdana, one blank
+ * line between everything, and two lines per gig — when, then where with the
+ * venue in bold. */
+.document-head {
+  padding-top: var(--space-gutter);
+  padding-bottom: var(--space-loose);
+  text-align: center;
+}
+
+.document-foot {
+  padding-top: var(--space-large);
+  padding-bottom: var(--space-loose);
+  color: var(--color-muted);
+}
+
 .year-title,
 .year-month,
 .year-list,
@@ -681,6 +697,11 @@ main > .visually-hidden + * {
   /* The masthead of the sheet, at the width the old document gave it. */
   .site-header-inner {
     justify-content: center;
+  }
+
+  .document-head {
+    padding-top: 0;
+    padding-bottom: 10pt;
   }
 
   .site-title img {
