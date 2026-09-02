@@ -48,11 +48,11 @@
     "datum": "2026-09-23",
     "zeit": "19:00",
     "ort": "Testevent",
-    "ort_link": "https://www.cookiesforthecat.de",
+    "ort_link": null,
     "adresse": "Hasselbrookstr. 132\n22089 Hamburg\nDeutschland",
     "text": [
       "Test notizen blabla",
-      "bla bla"
+      "bla bla bla"
     ],
     "privat": false
   },
