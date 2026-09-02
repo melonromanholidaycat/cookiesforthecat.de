@@ -114,6 +114,13 @@ a:hover {
   border-radius: 2px;
 }
 
+/* <address> is the right element for the contact details; its default italic
+ * is not what we want. */
+address {
+  font-style: normal;
+  margin: 0 0 var(--space-block);
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -386,20 +393,16 @@ main > .visually-hidden + * {
   list-style: none;
 }
 
-.kit li {
+.kit figure {
   display: grid;
   grid-template-columns: 40% 60%;
   align-items: center;
   gap: 0 var(--space-block);
-  margin-bottom: var(--space-block);
-}
-
-.kit figure {
-  margin: 0;
+  margin: 0 0 var(--space-block);
 }
 
 /* The full-resolution file is only fetched on click. */
-.kit figure a {
+.kit figure > a {
   display: block;
   line-height: 0;
 }
@@ -431,7 +434,7 @@ main > .visually-hidden + * {
 }
 
 @media (max-width: 700px) {
-  .kit li {
+  .kit figure {
     grid-template-columns: 1fr;
     gap: var(--space-block);
   }
@@ -447,7 +450,7 @@ main > .visually-hidden + * {
     gap: calc(var(--space-block) * 2) var(--space-block);
   }
 
-  .kit li {
+  .kit figure {
     grid-template-columns: 48% 52%;
     margin-bottom: 0;
   }
