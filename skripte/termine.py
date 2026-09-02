@@ -299,53 +299,71 @@ def render_archive(entries: list[dict]) -> str:
     if open_year:
         blocks.append((year, open_year))
     return "\n\n".join(
-        f'  <section class="content">\n    <h2 class="archive-heading">{y}</h2>\n'
+        f'  <section class="content">\n    <h2 class="archive-year">{y}</h2>\n'
         f'    <ul class="archive">\n' + "\n".join(lines) + "\n    </ul>\n  </section>"
         for y, lines in blocks
     )
 
 
+def year_place(entry: dict) -> tuple[str, str | None]:
+    """The venue name that goes in bold, and the address line after it.
+
+    A calendar gig carries both. So does an archive entry written from 2026
+    on; older ones hold only "Venue, Town", which splits at the last comma.
+    """
+    if entry.get("ort"):
+        return entry["ort"], entry.get("adresse")
+    text = entry.get("text") or "Auftritt"
+    name, _, town = text.rpartition(", ")
+    return (name, town) if name else (text, None)
+
+
 def year_rows(archive: list[dict], upcoming: list[dict],
               year: int) -> list[tuple]:
-    """Every gig of one year, oldest first: date, time, place.
+    """Every gig of one year, oldest first: date, time, venue, address.
 
     Played ones come from the archive, coming ones from the calendar. The two
     cannot overlap: a date is in exactly one of them.
     """
     prefix = f"{year}-"
-    rows = [(e["datum"], e.get("zeit"), e["text"])
+    rows = [(e["datum"], e.get("zeit"), *year_place(e))
             for e in archive if e["datum"].startswith(prefix)]
-    rows += [(g["datum"], g["zeit"], archive_text(g))
+    rows += [(g["datum"], g["zeit"], *year_place(g))
              for g in upcoming if g["datum"].startswith(prefix)]
     rows.sort(key=lambda row: (row[0], row[1] or ""))
     return rows
 
 
 def render_year(archive: list[dict], upcoming: list[dict], year: int) -> str:
-    """The year on one page, one heading per month.
-
-    Same shape as the archive, plus the time where the calendar gave us one.
-    """
+    """The year on one page, laid out like the document the band handed out:
+    a month heading, then two lines per gig — when, then where in bold."""
     rows = year_rows(archive, upcoming, year)
     if not rows:
         return ('  <p class="content">Für dieses Jahr stehen noch keine '
                 "Termine fest.</p>")
-    blocks, month, lines = [], None, []
-    for datum, zeit, text in rows:
+    blocks, month, items = [], None, []
+    for datum, zeit, name, address in rows:
         day = date.fromisoformat(datum)
         if day.month != month:
-            if lines:
-                blocks.append((month, lines))
-            month, lines = day.month, []
-        rest = " &middot; ".join(([clock(zeit)] if zeit else []) + [esc(text)])
-        lines.append(f'      <li><time datetime="{datum}">{day:%d.%m.%Y}</time>'
-                     f" &middot; {rest}</li>")
-    blocks.append((month, lines))
+            if items:
+                blocks.append((month, items))
+            month, items = day.month, []
+        where = f"<strong>{esc(name)}</strong>"
+        if address:
+            where += f" &middot; {esc(address)}"
+        items.append(
+            "      <li>\n"
+            f'        <p class="year-when"><time datetime="{datum}">'
+            f"{esc(long_date(datum, zeit))}</time></p>\n"
+            f'        <p class="year-where">{where}</p>\n'
+            "      </li>")
+    blocks.append((month, items))
     return "\n\n".join(
         f'  <section class="content">\n'
-        f'    <h2 class="archive-heading">{MONTHS[m - 1]}</h2>\n'
-        f'    <ul class="archive">\n' + "\n".join(ls) + "\n    </ul>\n  </section>"
-        for m, ls in blocks
+        f'    <h2 class="year-month">{MONTHS[m - 1]} {year}</h2>\n'
+        f'    <ul class="year-list">\n' + "\n".join(its)
+        + "\n    </ul>\n  </section>"
+        for m, its in blocks
     )
 
 
@@ -627,6 +645,12 @@ def main() -> int:
         entry = {"datum": gig["datum"], "text": archive_text(gig)}
         if gig.get("zeit"):
             entry["zeit"] = gig["zeit"]
+        # Kept for the Jahresübersicht, which prints the full address. Not
+        # for a private booking, where "text" is all there is to say.
+        if not gig["privat"]:
+            for key in ("ort", "adresse"):
+                if gig.get(key):
+                    entry[key] = gig[key]
         if (entry["datum"], entry["text"]) not in known:
             archive.append(entry)
             known.add((entry["datum"], entry["text"]))
@@ -649,8 +673,9 @@ def main() -> int:
                              render_archive(archive))
     next_changed = splice(ROOT / "index.html", "NEXT", render_next(upcoming))
     year_page = ROOT / "jahresuebersicht/index.html"
-    head_changed = splice(year_page, "YEARHEAD",
-                          f"    <h1>Termine {today.year}</h1>")
+    head_changed = splice(
+        year_page, "YEARHEAD",
+        f'    <h1 class="year-title">Unsere Auftritte {today.year}</h1>')
     year_changed = splice(year_page, "YEAR",
                           render_year(archive, upcoming, today.year))
 

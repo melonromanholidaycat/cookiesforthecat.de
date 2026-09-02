@@ -74,6 +74,11 @@ the Jahresübersicht and holds nothing but the year, so the page rolls over on
 1 January without anyone editing it. `sitemap.xml` gets a `lastmod` on
 whichever pages a run changes.
 
+The Jahresübersicht reproduces a document the band used to hand out — a
+CorelDRAW PDF, 10pt Verdana, month headings italic and underlined, two lines
+per gig with the venue in bold. The layout is deliberate, not drift; the
+original is worth looking at before changing it.
+
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
 
@@ -98,12 +103,13 @@ permanent, and nothing should ever remove from it.
 ## Print
 
 `@media print` at the end of the stylesheet applies to every page; the
-Jahresübersicht is the one meant to be printed. Navigation, the footer and
-anything carrying `.no-print` come off. This is the one place where a
-`font-size` is not a token and a length is not `rem`: a sheet of paper has no
-viewport, so the block uses `pt`.
-Check the length after changing the list — the year currently fits on two A4
-pages, and it is worth keeping it there.
+Jahresübersicht is the one meant to be printed, and on paper it should come out
+as the old document did. Navigation, the footer and anything carrying
+`.no-print` come off, and the wordmark becomes the masthead. This is the one
+place where a `font-size` is not a token and a length is not `rem`: a sheet of
+paper has no viewport, so the block uses `pt`, and the values there are
+measured from the original PDF. Check the length after changing the list —
+2026 is three A4 pages.
 
 ## Shared header and footer
 
@@ -115,6 +121,9 @@ rather than trusting that you got them all.
 
 - **Every `font-size` is a token** from the scale in `:root`, or a `clamp()`
   between two of them. No free-standing values.
+- **Three font families, none of them downloaded.** Georgia for headings, the
+  system sans for body, and Verdana on the Jahresübersicht, which reproduces a
+  document set in it. All three ship with the system; nothing is fetched.
 - **`--color-gold` is decoration, never text.** It is a rule, a bar, a tint.
   At 3.6:1 on the paper it would fail as body text, and that is fine as long
   as nothing sets it as a `color`.
