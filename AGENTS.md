@@ -105,6 +105,18 @@ rather than trusting that you got them all.
   text 13.79:1, links 5.48:1, muted 5.33:1. Check before changing a colour.
 - **Focus must be more visible than the resting state, not less.**
 
+## Spacing
+
+- **Every margin, padding and gap is a token**, or a `clamp()` between two of
+  them. The scale is `--space-hair` 4px, `--space-tight` 8px, `--space-snug`
+  12px, `--space-block` 24px, then the fluid `--space-gig`, `--space-section`
+  and `--space-large`.
+- **Everything lands on a 4px grid.** If a value needs to sit between two
+  tokens, the answer is usually the nearer token, not a new number. There were
+  three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.
+- Lengths are `rem`, not `px`. The exceptions are hairline borders and the
+  fixed widths of the wordmark and the footer rule.
+
 ## Images
 
 - Always set `width` and `height`, so the page does not reflow while loading.
