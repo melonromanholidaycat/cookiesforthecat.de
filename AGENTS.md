@@ -114,6 +114,11 @@ rather than trusting that you got them all.
 - **Everything lands on a 4px grid.** If a value needs to sit between two
   tokens, the answer is usually the nearer token, not a new number. There were
   three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.
+- **A breakpoint is a measured number, not a round one.** Both of the ones
+  in the footer and on Kontakt were guesses, and both were wrong by enough
+  to wrap a row of links. Measure where the content stops fitting, leave a
+  little slack, and put the arithmetic in the comment. Never let a
+  `max-width` and a `min-width` query share a number: both match on it.
 - Lengths are `rem`, not `px`. The exceptions are hairline borders and the
   fixed widths of the wordmark and the footer rule.
 
