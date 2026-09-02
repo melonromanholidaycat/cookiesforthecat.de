@@ -13,9 +13,9 @@ concurrency:
   group: termine
   cancel-in-progress: false
 
+# Only to push the commit. The Pages build follows the push on its own.
 permissions:
   contents: write
-  pages: write
 
 jobs:
   sync:
@@ -39,11 +39,9 @@ jobs:
         run: python3 skripte/termine.py
 
       - name: Commit any changes
-        id: commit
         run: |
           if [ -z "$(git status --porcelain)" ]; then
             echo "Nothing changed."
-            echo "changed=no" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           # The commit message is the review mechanism here, by choice.
@@ -54,26 +52,3 @@ jobs:
           git commit -m "Gig dates updated: $count upcoming" \
                      -m "$(git diff --cached --stat)"
           git push
-          echo "changed=yes" >> "$GITHUB_OUTPUT"
-
-      # A commit by this workflow's token does not trigger the Pages build.
-      # Verified: without this step the site does not update.
-      # Failing here is the one case where the repository is right and the site
-      # is wrong, so the job has to go red rather than swallow it.
-      - name: Ask Pages to rebuild
-        if: steps.commit.outputs.changed == 'yes'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          for attempt in 1 2 3; do
-            code=$(curl -sS -X POST -o /dev/null -w "%{http_code}" \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${{ github.repository }}/pages/builds")
-            echo "  Pages build requested: $code (attempt $attempt)"
-            [ "$code" = "201" ] && exit 0
-            sleep $((attempt * 5))
-          done
-          echo "::error::Pages did not accept the build request, so the commit is"\
-               "live in the repository but not on the site."
-          exit 1
