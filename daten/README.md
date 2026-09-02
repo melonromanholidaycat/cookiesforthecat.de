@@ -58,6 +58,13 @@ Kalender auf „abgesagt“ setzen — er verschwindet von der Website.
 Vergangene Auftritte wandern von selbst in die Liste **Vergangene Termine** und
 bleiben dort dauerhaft stehen, auch wenn der Eintrag im Google-Kalender verschwindet.
 
+## Jahresübersicht
+
+Die Seite **Jahresübersicht** listet alle Auftritte des laufenden Jahres
+untereinander, gespielte wie kommende, und ist zum Ausdrucken gedacht: Menü und
+Fußzeile werden dabei weggelassen. Sie entsteht aus denselben Daten wie die
+Termine-Seite und das Archiv — es ist nichts extra einzutragen.
+
 ## Kalender-Abo
 
 Auf der Website kann jeder alle Termine abonnieren oder einen einzelnen Termin

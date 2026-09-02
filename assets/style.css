@@ -377,9 +377,9 @@ main > .visually-hidden + * {
   margin-bottom: var(--space-tight);
 }
 
-/* The year as a quiet subheading — it should divide the list, not compete
- * with it. */
-.archive-year {
+/* The year on the archive, the month on the year list: a quiet subheading
+ * that divides the list rather than competing with it. */
+.archive-heading {
   font-size: var(--size-large);
   line-height: var(--line-snug);
   margin-bottom: var(--space-snug);
@@ -583,4 +583,65 @@ main > .visually-hidden + * {
 
 .photo img {
   width: 100%;
+}
+
+/* ------------------------------------------------------------------- Print */
+
+/* The Jahresübersicht is meant to be printed and handed out, so paper gets
+ * its own rules. They apply to every page: nothing here is specific to one.
+ * Physical units are deliberate — a sheet of paper has no viewport. */
+@media print {
+  :root {
+    --color-background: #fff;
+    --color-text: #000;
+    --color-accent: #000;
+    --color-muted: #333;
+  }
+
+  /* Navigation, the footer and in-page links to other pages are of no use
+   * on paper. */
+  .skip-link,
+  .site-nav,
+  .site-footer,
+  .no-print {
+    display: none;
+  }
+
+  body {
+    font-size: 11pt;
+  }
+
+  .site-header {
+    padding-top: 0;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Half the wordmark, so the list starts near the top of the sheet. */
+  .site-title img {
+    width: 130px;
+  }
+
+  .page-intro {
+    margin-bottom: 1.5rem;
+  }
+
+  /* A month must not be split across two sheets. */
+  .archive-heading {
+    font-size: 13pt;
+    margin-bottom: 0.5rem;
+    break-after: avoid;
+  }
+
+  .archive li {
+    margin-bottom: 0.25rem;
+  }
+
+  section {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }

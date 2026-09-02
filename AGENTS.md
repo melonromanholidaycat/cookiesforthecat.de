@@ -61,14 +61,18 @@ an edge to compare against. Write `margin: 0 auto`.
 Three files contain regions written by `skripte/termine.py`:
 
 ```
-termine/index.html              <!-- GIGS:START -->    … <!-- GIGS:END -->
-termine/index.html              <!-- EVENTS:START -->  … <!-- EVENTS:END -->
-vergangene-termine/index.html   <!-- ARCHIVE:START --> … <!-- ARCHIVE:END -->
-index.html                      <!-- NEXT:START -->    … <!-- NEXT:END -->
+termine/index.html              <!-- GIGS:START -->     … <!-- GIGS:END -->
+termine/index.html              <!-- EVENTS:START -->   … <!-- EVENTS:END -->
+vergangene-termine/index.html   <!-- ARCHIVE:START -->  … <!-- ARCHIVE:END -->
+jahresuebersicht/index.html     <!-- YEARHEAD:START --> … <!-- YEARHEAD:END -->
+jahresuebersicht/index.html     <!-- YEAR:START -->     … <!-- YEAR:END -->
+index.html                      <!-- NEXT:START -->     … <!-- NEXT:END -->
 ```
 
-The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
-`lastmod` on whichever pages a run changes.
+The EVENTS region is schema.org markup for the gigs. YEARHEAD is the `h1` of
+the Jahresübersicht and holds nothing but the year, so the page rolls over on
+1 January without anyone editing it. `sitemap.xml` gets a `lastmod` on
+whichever pages a run changes.
 
 Editing inside them is pointless — the next hourly run overwrites it. Edit the
 calendar, or the script.
@@ -90,6 +94,16 @@ the JSON, so everything downstream of it is safe to publish.
 
 `daten/archiv.json` is **append-only**. The gig history is meant to be
 permanent, and nothing should ever remove from it.
+
+## Print
+
+`@media print` at the end of the stylesheet applies to every page; the
+Jahresübersicht is the one meant to be printed. Navigation, the footer and
+anything carrying `.no-print` come off. This is the one place where a
+`font-size` is not a token and a length is not `rem`: a sheet of paper has no
+viewport, so the block uses `pt`.
+Check the length after changing the list — the year currently fits on two A4
+pages, and it is worth keeping it there.
 
 ## Shared header and footer
 

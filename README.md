@@ -17,6 +17,7 @@ index.html                Home
 ueber-uns/                About
 termine/                  Upcoming gigs        — generated, see below
 vergangene-termine/       Archive              — generated, see below
+jahresuebersicht/         The year on one page — generated, see below
 kontakt/                  Contact
 veranstalter/             Press kit for venues
 impressum/                Legally required imprint
@@ -30,8 +31,8 @@ skripte/                  the calendar sync
 
 The gig list is not edited here. It comes from a shared Google calendar:
 `skripte/termine.py` runs hourly, writes the entries into the marked regions of
-`termine/index.html`, `vergangene-termine/index.html` and `index.html`, and
-commits the result.
+`termine/index.html`, `vergangene-termine/index.html`,
+`jahresuebersicht/index.html` and `index.html`, and commits the result.
 
 `daten/README.md` explains the calendar side, in German, for the band member
 who maintains it.
