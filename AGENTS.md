@@ -101,6 +101,9 @@ rather than trusting that you got them all.
 
 - **Every `font-size` is a token** from the scale in `:root`, or a `clamp()`
   between two of them. No free-standing values.
+- **`--color-gold` is decoration, never text.** It is a rule, a bar, a tint.
+  At 3.6:1 on the paper it would fail as body text, and that is fine as long
+  as nothing sets it as a `color`.
 - **Every text/background pair clears WCAG AA (4.5:1).** Current values:
   text 13.79:1, links 5.48:1, muted 5.33:1. Check before changing a colour.
 - **Focus must be more visible than the resting state, not less.**
