@@ -14,9 +14,11 @@
   --color-muted: #6b625d;
 
   /* The wheat field and the embroidery on the dress, both from Plakat 1.
-   * Decoration only. It is never text, so it needs no text contrast. */
+   * The rules and the selection tint only. It is never text, so it needs no
+   * text contrast. */
   --color-gold: #a8752a;
-  /* The blue from the painted wall on Plakat 2. Focus, and the next gig. */
+  /* The blue from the painted wall on Plakat 2, so focus is the band's own
+   * colour and not a second terracotta. 6.65:1 on the paper. */
   --color-focus: #2f5591;
 
   /* One strength for every rule on the site. 45% gold sits at 1.68:1 on the
@@ -91,17 +93,6 @@ h4 {
 h1 {
   font-size: var(--size-colossal);
   line-height: var(--line-tight);
-}
-
-/* Hidden on the home page, where the h1 is only for screen readers. */
-h1::after {
-  content: "";
-  display: block;
-  width: 3rem;
-  height: 3px;
-  margin-top: var(--space-snug);
-  border-radius: 2px;
-  background: var(--color-gold);
 }
 
 h2 {
@@ -326,23 +317,6 @@ main > .visually-hidden + * {
 /* The list's own padding closes the gap under the last one. */
 .gig:last-child {
   margin-bottom: 0;
-}
-
-/* The next gig, in the wall blue. The dot carries it; the date follows so
- * the pair reads as one mark rather than a stray bullet. */
-.gig:first-child .gig-date {
-  color: var(--color-focus);
-}
-
-.gig:first-child .gig-date::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: var(--space-tight);
-  vertical-align: 0.05em;
-  border-radius: 50%;
-  background: var(--color-focus);
 }
 
 /* A small line above the venue; the venue name carries the entry. */
