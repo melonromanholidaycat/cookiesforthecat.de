@@ -340,16 +340,19 @@ def place(gig: dict) -> dict:
     if not address:
         return spot
     parts = [p.strip() for p in address.split("·") if p.strip()]
-    town = re.match(r"^(\d{5})\s+(.+)$", parts[-1]) if parts else None
-    if town:
+    found = POSTCODE.match(parts[-1]) if parts else None
+    if found:
         spot["address"] = {
             "@type": "PostalAddress",
-            "postalCode": town.group(1),
-            "addressLocality": town.group(2),
+            "postalCode": found.group(1),
+            "addressLocality": found.group(2),
             "addressCountry": "DE",
         }
-        if parts[:-1]:
-            spot["address"]["streetAddress"] = ", ".join(parts[:-1])
+        # Whatever stood before the postcode, here and in the earlier segments.
+        before = parts[-1][:found.start(1)].strip().strip(",").strip()
+        street = ", ".join(parts[:-1] + ([before] if before else []))
+        if street:
+            spot["address"]["streetAddress"] = street
     else:
         spot["address"] = address
     return spot
@@ -563,6 +566,20 @@ def write_json(path: Path, data) -> None:
 
 # ------------------------------------------------------------------- Run
 
+# The town is whatever follows the last German postcode, wherever the address
+# happens to break. Written that way because "Beispielweg 1, 23552 Lübeck" is
+# an easy thing to type instead of the documented "·", and the old rule then
+# put the whole street into the archive, which is the one thing it must not
+# hold. No postcode — a foreign address — and the segment stands as it is.
+POSTCODE = re.compile(r".*\b(\d{5})\s+(.+)$")
+
+
+def only_town(address: str) -> str:
+    last = re.split(r"[·]", address)[-1].strip()
+    found = POSTCODE.match(last)
+    return found.group(2).strip() if found else re.sub(r"^\d{5}\s*", "", last)
+
+
 def archive_text(gig: dict) -> str:
     """One archive line: 'Venue, Town' or 'private Veranstaltung'.
 
@@ -573,8 +590,7 @@ def archive_text(gig: dict) -> str:
         return "private Veranstaltung"
     town = ""
     if gig.get("adresse"):
-        last = gig["adresse"].split("·")[-1].strip()
-        town = re.sub(r"^\d{5}\s*", "", last)
+        town = only_town(gig["adresse"])
     return f"{gig['ort']}, {town}" if gig["ort"] and town else (gig["ort"] or "Auftritt")
 
 
