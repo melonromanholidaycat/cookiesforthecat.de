@@ -58,17 +58,11 @@ Kalender auf „abgesagt“ setzen — er verschwindet von der Website.
 Vergangene Auftritte wandern von selbst in die Liste **Vergangene Termine** und
 bleiben dort dauerhaft stehen, auch wenn der Eintrag im Google-Kalender verschwindet.
 
-## Jahresübersicht
+## Zum Ausdrucken
 
-Die Seite **Jahresübersicht** listet alle Auftritte des laufenden Jahres
-untereinander, im Layout des früheren Termine-PDFs. Der Link auf der
-Termine-Seite öffnet sie in einem neuen Tab, so wie früher das PDF. Sie ist
-zum Ausdrucken gedacht.
-
-Sie entsteht aus denselben Daten wie die Termine-Seite und das Archiv — es ist
-nichts extra einzutragen. Die Adressen für 2026 stammen aus dem alten PDF, bei
-allem Neuen merkt sich das Archiv Location und Adresse von selbst. Nur bei den
-Jahren davor steht weiterhin bloß der Ort.
+Die Termine-Seite lässt sich direkt ausdrucken. Menü, Fußzeile und die
+„Zum Kalender hinzufügen“-Links bleiben dabei weg — auf dem Blatt stehen nur
+das Logo und die Termine. Ein eigenes Dokument dafür gibt es nicht mehr.
 
 ## Kalender-Abo
 
@@ -93,8 +87,9 @@ nie gekürzt.
 Sollte der Kalender einmal wegfallen, sind beide Dateien weiterhin da und von
 Hand zu pflegen; `skripte/termine.py` erzeugt die Seiten daraus. Die Uhrzeit
 steht dort als `"zeit": "19:00"`; die Schreibweise `19:00 Uhr` entsteht erst
-beim Erzeugen der Seite. Neue Archiv-Einträge führen zusätzlich `ort` und
-`adresse` mit — nur die Jahresübersicht braucht sie.
+beim Erzeugen der Seite. Archiv-Einträge führen zusätzlich `ort` und `adresse`
+mit; angezeigt wird davon zurzeit nichts, aber die Angaben sind da, falls sie
+einmal gebraucht werden.
 
 `termine/kalender.ics` und die Dateien in `termine/kalender/` entstehen im
 selben Lauf und gehören dem Skript — von Hand geändert werden sie beim nächsten
