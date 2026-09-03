@@ -9,7 +9,7 @@ Es dauert höchstens eine Stunde, bis die Änderung online ist. Sonst ist nichts
 | Feld im Kalender | Steht später auf der Website |
 | --- | --- |
 | **Titel** | der Name der Location, z. B. `Musikkneipe Beispiel` |
-| **Ort** | die Adresse, z. B. `Beispielweg 1 · 23552 Lübeck` |
+| **Ort** | die Adresse, z. B. `Beispielweg 1 · 23552 Lübeck` — Komma geht auch |
 | **Beschreibung** | der Text unter dem Termin |
 | **Uhrzeit** | wird angezeigt, z. B. `21.00 Uhr` |
 
