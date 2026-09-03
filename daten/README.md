@@ -15,6 +15,22 @@ Es dauert höchstens eine Stunde, bis die Änderung online ist. Sonst ist nichts
 
 Die **Endzeit** wird nie angezeigt. Sie darf also ruhig ungenau sein.
 
+### Auftritte im Ausland
+
+Für die Liste **Vergangene Termine** wird aus der Adresse der Ort übernommen —
+und zwar das, was hinter dem letzten `·` steht, ohne deutsche Postleitzahl.
+Bei einer Adresse im Ausland deshalb Ort und Land zusammen in den letzten
+Abschnitt schreiben:
+
+```
+Novellara, Italien                      → „Wochenmarkt, Novellara, Italien“
+Piazza Unità 1 · Novellara, Italien     → „Wochenmarkt, Novellara, Italien“
+Piazza Unità 1 · 42017 Novellara · Italien   → „Wochenmarkt, Italien“ ✗
+```
+
+Im letzten Fall steht hinter dem letzten `·` nur noch das Land, der Ort geht
+verloren.
+
 Steht die Uhrzeit noch nicht fest, den Termin als **ganztägig** eintragen —
 dann erscheint nur das Datum.
 
