@@ -70,6 +70,13 @@ index.html                      <!-- NEXT:START -->     … <!-- NEXT:END -->
 The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
 `lastmod` on whichever pages a run changes.
 
+NEXT is the only region that changes without the calendar changing: a gig
+drops off the home page `LENGTH` after it starts — the two hours the feed
+gives every entry — while Termine keeps it for the rest of the day. So two
+runs an hour apart can differ on an unchanged calendar, and the home page
+follows a gig ending within the hour rather than at the minute. That is the
+cost of having no JavaScript, and it is the right trade.
+
 Its spacing is the document's own baseline rather than the site's scale, so
 those rules are in `em` of the list — the ratios carry between screen and
 paper, and only the base size changes. `.document > * + *` switches off the
