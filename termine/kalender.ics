@@ -3,8 +3,12 @@ VERSION:2.0
 PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
+DESCRIPTION:Alle Auftritte von Cookies For The Cat
+X-WR-CALDESC:Alle Auftritte von Cookies For The Cat
+NAME:Cookies For The Cat
 X-WR-CALNAME:Cookies For The Cat
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
+SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
