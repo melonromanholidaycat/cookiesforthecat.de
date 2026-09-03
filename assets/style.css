@@ -35,9 +35,6 @@
   --font-serif: Georgia, "Times New Roman", serif;
   --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  /* The old Termine document was set in Verdana. Like Georgia it ships with
-   * the system, so this costs no request; elsewhere the stack falls back. */
-  --font-document: Verdana, Geneva, var(--font-system);
 
   --size-small: 1rem;
   --size-medium: 1.125rem;
@@ -588,108 +585,17 @@ main > .visually-hidden + * {
   width: 100%;
 }
 
-/* -------------------------------------------------------- Jahresübersicht */
-
-/* This page is a document rather than a page of the site — the link on
- * Termine opens it the way the old PDF opened, so it carries no navigation
- * and no site footer. Only the legal links stay, and they do not print.
- *
- * It reproduces a document the band handed out, and the spacing is the
- * document's own: it is set on one baseline, one blank line between
- * everything. That is why these rules are in `em` of the list rather than
- * on the site's spacing scale — the ratios are what carry over, and only
- * the base size changes between screen and paper. Measured from the PDF:
- * 10pt type, 12.15pt leading, 24.3pt between blocks. */
-.document-head {
-  padding-top: var(--space-gutter);
-  padding-bottom: 2.4em;
-  text-align: center;
-}
-
-/* White paper, as the original was printed on, and none of the site's block
- * spacing, which would break the baseline the document sits on. */
-.document {
-  --color-background: #fff;
-}
-
-.document main > * + * {
-  margin-top: 0;
-}
-
-.document-foot {
-  padding-top: var(--space-large);
-  padding-bottom: var(--space-loose);
-  color: var(--color-muted);
-}
-
-.year-title,
-.year-month,
-.year-list,
-.year-note {
-  font-family: var(--font-document);
-}
-
-/* Centred and bold under the wordmark, barely larger than the list. */
-.year-title {
-  font-size: var(--size-medium);
-  line-height: 1.215;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 2.9em;
-}
-
-/* Italic and underlined, the document's own way of marking a month. */
-.year-month {
-  font-size: var(--size-small);
-  line-height: 1.215;
-  font-weight: 400;
-  font-style: italic;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  margin-bottom: 1.215em;
-}
-
-/* `0 auto`, not `0`: this list also carries .content. */
-.year-list {
-  margin: 0 auto 1.215em;
-  padding: 0;
-  list-style: none;
-  font-size: var(--size-small);
-  line-height: 1.215;
-  overflow-wrap: anywhere;
-}
-
-.year-list li + li {
-  margin-top: 1.215em;
-}
-
-.year-when,
-.year-where {
-  margin: 0;
-}
-
-.year-note {
-  margin-top: 3.6em;
-  font-size: var(--size-small);
-  font-style: italic;
-  text-align: center;
-  color: var(--color-muted);
-}
-
 /* ------------------------------------------------------------------- Print */
 
-/* The margins of the old document: 17.8mm at the sides, and enough above for
- * the wordmark to land where it did. No `size`, so a Letter sheet still
- * works. */
+/* Termine is the page anyone prints — a venue wants the dates on paper. The
+ * navigation, the footer and the add-to-calendar links are no use there, and
+ * the page box becomes the measure. Physical units are deliberate: a sheet of
+ * paper has no viewport, and this is the one place where a font-size is not a
+ * token. No `size` on @page, so a Letter sheet still works. */
 @page {
-  margin: 13mm 17.8mm 18mm;
+  margin: 15mm;
 }
 
-/* The Jahresübersicht is meant to be printed and handed out, so paper gets
- * its own rules. They apply to every page: nothing here is specific to one.
- * The values are measured from the PDF this replaces, so they are in `pt` —
- * a sheet of paper has no viewport, and this is the one place where a
- * font-size is not a token. */
 @media print {
   :root {
     --color-background: #fff;
@@ -698,16 +604,13 @@ main > .visually-hidden + * {
     --color-muted: #333;
   }
 
-  /* Navigation, the footer and in-page links to other pages are of no use
-   * on paper. */
   .skip-link,
   .site-nav,
   .site-footer,
-  .no-print {
+  .gig-add {
     display: none;
   }
 
-  /* The page box is the measure, as it was in the document. */
   .wrap {
     max-width: none;
     padding-inline: 0;
@@ -721,70 +624,51 @@ main > .visually-hidden + * {
     font-size: 11pt;
   }
 
+  /* The wordmark centred at the top of the sheet, then the list. */
   .site-header {
     padding-top: 0;
-    padding-bottom: 10pt;
+    padding-bottom: 18pt;
   }
 
-  /* The masthead of the sheet, at the width the old document gave it. */
   .site-header-inner {
     justify-content: center;
   }
 
-  .document-head {
-    padding-top: 0;
-    padding-bottom: 17pt;
-  }
-
-  /* 244pt of box for 186pt of wordmark: the artwork sits inside a viewBox
-   * a quarter wider than itself. */
   .site-title img {
-    width: 244pt;
+    width: 150pt;
   }
 
   .page-intro {
     margin-bottom: 18pt;
   }
 
-  /* 10pt on a 12.15pt baseline, one blank line between blocks. */
-  .year-title {
-    font-size: 12pt;
-    margin-bottom: 32pt;
+  /* The fluid spacing is measured against a viewport, so it is replaced. */
+  .gigs {
+    padding: 18pt 0;
   }
 
-  .year-month,
-  .year-list {
-    font-size: 10pt;
-    margin-bottom: 12.15pt;
+  .gig {
+    margin-bottom: 18pt;
   }
 
-  .year-list li + li {
-    margin-top: 12.15pt;
-  }
-
-  .year-note {
-    margin-top: 36pt;
-    font-size: 10pt;
-  }
-
-  /* A heading must not end a sheet, and an entry must not straddle two. */
-  .archive-year,
-  .year-month {
-    break-after: avoid;
-  }
-
-  .archive li,
-  .year-list li {
-    break-inside: avoid;
+  .gig + .gig {
+    padding-top: 18pt;
   }
 
   .archive-year {
     font-size: 13pt;
-    margin-bottom: 0.5rem;
+    margin-bottom: 6pt;
+    break-after: avoid;
   }
 
   .archive li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 3pt;
+  }
+
+  /* Neither a gig nor an archive line may straddle two sheets. */
+  .gig,
+  .archive li {
+    break-inside: avoid;
   }
 
   a {

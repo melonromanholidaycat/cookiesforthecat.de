@@ -64,22 +64,11 @@ Three files contain regions written by `skripte/termine.py`:
 termine/index.html              <!-- GIGS:START -->     … <!-- GIGS:END -->
 termine/index.html              <!-- EVENTS:START -->   … <!-- EVENTS:END -->
 vergangene-termine/index.html   <!-- ARCHIVE:START -->  … <!-- ARCHIVE:END -->
-jahresuebersicht/index.html     <!-- YEARHEAD:START --> … <!-- YEARHEAD:END -->
-jahresuebersicht/index.html     <!-- YEAR:START -->     … <!-- YEAR:END -->
 index.html                      <!-- NEXT:START -->     … <!-- NEXT:END -->
 ```
 
-The EVENTS region is schema.org markup for the gigs. YEARHEAD is the `h1` of
-the Jahresübersicht and holds nothing but the year, so the page rolls over on
-1 January without anyone editing it. `sitemap.xml` gets a `lastmod` on
-whichever pages a run changes.
-
-The Jahresübersicht reproduces a document the band used to hand out — a
-CorelDRAW PDF, 10pt Verdana, month headings italic and underlined, two lines
-per gig with the venue in bold. The layout is deliberate, not drift; the
-original is worth looking at before changing it. It is the page the band
-prints and hands out, so it is the one place where looking like the old site
-beats looking like the new one.
+The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
+`lastmod` on whichever pages a run changes.
 
 Its spacing is the document's own baseline rather than the site's scale, so
 those rules are in `em` of the list — the ratios carry between screen and
@@ -109,21 +98,21 @@ permanent, and nothing should ever remove from it.
 
 ## Print
 
-`@media print` at the end of the stylesheet applies to every page; the
-Jahresübersicht is the one meant to be printed, and on paper it should come out
-as the old document did. Navigation, the footer and anything carrying
-`.no-print` come off, the page box becomes the measure, and the wordmark
-becomes the masthead.
+`@media print` at the end of the stylesheet applies to every page, but Termine
+is the one anyone prints: a venue wants the dates on paper. Navigation, the
+footer and the add-to-calendar links come off, the page box becomes the
+measure, and the wordmark sits centred at the top of the sheet.
 
 This is the one place where a `font-size` is not a token and a length is not
-`rem`: a sheet of paper has no viewport, so `@page` and the block use `pt` and
-`mm`, and every value there is measured from the original PDF — margins
-17.8mm, 10pt type on a 12.15pt baseline, one blank line between blocks, the
-wordmark 186pt wide. Printed side by side the two sheets line up to within a
-point over the length of a page; the way to check a change is to make that
-comparison again, not to eyeball it. 2026 is three A4 pages.
+`rem`. A sheet of paper has no viewport, so the fluid spacing that measures
+against one is replaced with `pt`, and `@page` carries the margins. It sets no
+`size`, so a Letter sheet still works.
 
-`@page` sets no `size`, so a Letter sheet still works.
+The band once handed out a printed list of the year, and this site briefly
+carried a page reproducing it. It was dropped: three pages saying the same
+thing is worse for a reader than one, and a second list of gigs is one more
+thing to keep in step. If it ever comes back, the history has it — the layout
+was measured off the original PDF rather than guessed.
 
 ## Shared header and footer
 
@@ -131,28 +120,15 @@ Identical on every page, byte for byte. There is no templating, so changing
 them means changing all nine files consistently. Check with a diff afterwards
 rather than trusting that you got them all.
 
-`jahresuebersicht/` is the tenth file and the one exception: it is a document,
-not a page of the site, so it has neither the navigation nor the site footer —
-only the wordmark above it and the legal links below. Its `body` carries
-`.document`, which also puts it on white rather than the site's cream, because
-that is the paper the original was printed on. The link on Termine opens it in
-a new tab, the way the PDF link on the old site did. Do not "fix" any of that
-by giving it the shared chrome.
-
 ## Type and colour
 
 - **Every `font-size` is a token** from the scale in `:root`, or a `clamp()`
   between two of them. No free-standing values.
-- **Three font families, none of them downloaded.** Georgia for headings, the
-  system sans for body, and Verdana on the Jahresübersicht, which reproduces a
-  document set in it. All three ship with the system; nothing is fetched.
 - **`--color-gold` is decoration, never text.** It is a rule, a bar, a tint.
   At 3.6:1 on the paper it would fail as body text, and that is fine as long
   as nothing sets it as a `color`.
-- **Every text/background pair clears WCAG AA (4.5:1).** Current values on the
-  cream: text 13.79:1, links 5.48:1, muted 5.33:1. On the Jahresübersicht's
-  white every one of them is higher (15.40, 6.12, 5.95), so the cream is the
-  case to check against.
+- **Every text/background pair clears WCAG AA (4.5:1).** Current values:
+  text 13.79:1, links 5.48:1, muted 5.33:1. Check before changing a colour.
 - **Focus must be more visible than the resting state, not less.**
 
 ## Spacing
