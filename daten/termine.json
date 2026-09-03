@@ -1,5 +1,14 @@
 [
   {
+    "datum": "2026-09-03",
+    "zeit": "09:00",
+    "ort": "Wochenmarkt",
+    "ort_link": null,
+    "adresse": "Novellara, Italien",
+    "text": [],
+    "privat": false
+  },
+  {
     "datum": "2026-09-08",
     "zeit": "19:00",
     "ort": "Aventura Bremen",
