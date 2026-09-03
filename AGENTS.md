@@ -100,8 +100,15 @@ permanent, and nothing should ever remove from it.
 
 `@media print` at the end of the stylesheet applies to every page, but Termine
 is the one anyone prints: a venue wants the dates on paper. Navigation, the
-footer and the add-to-calendar links come off, the page box becomes the
-measure, and the wordmark sits centred at the top of the sheet.
+footer, the add-to-calendar links and the gig notes come off, the page box
+becomes the measure, and the wordmark sits centred at the top of the sheet.
+Twelve gigs come out as two A4 pages.
+
+**`.no-print` marks prose that only makes sense on screen** — the two intro
+paragraphs on Termine and on Vergangene Termine, and the in-page link between
+them. It is applied one element at a time on purpose: `.page-intro` carries
+real text on Veranstalter and on the 404 page, so a blanket rule would delete
+it there.
 
 This is the one place where a `font-size` is not a token and a length is not
 `rem`. A sheet of paper has no viewport, so the fluid spacing that measures
