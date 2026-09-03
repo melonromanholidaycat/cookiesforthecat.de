@@ -606,8 +606,13 @@ main > .visually-hidden + * {
   text-align: center;
 }
 
-/* The site's block spacing would break the baseline the document sits on. */
-.document > * + * {
+/* White paper, as the original was printed on, and none of the site's block
+ * spacing, which would break the baseline the document sits on. */
+.document {
+  --color-background: #fff;
+}
+
+.document main > * + * {
   margin-top: 0;
 }
 

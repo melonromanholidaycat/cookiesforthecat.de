@@ -133,9 +133,11 @@ rather than trusting that you got them all.
 
 `jahresuebersicht/` is the tenth file and the one exception: it is a document,
 not a page of the site, so it has neither the navigation nor the site footer —
-only the wordmark above it and the legal links below. The link on Termine
-opens it in a new tab, the way the PDF link on the old site did. Do not
-"fix" it by giving it the shared chrome.
+only the wordmark above it and the legal links below. Its `body` carries
+`.document`, which also puts it on white rather than the site's cream, because
+that is the paper the original was printed on. The link on Termine opens it in
+a new tab, the way the PDF link on the old site did. Do not "fix" any of that
+by giving it the shared chrome.
 
 ## Type and colour
 
@@ -147,8 +149,10 @@ opens it in a new tab, the way the PDF link on the old site did. Do not
 - **`--color-gold` is decoration, never text.** It is a rule, a bar, a tint.
   At 3.6:1 on the paper it would fail as body text, and that is fine as long
   as nothing sets it as a `color`.
-- **Every text/background pair clears WCAG AA (4.5:1).** Current values:
-  text 13.79:1, links 5.48:1, muted 5.33:1. Check before changing a colour.
+- **Every text/background pair clears WCAG AA (4.5:1).** Current values on the
+  cream: text 13.79:1, links 5.48:1, muted 5.33:1. On the Jahresübersicht's
+  white every one of them is higher (15.40, 6.12, 5.95), so the cream is the
+  case to check against.
 - **Focus must be more visible than the resting state, not less.**
 
 ## Spacing
