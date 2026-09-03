@@ -534,7 +534,11 @@ def write_json(path: Path, data) -> None:
 # ------------------------------------------------------------------- Run
 
 def archive_text(gig: dict) -> str:
-    """One archive line: 'Venue, Town' or 'private Veranstaltung'."""
+    """One archive line: 'Venue, Town' or 'private Veranstaltung'.
+
+    The town, not the street: the archive keeps where the band played, not how
+    to find the door. Some of those doors are somebody's front door.
+    """
     if gig["privat"]:
         return "private Veranstaltung"
     town = ""
@@ -580,13 +584,6 @@ def main() -> int:
         entry = {"datum": gig["datum"], "text": archive_text(gig)}
         if gig.get("zeit"):
             entry["zeit"] = gig["zeit"]
-        # Nothing renders these yet; they are what the calendar gave us, and
-        # cheaper to keep than to recover. Not for a private booking, where
-        # "text" is all there is to say.
-        if not gig["privat"]:
-            for key in ("ort", "adresse"):
-                if gig.get(key):
-                    entry[key] = gig[key]
         if (entry["datum"], entry["text"]) not in known:
             archive.append(entry)
             known.add((entry["datum"], entry["text"]))

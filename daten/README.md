@@ -87,9 +87,9 @@ nie gekürzt.
 Sollte der Kalender einmal wegfallen, sind beide Dateien weiterhin da und von
 Hand zu pflegen; `skripte/termine.py` erzeugt die Seiten daraus. Die Uhrzeit
 steht dort als `"zeit": "19:00"`; die Schreibweise `19:00 Uhr` entsteht erst
-beim Erzeugen der Seite. Archiv-Einträge führen zusätzlich `ort` und `adresse`
-mit; angezeigt wird davon zurzeit nichts, aber die Angaben sind da, falls sie
-einmal gebraucht werden.
+beim Erzeugen der Seite. Im Archiv steht bewusst nur `text` — Location und Ort,
+keine Straße: wo gespielt wurde, gehört ins Archiv, die genaue Adresse nur so
+lange auf die Termine-Seite, wie der Auftritt noch bevorsteht.
 
 `termine/kalender.ics` und die Dateien in `termine/kalender/` entstehen im
 selben Lauf und gehören dem Skript — von Hand geändert werden sie beim nächsten
