@@ -55,6 +55,11 @@ Für einen Auftritt über mehrere Tage bitte pro Tag einen Termin anlegen.
 Termin im Kalender ändern — die Website zieht nach. Termin löschen oder im
 Kalender auf „abgesagt“ setzen — er verschwindet von der Website.
 
+Auf der Startseite steht „Nächster Auftritt“. Dort verschwindet ein Termin zwei
+Stunden nach Beginn — so lange, wie ein Kalendereintrag bei uns dauert. Auf der
+Termine-Seite bleibt er den ganzen Tag stehen. Ein ganztägiger Termin ohne
+Uhrzeit bleibt auf beiden Seiten bis Mitternacht.
+
 Vergangene Auftritte wandern von selbst in die Liste **Vergangene Termine** und
 bleiben dort dauerhaft stehen, auch wenn der Eintrag im Google-Kalender verschwindet.
 

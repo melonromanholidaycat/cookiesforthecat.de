@@ -302,7 +302,25 @@ def render_archive(entries: list[dict]) -> str:
     )
 
 
-def render_next(gigs: list[dict]) -> str:
+def over(gig: dict, now: datetime) -> bool:
+    """Has this gig finished?
+
+    A timed gig is over LENGTH after it starts — the two hours every entry
+    gets in the feed. An all-day gig has no time to reckon with, so it lasts
+    the day.
+    """
+    when = moment(gig)
+    if isinstance(when, datetime):
+        return now >= when + LENGTH
+    return when < now.astimezone(ZONE).date()
+
+
+def render_next(gigs: list[dict], now: datetime | None = None) -> str:
+    """The home page names the next gig, and stops naming one that has been
+    played. Termine keeps it for the rest of the day, which is right there;
+    "Nächster Auftritt" said of this morning is simply wrong.
+    """
+    gigs = [g for g in gigs if not over(g, now or datetime.now(timezone.utc))]
     if not gigs:
         return ('  <p class="centred"><a href="termine/">Alle Termine '
                 "ansehen &rarr;</a></p>")
