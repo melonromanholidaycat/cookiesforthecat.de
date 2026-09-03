@@ -471,7 +471,19 @@ def calendar_file(events: list[Event], subscribable: bool = False) -> bytes:
     cal.add("CALSCALE", "GREGORIAN")
     cal.add("METHOD", "PUBLISH")
     if subscribable:
+        # NAME and DESCRIPTION are RFC 7986; X-WR-CALNAME is the Apple
+        # extension that predates it. Both, because clients honour either.
+        # The events themselves are not prefixed with the band's name — that
+        # is what the calendar name is for, and a prefix only truncates in a
+        # month view. The single downloads are prefixed, having no calendar
+        # name to lean on.
+        cal.add("NAME", "Cookies For The Cat")
         cal.add("X-WR-CALNAME", "Cookies For The Cat")
+        cal.add("DESCRIPTION", "Alle Auftritte von Cookies For The Cat")
+        cal.add("X-WR-CALDESC", "Alle Auftritte von Cookies For The Cat")
+        # Where to re-fetch, for a copy that was passed on rather than subscribed.
+        cal.add("SOURCE", f"{SITE}/termine/kalender.ics",
+                parameters={"VALUE": "URI"})
         cal.add("X-WR-TIMEZONE", "Europe/Berlin")
         # Two spellings of the same thing: Apple, Google and Outlook.
         cal.add("REFRESH-INTERVAL", timedelta(hours=12),
