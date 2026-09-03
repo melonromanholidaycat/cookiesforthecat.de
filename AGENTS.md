@@ -103,6 +103,12 @@ the JSON, so everything downstream of it is safe to publish.
 `daten/archiv.json` is **append-only**. The gig history is meant to be
 permanent, and nothing should ever remove from it.
 
+**29.08.2025 carries `private Veranstaltung` twice, and that is correct** —
+two private bookings on one day. It looks exactly like a duplicate and a
+consistency check will flag it; the band has confirmed it. Three other dates
+carry two entries too (13.09.2025, 03.09.2022, 04.09.2021), each with two
+different venues. Leave all four alone.
+
 ## Print
 
 `@media print` at the end of the stylesheet applies to every page, but Termine
