@@ -201,6 +201,12 @@ site to their home screen.
   poster PDFs. Download targets, not page weight. The three poster JPEGs carry
   a 1.83 MB embedded CMYK profile each; stripping it would save 5.5 MB and
   change no pixels, but the owner has left these files alone.
+- **The UTF-8 BOM on the two `.txt` files** in the same folder. Pages serves
+  them as `charset=utf-8`, so a browser is right either way — the BOM is for
+  the copy a promoter downloads and opens in an editor, where no header is
+  left to read and the app has to guess. Without it, a device whose default is
+  not UTF-8 shows `Grundfläche` as `GrundflÃ¤che`; that is what a venue
+  reported. Keep it if you re-save either file.
 - **The old WordPress install** is still serving the real domain. It is also
   the only remaining source of some original artwork, so do not treat the DNS
   switch as routine.
