@@ -604,10 +604,15 @@ main > .visually-hidden + * {
     --color-muted: #333;
   }
 
+  /* On paper: no navigation, no footer, no add-to-calendar links, and none
+   * of the prose that only makes sense on screen — `.no-print` marks that
+   * one element at a time, since `.page-intro` carries real text elsewhere. */
   .skip-link,
   .site-nav,
   .site-footer,
-  .gig-add {
+  .gig-add,
+  .gig-note,
+  .no-print {
     display: none;
   }
 
@@ -639,7 +644,7 @@ main > .visually-hidden + * {
   }
 
   .page-intro {
-    margin-bottom: 18pt;
+    margin-bottom: 12pt;
   }
 
   /* The fluid spacing is measured against a viewport, so it is replaced. */
