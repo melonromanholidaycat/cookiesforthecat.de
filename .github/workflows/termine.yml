@@ -21,7 +21,12 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # Full history: the sitemap's lastmod for the hand-written pages comes
+      # from the day git last recorded a change to each one, and the default
+      # shallow clone knows only the tip commit.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:

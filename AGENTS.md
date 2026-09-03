@@ -68,7 +68,12 @@ index.html                      <!-- NEXT:START -->     … <!-- NEXT:END -->
 ```
 
 The EVENTS region is schema.org markup for the gigs. `sitemap.xml` gets a
-`lastmod` on whichever pages a run changes.
+`lastmod` on every page: today for the ones a run changes, and for the rest the
+day git last recorded a change to the file. So a hand-edited page needs no
+follow-up here. It does mean the workflow must keep `fetch-depth: 0` — a
+shallow clone reports its tip commit as having introduced every file, which
+would date all eight pages today. The script checks for that and leaves the
+sitemap alone rather than filling it with a date it made up.
 
 NEXT is the only region that changes without the calendar changing: a gig
 drops off the home page `LENGTH` after it starts — the two hours the feed

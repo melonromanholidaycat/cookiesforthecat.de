@@ -13,7 +13,7 @@ What this touches:
     termine/kalender/*.ics          one file per gig, for a single download
     daten/termine.json              upcoming gigs as of the last sync
     daten/archiv.json               history, only ever appended to
-    sitemap.xml                     lastmod on the pages this touches
+    sitemap.xml                     lastmod on every page
 
 Everything outside the markers is left alone. The committed HTML stays exactly
 what gets served; there is no build step.
@@ -31,10 +31,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import html
 import os
 import re
+import subprocess
 import sys
 import unicodedata
 import urllib.request
@@ -542,16 +544,78 @@ def splice(path: Path, marker: str, content: str) -> bool:
     return True
 
 
+def page_file(path: str) -> Path:
+    """The file behind a sitemap URL: "/termine/" is termine/index.html."""
+    return ROOT / f"{path.strip('/')}/index.html".lstrip("/")
+
+
+@functools.cache
+def shallow() -> bool:
+    """Is this a shallow clone, or not a repository at all?
+
+    Worth asking because a shallow clone does not answer "I don't know". Its
+    tip commit has no parent, so git names it as the commit that introduced
+    every file, and every page would be stamped as changed today — the exact
+    unreliability this is meant to end. The workflow clones in full for that
+    reason; this is what happens if it ever stops.
+    """
+    try:
+        done = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                              cwd=ROOT, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return True
+    return done.returncode != 0 or done.stdout.strip() != "false"
+
+
+def last_commit(file: Path) -> str | None:
+    """The day git last recorded a change to this file, or None.
+
+    Read in Berlin time, the same clock the rest of this script keeps, so a
+    run just before midnight UTC does not stamp one page a day ahead of the
+    next and then correct itself tomorrow.
+
+    None whenever git cannot answer — a shallow clone knows only the tip
+    commit and says nothing about every file it did not touch. The caller then
+    keeps the date the sitemap already carries, which is never the worse of
+    the two.
+    """
+    if shallow():
+        return None
+    try:
+        done = subprocess.run(
+            ["git", "log", "-1", "--date=format-local:%Y-%m-%d", "--format=%cd",
+             "--", str(file)],
+            cwd=ROOT, capture_output=True, text=True, timeout=10,
+            env={**os.environ, "TZ": str(ZONE)})
+    except (OSError, subprocess.SubprocessError):
+        return None
+    day = done.stdout.strip()
+    if done.returncode or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
+        return None
+    return day
+
+
 def touch_sitemap(paths: list[str], day: date) -> bool:
-    """Record today against the pages this run changed."""
+    """Bring lastmod up to date on every page, not only the generated ones.
+
+    The pages this run changed carry today: their commit does not exist yet,
+    so git has nothing to say about them. Every other page carries the day git
+    last recorded a change to it, which asks nobody to remember anything after
+    editing a page by hand. Worth doing because a date on three pages out of
+    eight is worth less than none: Google ignores lastmod altogether once it
+    looks unreliable.
+    """
     file = ROOT / "sitemap.xml"
     text = file.read_text(encoding="utf-8")
     updated = text
-    for path in paths:
-        loc = f"{SITE}{path}"
+    for loc in re.findall(r"<loc>([^<]*)</loc>", text):
+        path = loc[len(SITE):]
+        when = day.isoformat() if path in paths else last_commit(page_file(path))
+        if not when:
+            continue
         updated = re.sub(
             rf"(<url><loc>{re.escape(loc)}</loc>)(<lastmod>[^<]*</lastmod>)?(</url>)",
-            rf"\g<1><lastmod>{day.isoformat()}</lastmod>\g<3>", updated)
+            rf"\g<1><lastmod>{when}</lastmod>\g<3>", updated)
     if updated == text:
         return False
     file.write_text(updated, encoding="utf-8")
@@ -659,7 +723,7 @@ def main() -> int:
     changed = [
         gigs_changed, events_changed, archive_changed, next_changed,
         write_calendars(upcoming, names),
-        touch_sitemap(touched, today) if touched else False,
+        touch_sitemap(touched, today),
     ]
     write_json(gigs_file, upcoming)
     write_json(archive_file, sorted(archive, key=lambda e: e["datum"], reverse=True))
