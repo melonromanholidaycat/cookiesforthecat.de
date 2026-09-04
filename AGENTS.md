@@ -58,8 +58,9 @@ one only on a computer, since the Google Calendar app cannot add a calendar by
 address at all. Keep all three; dropping `webcal://` breaks the one-tap path
 for the people it does work for.
 
-The `<details>` names the two routes and where each works, and explains
-nothing else. Nobody reading it wants to know what a URI scheme is.
+The `<details>` names the two routes and where each works, and nothing else —
+no URI schemes, no sync caveats. Every sentence added there has to earn its
+place against somebody who just wants the dates in their phone.
 
 ## The centred column
 
