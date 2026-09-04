@@ -198,6 +198,11 @@ rather than trusting that you got them all.
   12px, `--space-block` 24px, then the fluid `--space-loose`, `--space-section`
   and `--space-large`. Names describe size, not the thing they happen to be
   used on.
+- **Check a fluid token at both ends.** `clamp(2rem, 8vw, 6rem)` looks right on
+  a phone, where the middle term wins, and is still growing at 1440 where the
+  ceiling does — `--space-section` put 96px under every page intro, on top of
+  whatever the block below already had. The floor is what the phone gets; the
+  ceiling is a separate decision, and it is the one that goes unnoticed.
 - **Everything lands on a 4px grid.** If a value needs to sit between two
   tokens, the answer is usually the nearer token, not a new number. There were
   three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.

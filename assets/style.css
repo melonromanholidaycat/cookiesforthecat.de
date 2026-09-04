@@ -50,7 +50,7 @@
 
   --space-block: 1.5rem;
   --space-gutter: max(1.25rem, 5vw);
-  --space-section: clamp(2rem, 8vw, 6rem);
+  --space-section: clamp(2rem, 8vw, 3rem);
   --space-large: clamp(4rem, 10vw, 6rem);
 
   /* Applied twice between two gigs, and under the flyer on the home page. */
