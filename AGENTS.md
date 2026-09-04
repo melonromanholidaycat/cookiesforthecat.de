@@ -139,6 +139,12 @@ them. It is applied one element at a time on purpose: `.page-intro` carries
 real text on Veranstalter and on the 404 page, so a blanket rule would delete
 it there.
 
+**`@page` is easy to lose without noticing.** A stray `*/` above it — an
+inserted rule that split the section comment, say — makes the parser swallow
+the whole rule during error recovery, and the printed sheet quietly loses its
+margins. Nothing warns: the HTML still validates and the screen is unaffected.
+Check with `[...document.styleSheets]` that a `CSSPageRule` survives.
+
 This is the one place where a `font-size` is not a token and a length is not
 `rem`. A sheet of paper has no viewport, so the fluid spacing that measures
 against one is replaced with `pt`, and `@page` carries the margins. It sets no

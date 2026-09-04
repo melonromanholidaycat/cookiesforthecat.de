@@ -585,12 +585,6 @@ main > .visually-hidden + * {
   width: 100%;
 }
 
-/* ------------------------------------------------------------------- Print */
-
-/* Termine is the page anyone prints — a venue wants the dates on paper. The
- * navigation, the footer and the add-to-calendar links are no use there, and
- * the page box becomes the measure. Physical units are deliberate: a sheet of
- * paper has no viewport, and this is the one place where a font-size is not a
 /* The subscribe link is webcal://, which iOS and macOS hand to Calendar and
  * Android hands to nobody at all — tapping it there does nothing, silently.
  * The way out on Android is the plain https address, so it sits behind a
@@ -622,6 +616,12 @@ main > .visually-hidden + * {
   color: var(--color-text);
 }
 
+/* ------------------------------------------------------------------- Print */
+
+/* Termine is the page anyone prints — a venue wants the dates on paper. The
+ * navigation, the footer and the add-to-calendar links are no use there, and
+ * the page box becomes the measure. Physical units are deliberate: a sheet of
+ * paper has no viewport, and this is the one place where a font-size is not a
  * token. No `size` on @page, so a Letter sheet still works. */
 @page {
   margin: 15mm;
