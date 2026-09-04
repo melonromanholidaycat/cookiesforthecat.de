@@ -200,9 +200,13 @@ rather than trusting that you got them all.
   used on.
 - **Check a fluid token at both ends.** `clamp(2rem, 8vw, 6rem)` looks right on
   a phone, where the middle term wins, and is still growing at 1440 where the
-  ceiling does — `--space-section` put 96px under every page intro, on top of
-  whatever the block below already had. The floor is what the phone gets; the
-  ceiling is a separate decision, and it is the one that goes unnoticed.
+  ceiling does. The floor is what the phone gets; the ceiling is a separate
+  decision, and it is the one that goes unnoticed.
+- **A gap that is wrong on one page is not wrong on all of them.**
+  `--space-section` under the page intro is right on Veranstalter and the
+  archive, and too much only on Termine, whose intro runs straight into a
+  padded, ruled list. `.gigs-intro` overrides it there and nowhere else.
+  Lowering the token instead changed four pages to fix one.
 - **Everything lands on a 4px grid.** If a value needs to sit between two
   tokens, the answer is usually the nearer token, not a new number. There were
   three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.

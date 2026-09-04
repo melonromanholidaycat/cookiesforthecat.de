@@ -50,7 +50,7 @@
 
   --space-block: 1.5rem;
   --space-gutter: max(1.25rem, 5vw);
-  --space-section: clamp(2rem, 8vw, 3rem);
+  --space-section: clamp(2rem, 8vw, 6rem);
   --space-large: clamp(4rem, 10vw, 6rem);
 
   /* Applied twice between two gigs, and under the flyer on the home page. */
@@ -290,6 +290,14 @@ main > .visually-hidden + * {
 
 .page-intro {
   margin-bottom: var(--space-section);
+}
+
+/* Termine alone runs tight here. Its intro ends on the subscribe line and the
+ * gig list starts with its own padding and a rule, so the full section gap
+ * leaves the first date stranded on a wide screen. The other three intros are
+ * read and then left, and want the air. */
+.gigs-intro {
+  margin-bottom: var(--space-loose);
 }
 
 /* ----------------------------------------------------------------- Gig list */
