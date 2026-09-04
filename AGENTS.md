@@ -134,6 +134,18 @@ thing is worse for a reader than one, and a second list of gigs is one more
 thing to keep in step. If it ever comes back, the history has it — the layout
 was measured off the original PDF rather than guessed.
 
+## Downloads on Veranstalter
+
+Each asset carries its size in the caption, and **those sizes are binary** —
+KiB and MiB, written `KB` and `MB`. Re-encode a file and the caption is now
+wrong: recompute against 1024, not 1000, or the page gains a second
+convention nobody notices.
+
+The full-resolution JPEGs are progressive, so a 1 MB press photo appears at
+once instead of unrolling top to bottom. `jpegtran -progressive -optimize
+-copy all` does that without touching a pixel; re-encoding through an image
+library does not, and loses a little each time.
+
 ## Shared header and footer
 
 Identical on every page, byte for byte. There is no templating, so changing
