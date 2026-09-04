@@ -591,26 +591,29 @@ main > .visually-hidden + * {
  * navigation, the footer and the add-to-calendar links are no use there, and
  * the page box becomes the measure. Physical units are deliberate: a sheet of
  * paper has no viewport, and this is the one place where a font-size is not a
-/* One row per calendar, because the one-tap link differs by platform: Apple
- * takes webcal://, Google needs its own add-by-URL address, and everything
- * else gets the feed to paste. Labels first so nobody has to guess which is
- * theirs. */
-.subscribe {
-  margin: var(--space-block) 0 0;
+/* The subscribe link is webcal://, which iOS and macOS hand to Calendar and
+ * Android hands to nobody at all — tapping it there does nothing, silently.
+ * The way out on Android is the plain https address, so it sits behind a
+ * <details> rather than in everyone's way. Native element, no script. */
+.hint {
+  margin-top: var(--space-block);
   font-size: var(--size-small);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-tight) var(--space-block);
-  align-items: baseline;
+  color: var(--color-muted);
 }
 
-.subscribe dt { color: var(--color-muted); }
+.hint summary {
+  cursor: pointer;
+  color: var(--color-accent);
+  text-decoration: underline;
+}
 
-.subscribe dd { margin: 0; }
+.hint summary:hover {
+  text-decoration: none;
+}
 
-/* The address is longer than the value column at any width, so it takes a row
- * of its own under its label instead of breaking mid-word. */
-.subscribe .feed-url { grid-column: 1 / -1; }
+.hint > p {
+  margin: var(--space-snug) 0 0;
+}
 
 /* Long enough to overflow a phone: let it wrap mid-string rather than push
  * the page sideways. */
@@ -618,8 +621,6 @@ main > .visually-hidden + * {
   overflow-wrap: anywhere;
   color: var(--color-text);
 }
-
-.subscribe .feed-url code { color: inherit; }
 
  * token. No `size` on @page, so a Letter sheet still works. */
 @page {
