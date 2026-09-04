@@ -146,6 +146,12 @@ once instead of unrolling top to bottom. `jpegtran -progressive -optimize
 -copy all` does that without touching a pixel; re-encoding through an image
 library does not, and loses a little each time.
 
+**Check what a poster export carries before committing it.** The three came
+off CorelDRAW with ISO Coated v2 (ECI) embedded — a 1.8 MB CMYK printer
+profile attached to RGB pixels, which no colour engine can apply and every
+download paid for. It was 80% of each file. An RGB JPEG needs no profile at
+all; without one it is read as sRGB, which is what these are.
+
 ## Shared header and footer
 
 Identical on every page, byte for byte. There is no templating, so changing
