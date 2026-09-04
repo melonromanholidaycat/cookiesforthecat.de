@@ -52,7 +52,13 @@ people reported it before we understood why.
 
 So Termine lists one row per calendar rather than one link for everybody:
 `webcal://` for Apple, `calendar.google.com/calendar/r?cid=` for Google, and
-the bare `https://` address for anything else. That three-way split is the
+the bare `https://` address for anything else.
+
+Classic Outlook desktop, Thunderbird and the Linux calendars handle
+`webcal://` too, but **the new Outlook does not** — and that is now the
+default on Windows. So Outlook is named on the paste row, which works for
+every version of it, rather than on the Apple row where half of them would
+tap a dead link. That three-way split is the
 usual answer to this, not something invented here. Keep all three; dropping
 `webcal://` breaks the one-tap path for the people it does work for.
 
