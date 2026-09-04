@@ -49,10 +49,14 @@ be relative, so it names `www.cookiesforthecat.de` in full.
 scheme to Calendar; Android registers it to nothing, so tapping the link there
 does nothing at all — no error, no navigation, in every browser. Two people
 reported it before we understood why. The Termine page therefore carries a
-`<details>` with the plain `https://` address, because Google Calendar can
-only add a calendar by URL on the desktop web, never in the phone app. Keep
-both: dropping the `webcal://` link would break the one-tap path for the
-people it does work for.
+`<details>` with the two Android routes.
+
+The pattern is the usual one for this problem, not something invented here:
+`webcal://` for Apple and Outlook, `calendar.google.com/calendar/r?cid=<feed>`
+for Google, and the bare `https://` address to paste as the last resort. Keep
+all three — dropping `webcal://` breaks the one-tap path for the people it
+does work for, and Google Calendar can only add a calendar by URL on the
+desktop web, never in the phone app.
 
 ## The centred column
 
