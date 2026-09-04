@@ -45,23 +45,6 @@ exception, since it is served from every depth.
 The subscribe link on the Termine page is the other: a `webcal://` URL cannot
 be relative, so it names `www.cookiesforthecat.de` in full.
 
-**`webcal://` only works on Apple platforms.** iOS and macOS register the
-scheme to Calendar; Android registers it to nothing, so tapping the link there
-does nothing at all — no error, no navigation, in every browser. Two people
-reported it before we understood why. The Termine page therefore carries a
-`<details>` with the two Android routes.
-
-The three-link pattern is the usual answer to this, not something invented
-here: `webcal://` for Apple and Outlook, `calendar.google.com/calendar/r?cid=`
-for Google, and the bare `https://` address to paste as the last resort — that
-one only on a computer, since the Google Calendar app cannot add a calendar by
-address at all. Keep all three; dropping `webcal://` breaks the one-tap path
-for the people it does work for.
-
-The `<details>` names the two routes and where each works, and nothing else —
-no URI schemes, no sync caveats. Every sentence added there has to earn its
-place against somebody who just wants the dates in their phone.
-
 ## The centred column
 
 `.content` (650px) and `.wide` (1000px) centre themselves with automatic left
