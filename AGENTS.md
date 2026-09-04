@@ -43,8 +43,20 @@ paths 404. Use `../termine/`, never `/termine/`. The 404 page is one
 exception, since it is served from every depth.
 
 The subscribe link on the Termine page is the other: a `webcal://` URL cannot
-be relative, so it names `www.cookiesforthecat.de` and starts working when DNS
-moves off the VPS. It is the only link on the site that does not work today.
+be relative, so it names `www.cookiesforthecat.de` in full.
+
+**`webcal://` only works on Apple platforms.** iOS and macOS register the
+scheme to Calendar; Android registers it to nothing, so tapping the link there
+does nothing at all — no error, no navigation, in every browser. Two people
+reported it before we understood why. The Termine page therefore carries a
+`<details>` with the two Android routes.
+
+The pattern is the usual one for this problem, not something invented here:
+`webcal://` for Apple and Outlook, `calendar.google.com/calendar/r?cid=<feed>`
+for Google, and the bare `https://` address to paste as the last resort. Keep
+all three — dropping `webcal://` breaks the one-tap path for the people it
+does work for, and Google Calendar can only add a calendar by URL on the
+desktop web, never in the phone app.
 
 ## The centred column
 
