@@ -51,12 +51,16 @@ does nothing at all — no error, no navigation, in every browser. Two people
 reported it before we understood why. The Termine page therefore carries a
 `<details>` with the two Android routes.
 
-The pattern is the usual one for this problem, not something invented here:
-`webcal://` for Apple and Outlook, `calendar.google.com/calendar/r?cid=<feed>`
-for Google, and the bare `https://` address to paste as the last resort. Keep
-all three — dropping `webcal://` breaks the one-tap path for the people it
-does work for, and Google Calendar can only add a calendar by URL on the
-desktop web, never in the phone app.
+The three-link pattern is the usual answer to this, not something invented
+here: `webcal://` for Apple and Outlook, `calendar.google.com/calendar/r?cid=`
+for Google, and the bare `https://` address to paste as the last resort — that
+one only on a computer, since the Google Calendar app cannot add a calendar by
+address at all. Keep all three; dropping `webcal://` breaks the one-tap path
+for the people it does work for.
+
+The `<details>` names the two routes and where each works, and nothing else —
+no URI schemes, no sync caveats. Every sentence added there has to earn its
+place against somebody who just wants the dates in their phone.
 
 ## The centred column
 
@@ -134,6 +138,12 @@ paragraphs on Termine and on Vergangene Termine, and the in-page link between
 them. It is applied one element at a time on purpose: `.page-intro` carries
 real text on Veranstalter and on the 404 page, so a blanket rule would delete
 it there.
+
+**`@page` is easy to lose without noticing.** A stray `*/` above it — an
+inserted rule that split the section comment, say — makes the parser swallow
+the whole rule during error recovery, and the printed sheet quietly loses its
+margins. Nothing warns: the HTML still validates and the screen is unaffected.
+Check with `[...document.styleSheets]` that a `CSSPageRule` survives.
 
 This is the one place where a `font-size` is not a token and a length is not
 `rem`. A sheet of paper has no viewport, so the fluid spacing that measures
