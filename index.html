@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cookies For The Cat</title>
 <meta name="description" content="Cookies For The Cat – Akustik-Duo aus Schleswig-Holstein. Zwei Gitarren, zwei Stimmen, Folk, Rock, Country und Americana.">
+<meta name="robots" content="max-image-preview:large">
 <link rel="canonical" href="https://www.cookiesforthecat.de/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
@@ -25,23 +26,45 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "MusicGroup",
-  "name": "Cookies For The Cat",
-  "url": "https://www.cookiesforthecat.de/",
-  "description": "Akustik-Duo aus Schleswig-Holstein. Zwei Gitarren, zwei Stimmen, Folk, Rock, Country und Americana.",
-  "genre": ["Folk", "Rock", "Country", "Americana"],
-  "foundingDate": "2017",
-  "email": "kontakt@cookiesforthecat.de",
-  "image": "https://www.cookiesforthecat.de/assets/img/share.jpg",
-  "logo": "https://www.cookiesforthecat.de/assets/wordmark.svg",
-  "member": [
-    { "@type": "Person", "name": "Volkmar Steffen" },
-    { "@type": "Person", "name": "Tula Kratzmann" }
-  ],
-  "sameAs": [
-    "https://www.instagram.com/cookiesforthecat_de/",
-    "https://www.facebook.com/CookiesForTheCat",
-    "https://www.youtube.com/channel/UCidFSXmjvn1XzTlVbOlp90w"
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.cookiesforthecat.de/",
+      "url": "https://www.cookiesforthecat.de/",
+      "name": "Cookies For The Cat",
+      "primaryImageOfPage": { "@id": "https://www.cookiesforthecat.de/assets/img/share.jpg" },
+      "mainEntity": { "@id": "https://www.cookiesforthecat.de/#band" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://www.cookiesforthecat.de/assets/img/share.jpg",
+      "url": "https://www.cookiesforthecat.de/assets/img/share.jpg",
+      "contentUrl": "https://www.cookiesforthecat.de/assets/img/share.jpg",
+      "width": 1200,
+      "height": 630,
+      "caption": "Tula Kratzmann und Volkmar Steffen mit ihren Gitarren in einem Kornfeld."
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.cookiesforthecat.de/#band",
+      "name": "Cookies For The Cat",
+      "url": "https://www.cookiesforthecat.de/",
+      "description": "Akustik-Duo aus Schleswig-Holstein. Zwei Gitarren, zwei Stimmen, Folk, Rock, Country und Americana.",
+      "genre": ["Folk", "Rock", "Country", "Americana"],
+      "foundingDate": "2017",
+      "email": "kontakt@cookiesforthecat.de",
+      "image": { "@id": "https://www.cookiesforthecat.de/assets/img/share.jpg" },
+      "logo": "https://www.cookiesforthecat.de/assets/wordmark.svg",
+      "member": [
+        { "@type": "Person", "name": "Volkmar Steffen" },
+        { "@type": "Person", "name": "Tula Kratzmann" }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/cookiesforthecat_de/",
+        "https://www.facebook.com/CookiesForTheCat",
+        "https://www.youtube.com/channel/UCidFSXmjvn1XzTlVbOlp90w"
+      ]
+    }
   ]
 }
 </script>
