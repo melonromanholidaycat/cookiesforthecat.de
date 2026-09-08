@@ -1,16 +1,5 @@
 [
   {
-    "datum": "2026-09-08",
-    "zeit": "19:00",
-    "ort": "Aventura Bremen",
-    "ort_link": "https://www.facebook.com/AventuraUnplugged/",
-    "adresse": "Schlachte Anleger 5 · 28195 Bremen",
-    "text": [
-      "Ein wunderbares Hausboot, in dem sich jeder wohlfühlt. Viele Unplugged-Konzerte, von denen wir eines bestreiten dürfen."
-    ],
-    "privat": false
-  },
-  {
     "datum": "2026-09-09",
     "zeit": null,
     "ort": "Edeka Maaß",
