@@ -12,19 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:Edeka Maaß
-DTSTART;VALUE=DATE:20260909
-DTEND;VALUE=DATE:20260910
-DTSTAMP:20260909T000000Z
-UID:2026-09-09-edeka-maass@cookiesforthecat.de
-DESCRIPTION:Die Uhrzeit steht noch nicht fest.\n\nEiner der nobelsten EDEK
- A-Märkte\, die wir je gesehen haben. Großer Platz\, um unter Sonnenschir
- men unserer Musik zu lauschen.\n\nhttps://www.facebook.com/edekamaassobern
- euland/events?locale=de_DE
-LOCATION:Rockwinkeler Heerstraße 32\, 28355 Bremen
-URL:https://www.facebook.com/edekamaassoberneuland/events?locale=de_DE
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Opener der privaten Jam-Session bei Nikisch Eppendorf
 DTSTART;VALUE=DATE:20260911
 DTEND;VALUE=DATE:20260912
