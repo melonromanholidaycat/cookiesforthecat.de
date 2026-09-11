@@ -12,19 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:Opener der privaten Jam-Session bei Nikisch Eppendorf
-DTSTART;VALUE=DATE:20260911
-DTEND;VALUE=DATE:20260912
-DTSTAMP:20260911T000000Z
-UID:2026-09-11-opener-der-privaten-jam-session-bei-nikisch-eppendorf@cooki
- esforthecat.de
-DESCRIPTION:Wir freuen uns sehr\, von Freunden eingeladen der Opener für 
- die Jam-Session bei Nikisch Eppendorf zu sein. Eine eindrucksvolle Umgebun
- g.\n\nhttps://www.fotostudio-nikisch-hamburg.de/
-LOCATION:Nikisch Eppendorf\, Tarpenbekstraße 65\, 20251 Hamburg
-URL:https://www.fotostudio-nikisch-hamburg.de/
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:BaDaBoom Straßenmusikfestival
 DTSTART:20260912T110000Z
 DTEND:20260912T130000Z
