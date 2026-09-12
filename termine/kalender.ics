@@ -12,17 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:BaDaBoom Straßenmusikfestival
-DTSTART:20260912T110000Z
-DTEND:20260912T130000Z
-DTSTAMP:20260912T000000Z
-UID:2026-09-12-badaboom-strassenmusikfestival@cookiesforthecat.de
-DESCRIPTION:Jedes Jahr versuchen wir\, hier mitzumachen. Dieses Jahr an un
- gewohnter Stelle.\n\nhttps://www.ba-da-boom.de/
-LOCATION:Lütjenstraße 1 Nähe Tchibo\, 24534 Neumünster
-URL:https://www.ba-da-boom.de/
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Kulturkneipe Bornholdt
 DTSTART:20260925T180000Z
 DTEND:20260925T200000Z
