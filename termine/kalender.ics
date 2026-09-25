@@ -12,17 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:Kulturkneipe Bornholdt
-DTSTART:20260925T180000Z
-DTEND:20260925T200000Z
-DTSTAMP:20260925T000000Z
-UID:2026-09-25-kulturkneipe-bornholdt@cookiesforthecat.de
-DESCRIPTION:Gemütliche Kneipe in Dithmarschen.\n\nhttps://bornholdt-meldo
- rf.de/events-2/
-LOCATION:Zingelstraße 14\, 25704 Meldorf
-URL:https://bornholdt-meldorf.de/events-2/
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Stadtfest Marne
 DTSTART:20260926T090000Z
 DTEND:20260926T110000Z

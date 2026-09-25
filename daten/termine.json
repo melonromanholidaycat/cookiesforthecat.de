@@ -1,16 +1,5 @@
 [
   {
-    "datum": "2026-09-25",
-    "zeit": "20:00",
-    "ort": "Kulturkneipe Bornholdt",
-    "ort_link": "https://bornholdt-meldorf.de/events-2/",
-    "adresse": "Zingelstraße 14 · 25704 Meldorf",
-    "text": [
-      "Gemütliche Kneipe in Dithmarschen."
-    ],
-    "privat": false
-  },
-  {
     "datum": "2026-09-26",
     "zeit": "11:00",
     "ort": "Stadtfest Marne",
