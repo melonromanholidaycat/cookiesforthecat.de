@@ -12,19 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:Stadtfest Marne
-DTSTART:20260926T090000Z
-DTEND:20260926T110000Z
-DTSTAMP:20260926T000000Z
-UID:2026-09-26-stadtfest-marne@cookiesforthecat.de
-DESCRIPTION:Dithmarschen ist ohnehin schön\, das Stadtfest in Marne ist e
- twas Besonderes.\n\nhttps://www.echt-dithmarschen.de/typisch/event/marner-
- stadtfest-im-rahmen-der-dithmarscher-kohltage
-LOCATION:25709 Marne
-URL:https://www.echt-dithmarschen.de/typisch/event/marner-stadtfest-im-rah
- men-der-dithmarscher-kohltage
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:private Veranstaltung
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
