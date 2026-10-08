@@ -63,6 +63,13 @@ LOCATION:Mengstraße 42\, 23552 Lübeck
 URL:https://www.instagram.com/irish_pub_finnegan_hl/?hl=de
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:private Veranstaltung
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+DTSTAMP:20261128T000000Z
+UID:2026-11-28-private-veranstaltung@cookiesforthecat.de
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Windmühle Siebenbäumen
 DTSTART:20261218T183000Z
 DTEND:20261218T203000Z

@@ -52,6 +52,15 @@
     "privat": false
   },
   {
+    "datum": "2026-11-28",
+    "zeit": null,
+    "ort": "private Veranstaltung",
+    "ort_link": null,
+    "adresse": null,
+    "text": [],
+    "privat": true
+  },
+  {
     "datum": "2026-12-18",
     "zeit": "19:30",
     "ort": "Windmühle Siebenbäumen",
