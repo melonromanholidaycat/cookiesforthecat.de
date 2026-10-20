@@ -43,6 +43,15 @@
     "privat": false
   },
   {
+    "datum": "2026-11-28",
+    "zeit": null,
+    "ort": "private Veranstaltung",
+    "ort_link": null,
+    "adresse": null,
+    "text": [],
+    "privat": true
+  },
+  {
     "datum": "2026-12-18",
     "zeit": "19:30",
     "ort": "Windmühle Siebenbäumen",
@@ -51,6 +60,15 @@
     "text": [
       "Das Weihnachtskonzert. Zuerst spielen wir unser Programm, in dem sich auch bekannte und unbekannte Weihnachtslieder finden. Danach sind die Zuschauer dran, mit uns zusammen in Weihnachtsstimmung zu kommen, während wir gemeinsam Lieder singen, die in einer Liedermappe verteilt werden. Wer kennt schon alle Texte?"
     ],
+    "privat": false
+  },
+  {
+    "datum": "2026-12-20",
+    "zeit": "08:00",
+    "ort": "Winterhude Christmas Night",
+    "ort_link": "https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/",
+    "adresse": "Goldbekhaus\nMoorfuhrtweg 9, 22301 Hamburg, Deutschland",
+    "text": [],
     "privat": false
   }
 ]

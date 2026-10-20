@@ -56,6 +56,13 @@ LOCATION:Mengstraße 42\, 23552 Lübeck
 URL:https://www.instagram.com/irish_pub_finnegan_hl/?hl=de
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:private Veranstaltung
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+DTSTAMP:20261128T000000Z
+UID:2026-11-28-private-veranstaltung@cookiesforthecat.de
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Windmühle Siebenbäumen
 DTSTART:20261218T183000Z
 DTEND:20261218T203000Z
@@ -68,5 +75,16 @@ DESCRIPTION:Das Weihnachtskonzert. Zuerst spielen wir unser Programm\, in
  rden. Wer kennt schon alle Texte?\n\nhttps://windmuehle-siebenbaeumen.de/
 LOCATION:Mühlenstraße 18A\, 23847 Siebenbäumen
 URL:https://windmuehle-siebenbaeumen.de/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Winterhude Christmas Night
+DTSTART:20261220T070000Z
+DTEND:20261220T090000Z
+DTSTAMP:20261220T000000Z
+UID:2026-12-20-winterhude-christmas-night@cookiesforthecat.de
+DESCRIPTION:https://www.goldbekhaus.de/eventmanager/winterhude-christmas-n
+ ight/
+LOCATION:Goldbekhaus\nMoorfuhrtweg 9\, 22301 Hamburg\, Deutschland
+URL:https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/
 END:VEVENT
 END:VCALENDAR
