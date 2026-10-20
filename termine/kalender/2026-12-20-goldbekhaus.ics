@@ -9,9 +9,7 @@ DTSTART:20261220T180000Z
 DTEND:20261220T200000Z
 DTSTAMP:20261220T000000Z
 UID:2026-12-20-goldbekhaus@cookiesforthecat.de
-DESCRIPTION:Winterhude Christmas Night\n\nhttps://www.goldbekhaus.de/event
- manager/winterhude-christmas-night/
+DESCRIPTION:Winterhude Christmas Night
 LOCATION:Moorfuhrtweg 9 • 22301 Hamburg
-URL:https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/
 END:VEVENT
 END:VCALENDAR
