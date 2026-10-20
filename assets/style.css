@@ -292,11 +292,9 @@ main > .visually-hidden + * {
   margin-bottom: var(--space-section);
 }
 
-/* Termine alone runs tight here. Its intro ends on the subscribe line and the
- * gig list starts with its own padding and a rule, so the full section gap
- * leaves the first date stranded on a wide screen. The other three intros are
- * read and then left, and want the air. */
-.gigs-intro {
+/* Date lists continue their introductions with a smaller section gap. */
+.gigs-intro,
+.archive-intro {
   margin-bottom: var(--space-loose);
 }
 
