@@ -101,11 +101,11 @@
       <p class="gig-add"><a href="kalender/2026-12-18-windmuehle-siebenbaeumen.ics">Zum Kalender hinzufügen</a></p>
     </li>
     <li class="gig">
-      <p class="gig-date"><time datetime="2026-12-20">Sonntag, 20.12.2026 · 08:00 Uhr</time></p>
-      <p class="gig-venue"><a href="https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/" rel="noopener" target="_blank">Winterhude Christmas Night</a></p>
-      <p class="gig-address">Goldbekhaus
-Moorfuhrtweg 9, 22301 Hamburg, Deutschland</p>
-      <p class="gig-add"><a href="kalender/2026-12-20-winterhude-christmas-night.ics">Zum Kalender hinzufügen</a></p>
+      <p class="gig-date"><time datetime="2026-12-20">Sonntag, 20.12.2026 · 19:00 Uhr</time></p>
+      <p class="gig-venue"><a href="https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/" rel="noopener" target="_blank">Goldbekhaus</a></p>
+      <p class="gig-address">Moorfuhrtweg 9 • 22301 Hamburg</p>
+      <p class="gig-note">Winterhude Christmas Night</p>
+      <p class="gig-add"><a href="kalender/2026-12-20-goldbekhaus.ics">Zum Kalender hinzufügen</a></p>
     </li>
   </ul>
   <!-- GIGS:END -->
@@ -230,15 +230,21 @@ Moorfuhrtweg 9, 22301 Hamburg, Deutschland</p>
     {
       "@context": "https://schema.org",
       "@type": "MusicEvent",
-      "name": "Cookies For The Cat – Winterhude Christmas Night",
-      "startDate": "2026-12-20T08:00:00+01:00",
+      "name": "Cookies For The Cat – Goldbekhaus",
+      "startDate": "2026-12-20T19:00:00+01:00",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": {
         "@type": "Place",
-        "name": "Winterhude Christmas Night",
+        "name": "Goldbekhaus",
         "url": "https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/",
-        "address": "Goldbekhaus\nMoorfuhrtweg 9, 22301 Hamburg, Deutschland"
+        "address": {
+          "@type": "PostalAddress",
+          "postalCode": "22301",
+          "addressLocality": "Hamburg",
+          "addressCountry": "DE",
+          "streetAddress": "Moorfuhrtweg 9 •"
+        }
       },
       "performer": {
         "@type": "MusicGroup",
@@ -246,7 +252,8 @@ Moorfuhrtweg 9, 22301 Hamburg, Deutschland</p>
         "url": "https://www.cookiesforthecat.de/"
       },
       "image": "https://www.cookiesforthecat.de/assets/img/share.jpg",
-      "url": "https://www.cookiesforthecat.de/termine/"
+      "url": "https://www.cookiesforthecat.de/termine/",
+      "description": "Winterhude Christmas Night"
     }
   ]
   </script>

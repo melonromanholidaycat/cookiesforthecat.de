@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Cookies For The Cat · Goldbekhaus
+DTSTART:20261220T180000Z
+DTEND:20261220T200000Z
+DTSTAMP:20261220T000000Z
+UID:2026-12-20-goldbekhaus@cookiesforthecat.de
+DESCRIPTION:Winterhude Christmas Night\n\nhttps://www.goldbekhaus.de/event
+ manager/winterhude-christmas-night/
+LOCATION:Moorfuhrtweg 9 • 22301 Hamburg
+URL:https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/
+END:VEVENT
+END:VCALENDAR

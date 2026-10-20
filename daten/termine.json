@@ -64,11 +64,13 @@
   },
   {
     "datum": "2026-12-20",
-    "zeit": "08:00",
-    "ort": "Winterhude Christmas Night",
+    "zeit": "19:00",
+    "ort": "Goldbekhaus",
     "ort_link": "https://www.goldbekhaus.de/eventmanager/winterhude-christmas-night/",
-    "adresse": "Goldbekhaus\nMoorfuhrtweg 9, 22301 Hamburg, Deutschland",
-    "text": [],
+    "adresse": "Moorfuhrtweg 9 • 22301 Hamburg",
+    "text": [
+      "Winterhude Christmas Night"
+    ],
     "privat": false
   }
 ]
