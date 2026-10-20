@@ -292,10 +292,14 @@ main > .visually-hidden + * {
   margin-bottom: var(--space-section);
 }
 
-/* Date lists continue their introductions with a smaller section gap. */
-.gigs-intro,
-.archive-intro {
+/* The gig list continues its introduction with a smaller section gap. */
+.gigs-intro {
   margin-bottom: var(--space-loose);
+}
+
+/* The archive year follows directly from the introductory text. */
+.archive-intro {
+  margin-bottom: var(--space-block);
 }
 
 /* ----------------------------------------------------------------- Gig list */
