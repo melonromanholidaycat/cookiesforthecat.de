@@ -624,6 +624,20 @@ main > .visually-hidden + * {
   color: var(--color-text);
 }
 
+/* Keep the calendar instructions together as supporting text. */
+.gigs-intro .calendar-subscription {
+  font-size: var(--size-small);
+  color: var(--color-muted);
+}
+
+.gigs-intro .calendar-subscription > p {
+  margin-bottom: var(--space-tight);
+}
+
+.gigs-intro .calendar-subscription > .hint {
+  margin-top: var(--space-tight);
+}
+
 /* ------------------------------------------------------------------- Print */
 
 /* Termine is the page anyone prints — a venue wants the dates on paper. The
