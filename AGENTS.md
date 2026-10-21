@@ -116,11 +116,11 @@ footer, the add-to-calendar links and the gig notes come off, the page box
 becomes the measure, and the wordmark sits centred at the top of the sheet.
 Twelve gigs come out as two A4 pages.
 
-**`.no-print` marks prose that only makes sense on screen** — the two intro
-paragraphs on Termine and on Vergangene Termine, and the in-page link between
-them. It is applied one element at a time on purpose: `.page-intro` carries
-real text on Veranstalter and on the 404 page, so a blanket rule would delete
-it there.
+**`.no-print` marks content that only makes sense on screen** — the intro
+paragraph with its archive link and the calendar subscription group on Termine,
+and the intro paragraphs and return link on Vergangene Termine. It is applied
+to those elements or groups on purpose: `.page-intro` carries real text on
+Veranstalter and on the 404 page, so a blanket rule would delete it there.
 
 **`@page` is easy to lose without noticing.** A stray `*/` above it — an
 inserted rule that split the section comment, say — makes the parser swallow
@@ -186,10 +186,10 @@ rather than trusting that you got them all.
   ceiling does. The floor is what the phone gets; the ceiling is a separate
   decision, and it is the one that goes unnoticed.
 - **A gap that is wrong on one page is not wrong on all of them.**
-  `--space-section` under the page intro is right on Veranstalter and the
-  archive, and too much only on Termine, whose intro runs straight into a
-  padded, ruled list. `.gigs-intro` overrides it there and nowhere else.
-  Lowering the token instead changed four pages to fix one.
+  `--space-section` stays the default under page intros. `.gigs-intro` uses
+  `--space-loose` before its padded, ruled list; `.archive-intro` uses
+  `--space-block` because the first year continues the introductory text.
+  Keep these adjustments local rather than changing the shared token.
 - **Everything lands on a 4px grid.** If a value needs to sit between two
   tokens, the answer is usually the nearer token, not a new number. There were
   three ad-hoc values doing one job (2.4px, 6.4px, 9.6px) before this rule.
