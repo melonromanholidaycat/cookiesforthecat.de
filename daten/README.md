@@ -15,6 +15,11 @@ Es dauert höchstens eine Stunde, bis die Änderung online ist. Sonst ist nichts
 
 Die **Endzeit** wird nie angezeigt. Sie darf also ruhig ungenau sein.
 
+Auf der Termine-Seite werden Kommas, Punkte (`·` oder `•`), Semikolons und
+Zeilenumbrüche in der Adresse einheitlich als ` · ` dargestellt. Ein
+abschließendes `Deutschland` wird dort weggelassen; andere Ländernamen bleiben
+stehen. Der Kalendereintrag selbst wird dadurch nicht verändert.
+
 ### Auftritte im Ausland
 
 Für die Liste **Vergangene Termine** wird aus der Adresse der Ort übernommen —
