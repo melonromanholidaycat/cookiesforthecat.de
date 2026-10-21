@@ -247,6 +247,16 @@ def long_date(iso: str, time_of_day: str | None) -> str:
     return f"{text} · {clock(time_of_day)}" if time_of_day else text
 
 
+def format_address(address: str) -> str:
+    """One separator on screen; keep the source for downloads and archiving."""
+    parts = [" ".join(part.split())
+             for part in re.split(r"[,;·•\r\n]+", address) if part.strip()]
+    if parts:
+        parts[-1] = re.sub(r"(?:^|\s+)Deutschland\.?$", "", parts[-1],
+                           flags=re.IGNORECASE).strip()
+    return " · ".join(part for part in parts if part)
+
+
 def gig_lines(gig: dict, name: str) -> str:
     venue = esc(gig["ort"]) if gig["ort"] else ""
     if gig.get("ort_link"):
@@ -259,8 +269,9 @@ def gig_lines(gig: dict, name: str) -> str:
     ]
     if gig["ort"]:
         lines.append(f'      <p class="gig-venue">{venue}</p>')
-    if gig.get("adresse"):
-        lines.append(f'      <p class="gig-address">{esc(gig["adresse"])}</p>')
+    address = format_address(gig.get("adresse") or "")
+    if address:
+        lines.append(f'      <p class="gig-address">{esc(address)}</p>')
     for paragraph in gig.get("text", []):
         lines.append(f'      <p class="gig-note">{esc(paragraph)}</p>')
     # A private entry is a date and nothing else, so there is nothing to add.
