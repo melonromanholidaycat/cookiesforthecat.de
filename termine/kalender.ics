@@ -85,12 +85,11 @@ LOCATION:Mühlenstraße 18A\, 23847 Siebenbäumen
 URL:https://windmuehle-siebenbaeumen.de/
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Goldbekhaus
+SUMMARY:Winterhude Christmas Night
 DTSTART:20261220T180000Z
 DTEND:20261220T200000Z
 DTSTAMP:20261220T000000Z
-UID:2026-12-20-goldbekhaus@cookiesforthecat.de
-DESCRIPTION:Winterhude Christmas Night
-LOCATION:Moorfuhrtweg 9 • 22301 Hamburg
+UID:2026-12-20-winterhude-christmas-night@cookiesforthecat.de
+LOCATION:Goldbekhaus\nMoorfuhrtweg 9\, 22301 Hamburg\, Deutschland
 END:VEVENT
 END:VCALENDAR
