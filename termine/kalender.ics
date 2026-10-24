@@ -19,13 +19,13 @@ DTSTAMP:20261030T000000Z
 UID:2026-10-30-private-veranstaltung@cookiesforthecat.de
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Raiffeisenpassage Reinfeld
+SUMMARY:Candlelight Shopping
 DTSTART:20261030T180000Z
 DTEND:20261030T200000Z
 DTSTAMP:20261030T000000Z
-UID:2026-10-30-raiffeisenpassage-reinfeld@cookiesforthecat.de
+UID:2026-10-30-candlelight-shopping@cookiesforthecat.de
 DESCRIPTION:Candlelight Shoppen
-LOCATION:Raiffeisenpassage\nReinfeld\, Deutschland
+LOCATION:Raiffeisen Passage Reinfeld
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Oma seine Kneipe

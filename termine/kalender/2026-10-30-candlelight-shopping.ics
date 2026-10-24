@@ -4,12 +4,12 @@ PRODID:-//Cookies For The Cat//cookiesforthecat.de//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-SUMMARY:Cookies For The Cat · Raiffeisenpassage Reinfeld
+SUMMARY:Cookies For The Cat · Candlelight Shopping
 DTSTART:20261030T180000Z
 DTEND:20261030T200000Z
 DTSTAMP:20261030T000000Z
-UID:2026-10-30-raiffeisenpassage-reinfeld@cookiesforthecat.de
+UID:2026-10-30-candlelight-shopping@cookiesforthecat.de
 DESCRIPTION:Candlelight Shoppen
-LOCATION:Raiffeisenpassage\nReinfeld\, Deutschland
+LOCATION:Raiffeisen Passage Reinfeld
 END:VEVENT
 END:VCALENDAR
