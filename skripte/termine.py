@@ -331,11 +331,14 @@ def render_next(gigs: list[dict], now: datetime | None = None) -> str:
     played. Termine keeps it for the rest of the day, which is right there;
     "Nächster Auftritt" said of this morning is simply wrong.
     """
-    gigs = [g for g in gigs if not over(g, now or datetime.now(timezone.utc))]
+    now = now or datetime.now(timezone.utc)
+    gigs = [g for g in gigs if not over(g, now)]
     if not gigs:
         return ('  <p class="centred"><a href="termine/">Alle Termine '
                 "ansehen &rarr;</a></p>")
-    nxt = gigs[0]
+    # Calendar order is chronological; prefer a public gig on the first day.
+    nxt = next((g for g in gigs
+                if g["datum"] == gigs[0]["datum"] and not g["privat"]), gigs[0])
     where = "" if nxt["privat"] else f' &middot; {esc(nxt["ort"])}' if nxt["ort"] else ""
     return ('  <p class="centred"><a href="termine/">Nächster Auftritt: '
             f'{esc(long_date(nxt["datum"], nxt["zeit"]))}{where} &rarr;</a></p>')
