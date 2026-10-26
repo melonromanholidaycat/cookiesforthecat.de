@@ -81,6 +81,10 @@ Stunden nach Beginn — so lange, wie ein Kalendereintrag bei uns dauert. Auf de
 Termine-Seite bleibt er den ganzen Tag stehen. Ein ganztägiger Termin ohne
 Uhrzeit bleibt auf beiden Seiten bis Mitternacht.
 
+Gibt es am nächsten Auftrittstag private und öffentliche Termine, zeigt die
+Startseite den ersten noch nicht beendeten öffentlichen Auftritt dieses Tages.
+Gibt es an diesem Tag nur noch private Termine, bleibt es bei der Datumsanzeige.
+
 Vergangene Auftritte wandern von selbst in die Liste **Vergangene Termine** und
 bleiben dort dauerhaft stehen, auch wenn der Eintrag im Google-Kalender verschwindet.
 
