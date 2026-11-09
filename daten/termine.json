@@ -1,17 +1,5 @@
 [
   {
-    "datum": "2026-11-08",
-    "zeit": "14:00",
-    "ort": "Pusta Stube",
-    "ort_link": "https://www.pusta-stube.de/veranstaltungen/november-2026/",
-    "adresse": "Oberblockland 5 · 28357 Bremen",
-    "text": [
-      "Direkt am Wasser, wir spielen in der Stube. Es ist gemütlich und klein.",
-      "Bitte bei Interesse unbedingt anmelden!"
-    ],
-    "privat": false
-  },
-  {
     "datum": "2026-11-21",
     "zeit": "21:00",
     "ort": "Finnegan Irish Pub",

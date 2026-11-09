@@ -12,18 +12,6 @@ SOURCE;VALUE=URI:https://www.cookiesforthecat.de/termine/kalender.ics
 X-PUBLISHED-TTL:PT12H
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-SUMMARY:Pusta Stube
-DTSTART:20261108T130000Z
-DTEND:20261108T150000Z
-DTSTAMP:20261108T000000Z
-UID:2026-11-08-pusta-stube@cookiesforthecat.de
-DESCRIPTION:Direkt am Wasser\, wir spielen in der Stube. Es ist gemütlich
-  und klein.\n\nBitte bei Interesse unbedingt anmelden!\n\nhttps://www.pust
- a-stube.de/veranstaltungen/november-2026/
-LOCATION:Oberblockland 5\, 28357 Bremen
-URL:https://www.pusta-stube.de/veranstaltungen/november-2026/
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Finnegan Irish Pub
 DTSTART:20261121T200000Z
 DTEND:20261121T220000Z
